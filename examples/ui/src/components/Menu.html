@@ -58,15 +58,21 @@
 <style>
   nav {
     padding: 0.5em;
-    background-color: #178acc;
+    background-color: var(--c-focus);
   }
   a {
     color: #eee;
     text-decoration: none;
     padding: 0.5em 2em;
-    border-radius: 0.25em;
+    filter: saturate(0.5) opacity(.8);
+    transition: filter 2s, background-color 0.2s;
   }
   a:hover, a:focus, a.active {
-    background-color: #126b9e;
+    background-color: var(--c-comment);
+    filter: saturate(0.8) opacity(.9);
+    transition: filter 0.2s, background-color 0s;
+  }
+  a.active {
+    filter: none;
   }
 </style>

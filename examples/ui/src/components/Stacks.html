@@ -165,7 +165,7 @@
 <style>
   table {
     text-align: left;
-    font-family: monospace;
+    font-family: var(--monospace);
     border-collapse: collapse;
   }
   td {
@@ -173,12 +173,14 @@
   }
   tbody tr {
     cursor: pointer;
+    transition: background-color 0.5s;
   }
   tbody tr:focus, tbody tr:hover {
-    background-color: #eee;
+    background-color: var(--c-focus);
+    transition: background-color 0s;
   }
-  button {
-    cursor: pointer;
+  pre {
+    font-family: var(--monospace);
   }
   .links {
     padding-bottom: 1em;

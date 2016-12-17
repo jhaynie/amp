@@ -1,5 +1,8 @@
 <link rel="stylesheet" href="/codemirror.css">
-<div ref:code></div>
+<link rel="stylesheet" href="/dracula.css">
+<div class="wrapper">
+  <div ref:code></div>
+</div>
 
 <script>
   import CodeMirror from 'codemirror'
@@ -11,6 +14,7 @@
         value: this.get('yaml'),
         mode: 'yaml'
       })
+      this.cm.setOption("theme", "dracula");
       this.cm.on('changes', () => {
         const yaml = this.cm.doc.getValue()
         this.set({yaml})
@@ -35,3 +39,11 @@
     }
   };
 </script>
+
+<style>
+  .wrapper {
+    padding: 0.25em;
+    border-radius: 0.25em;
+    background-color: var(--c-focus);
+  }
+</style>

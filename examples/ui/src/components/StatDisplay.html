@@ -49,11 +49,17 @@
 
 <style>
   div {
-    color: #eee;
-    background-color: #222;
-    font-family: monospace;
+    color: var(--console-text);
+    background-color: var(--console-bg);
+    font-family: var(--monospace);
     padding: 0.5em;
     border-radius: 0.25em;
+    filter: saturate(0.8) opacity(.95) blur(0.1px);
+    transition: filter 2s;
+  }
+  div:hover, div:focus {
+    filter: none;
+    transition: filter 0.2s;
   }
   table {
     border-collapse: collapse;

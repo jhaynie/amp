@@ -1,0 +1,65 @@
+:root {
+  --c-background: #282a36;
+  --c-focus: #44475a;
+  --c-foreground: #f8f8f2;
+  --c-comment: #6272a4;
+  --c-cyan: #8be9fd;
+  --c-green: #50fa7b;
+  --c-orange: #ffb86c;
+  --c-pink: #ff79c6;
+  --c-purple: #bd93f9;
+  --c-red: #ff5555;
+  --c-yellow: #f1fa8c;
+}
+body, html {
+  margin: 0;
+  padding: 0;
+  color: var(--c-foreground);
+  background-color: var(--c-background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+main {
+  padding: 2em;
+  --console-text: var(--c-purple);
+  --console-bg: var(--c-focus);
+  --monospace: "Courier New", Courier, monospace;
+}
+h1, h2, h3, th {
+  color: var(--c-cyan)
+}
+a {
+  color: var(--c-green)
+}
+a:visited {
+  color: var(--c-purple)
+}
+button {
+  all: unset;
+  cursor: pointer;
+  background-color: var(--c-comment);
+  padding: 0.25em 0.5em;
+  margin: 1px;
+  border-radius: 0.25em;
+  filter: saturate(0.8) opacity(.8);
+  transition: filter 0.5s;
+}
+button:hover {
+  filter: none;
+  transition: filter 0.2s;
+}
+button:active {
+  filter: saturate(2);
+  transition: filter 0s;
+}
+input {
+  all: unset;
+  background-color: var(--c-focus);
+  padding: 0.25em 0.5em;
+  border-radius: 0.25em;
+  filter: saturate(0.8) opacity(.8);
+  transition: filter 0.5s;
+}
+input:focus {
+  filter: none;
+  transition: filter 0.2s;
+}
