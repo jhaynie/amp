@@ -4,11 +4,14 @@ import (
 	"flag"
 	"log"
 	"net/http"
+	"path/filepath"
 	"strings"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+
+	"os"
 
 	"github.com/appcelerator/amp/api/rpc/function"
 	"github.com/appcelerator/amp/api/rpc/logs"
@@ -21,6 +24,30 @@ import (
 var (
 	amplifierEndpoint = flag.String("amplifier_endpoint", "localhost:8080", "endpoint of amplifier")
 )
+
+func serveStatic(h http.Handler) http.Handler {
+	dir := http.Dir(filepath.Join(os.Getenv("GOPATH"), "/src/github.com/appcelerator/amp/cmd/amplifier-gateway/ui"))
+	fileServer := http.FileServer(dir)
+	extentions := []string{".json", ".css", ".html", ".js", ".ttf", ".png", ".gif"}
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/" {
+			r.URL.Path = "/home.html"
+		}
+		static := false
+		extention := filepath.Ext(r.URL.Path)
+		for _, e := range extentions {
+			if e == extention {
+				static = true
+				break
+			}
+		}
+		if static {
+			fileServer.ServeHTTP(w, r)
+		} else {
+			h.ServeHTTP(w, r)
+		}
+	})
+}
 
 func allowCORS(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -77,7 +104,7 @@ func run() (err error) {
 		return
 	}
 
-	http.ListenAndServe(":3000", allowCORS(mux))
+	http.ListenAndServe(":3000", allowCORS(serveStatic(mux)))
 	return
 }
 
