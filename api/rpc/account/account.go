@@ -36,13 +36,16 @@ func (s *Server) SignUp(ctx context.Context, in *SignUpRequest) (out *SessionRep
 	if err != nil {
 		return nil, grpc.Errorf(codes.Internal, "hashing error")
 	}
-	s.db.AddAccount(&schema.Account{
+	_, err = s.db.AddAccount(&schema.Account{
 		Name:         in.Name,
 		Type:         schema.AccountType_USER,
 		Email:        in.Email,
 		PasswordHash: hash,
 		IsVerified:   false,
 	})
+	if err != nil {
+		return
+	}
 	out.SessionKey = in.Name
 	return
 }

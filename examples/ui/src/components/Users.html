@@ -1,0 +1,42 @@
+<h1>Users</h1>
+{{#each users as user}}
+  <div><a href="/users/{{user.name}}">{{user.name}}</a></div>
+{{/each}}
+
+{{#if error}}
+  <DisplayError bind:error></DisplayError>
+{{/if}}
+
+<script>
+  import DisplayError from './DisplayError.html'
+  import AmpApi from '../api/index.js'
+  const api = new AmpApi()
+
+  export default {
+    components: {
+      DisplayError,
+    },
+    data() {
+      return {
+        users: [],
+        error: null
+      }
+    },
+    onrender () {
+      this.setUsers()
+    },
+    methods: {
+      async getUsers() {
+        return await api.users()
+      },
+      async setUsers() {
+        try {
+          const users = await this.getUsers()
+          this.set({users})
+        } catch (error) {
+          this.set({error: error.message})
+        }
+      }
+    }
+  }
+</script>

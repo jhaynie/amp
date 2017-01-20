@@ -1,0 +1,82 @@
+<h1>Login</h1>
+<form on:submit="login(event)">
+  <label>
+    <span>Username:</span>
+    <input name="username" type="text" bind:value="username">
+  </label>
+  <label>
+    <span>Password:</span>
+    <input name="password" type="password" bind:value="password">
+  </label>
+  <label>
+    <span>
+      <button type="submit">Login</button>
+    </span>
+  </label>
+
+</form>
+
+{{#if error}}
+  <DisplayError bind:error></DisplayError>
+{{/if}}
+
+<script>
+  import DisplayError from './DisplayError.html'
+  import AmpApi from '../api/index.js'
+  const api = new AmpApi()
+
+  export default {
+    components: {
+      DisplayError,
+    },
+    data() {
+      return {
+        username: '',
+        password: '',
+        error: null
+      }
+    },
+    methods: {
+      async login(event) {
+        event.preventDefault()
+        try {
+          const result = await api.login(this.get('username'), this.get('password'))
+          console.log(result)
+          this.set({error: null})
+        } catch (error) {
+          this.set({
+            error: error.message
+          })
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  label {
+      display: block;
+      margin: 0px 0px 5px;
+  }
+  label>span {
+      float: left;
+      width: 20%;
+      text-align: right;
+      padding-right: 10px;
+      margin-top: 10px;
+      font-weight: bold;
+  }
+  input[type="text"], input[type="email"], input[type="password"] {
+      border: none;
+      color: #525252;
+      height: 25px;
+      line-height:15px;
+      margin-bottom: 16px;
+      margin-right: 6px;
+      margin-top: 2px;
+      outline: 0 none;
+      padding: 5px 0px 5px 5px;
+      width: 70%;
+      background: #DFDFDF;
+  }
+</style>

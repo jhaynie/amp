@@ -3,11 +3,21 @@ package data
 import (
 	"strconv"
 
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+
 	"github.com/appcelerator/amp/data/schema"
 )
 
 // AddAccount adds a new account to the account table
 func (m *Mock) AddAccount(account *schema.Account) (id string, err error) {
+	existing, err := m.GetAccount(account.Name)
+	if err != nil {
+		return
+	}
+	if existing != nil {
+		return "", grpc.Errorf(codes.AlreadyExists, "account already exists")
+	}
 	id = strconv.Itoa(len(m.accounts))
 	account.Id = id
 	m.accounts = append(m.accounts, account)

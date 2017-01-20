@@ -1,0 +1,56 @@
+<h1>Organizations</h1>
+{{#each organizations as organization}}
+  <div>
+    <a
+      href="/organizations/{{organization.name}}"
+      on:click="select(event, organization.name)">
+      {{organization.name}}
+    </a>
+  </div>
+{{/each}}
+
+{{#if error}}
+  <DisplayError bind:error></DisplayError>
+{{/if}}
+
+<script>
+  import DisplayError from './DisplayError.html'
+  import AmpApi from '../api/index.js'
+  const api = new AmpApi()
+
+  export default {
+    components: {
+      DisplayError,
+    },
+    data() {
+      return {
+        active: '/organizations/',
+        organizations: [],
+        error: null
+      }
+    },
+    onrender () {
+      this.setOrganizations()
+    },
+    methods: {
+      async getOrganizations() {
+        return await api.organizations()
+      },
+      async setOrganizations() {
+        try {
+          const organizations = await this.getOrganizations()
+          this.set({organizations})
+        } catch (error) {
+          this.set({error: error.message})
+        }
+      },
+      select(event, name) {
+        console.log(name)
+        event.preventDefault()
+        history.pushState({}, name, `/organizations/${name}/`)
+        document.querySelector('title').innerText = name
+        this.set({ active: `/organizations/${name}/`})
+      }
+    }
+  }
+</script>

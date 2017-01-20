@@ -8,6 +8,23 @@ export default class AmpApi extends GrpcClient {
   constructor (base) {
     super()
     this.base = base || 'http://amplifier-api.local.appcelerator.io/v1/'
+    this.sessionKey = null
+  }
+  async login (name, password) {
+    const data = await this.postJson(`account/${name}/login`, { password })
+    this.sessionKey = data.sessionKey
+  }
+  async signup (name, email, password) {
+    const data = await this.postJson(`account/${name}/signup`, { email, password })
+    this.sessionKey = data.sessionKey
+  }
+  async users () {
+    const data = await this.getJson(`account`, { type: 'individual' })
+    return data.accounts
+  }
+  async organizations () {
+    const data = await this.getJson(`account`, { type: 'organization' })
+    return data.accounts
   }
   async logs (query) {
     const data = await this.getJson('log', query)
