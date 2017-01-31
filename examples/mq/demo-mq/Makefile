@@ -2,5 +2,5 @@
 .PHONY: install
 
 install:
-	@go install ./cmd/amp-mq-publisher
-	@go install ./cmd/amp-mq-subscriber
+	@go install ./cmd/demo-publisher
+	@go install ./cmd/demo-subscriber
