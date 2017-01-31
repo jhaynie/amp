@@ -1,0 +1,9 @@
+services:
+  pinger:
+    image: appcelerator/pinger
+    labels:
+      hello: world
+      foo: bar
+    public:
+      - publish_port: 3000
+        internal_port: 3000
