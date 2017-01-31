@@ -1,0 +1,8 @@
+package: github.com/appcelerator/amp/examples/mq/demo-mq
+import:
+- package: github.com/appcelerator/amp
+  version: v0.6.x
+  subpackages:
+  - config
+  - pkg/mq
+  - pkg/mq/nats-streaming

@@ -1,0 +1,8 @@
+*.pb.go
+Dockerfile
+Dockerfile.*
+docker-compose.*.yml
+shrink.sh
+.git
+dist
+docs
