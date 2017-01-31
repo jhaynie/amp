@@ -23,7 +23,7 @@ const (
 func main() {
 	log.Println(os.Args[0])
 
-	// Connect to message queuer
+	// Connect to MQ
 	log.Println("Connecting to amp MQ")
 	MQ = ns.New(amp.NatsDefaultURL, amp.NatsClusterID, os.Args[0])
 	if err := MQ.Connect(amp.DefaultTimeout); err != nil {
