@@ -38,6 +38,17 @@ service AccountService {
       body: "*"
     };
   };
+  rpc EditOrganization (OrganizationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/v1/account/{name}/editOrganization",
+      body: "*"
+    };
+  };
+  rpc DeleteOrganization (OrganizationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/v1/account/{name}/deleteOrganization"
+    };
+  };
   rpc Login (LogInRequest) returns (SessionReply) {
     option (google.api.http) = {
       post: "/v1/account/{name}/login",

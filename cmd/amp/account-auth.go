@@ -37,7 +37,7 @@ var (
 
 	signUpCmd = &cobra.Command{
 		Use:   "signup",
-		Short: "Create a new account and login",
+		Short: "Signup for a new account",
 		Long:  `The signup command creates a new account and sends a verification link to their registered email address.`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return signUp(AMP)
@@ -48,113 +48,37 @@ var (
 		Use:   "verify",
 		Short: "Verify email using code",
 		Long: `The verify command is used to verify the users account using the code sent to them via email.
-		This is used if the user cannot access the verification link sent.`,
+This is used if the user cannot access the verification link sent.`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return verify(AMP)
 		},
 	}
 
+	pwdCmd = &cobra.Command{
+		Use:   "password",
+		Short: "Password operations",
+		Long:  "The password command allows users to reset or update password.",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return pwd(AMP, cmd, args)
+		},
+	}
+
 	pwdResetCmd = &cobra.Command{
-		Use:   "password-reset USERNAME EMAIL",
-		Short: "Reset Password",
-		Long:  "The password reset command allows users to reset password. A link to reset password will be sent to their registered email address.",
+		Use:   "reset ACCOUNT-NAME EMAIL",
+		Short: "Reset password",
+		Long:  "The reset command allows users to reset password. A link to reset password will be sent to their registered email address.",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return pwdReset(AMP, cmd, args)
 		},
 	}
 
 	pwdChangeCmd = &cobra.Command{
-		Use:   "password-change USERNAME EXISTING-PASSWORD NEW-PASSWORD CONFIRM-NEW-PASSWORD",
-		Short: "Change Password",
-		Long:  "The password change command allows users to reset existing password.",
+		Use:   "change ACCOUNT-NAME EXISTING-PASSWORD NEW-PASSWORD CONFIRM-NEW-PASSWORD",
+		Short: "Change password",
+		Long:  "The change command allows users to update their existing password.",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return pwdChange(AMP, cmd, args)
 		},
-	}
-
-	switchRoleCmd = &cobra.Command{
-		Use:   "switch [ORGANIZATION]",
-		Short: "Switch primary organization",
-	}
-
-	createOrganizationCmd = &cobra.Command{
-		Use:   "create organization [NAME] [EMAIL]",
-		Short: "Create an organization",
-	}
-
-	listUsersCmd = &cobra.Command{
-		Use:   "list users [ORGANIZATION] [TEAM]",
-		Short: "list users, optionally filter by organization and team",
-	}
-
-	listOrganizationsCmd = &cobra.Command{
-		Use:   "list organizations",
-		Short: "list organizations",
-	}
-
-	listTeamsCmd = &cobra.Command{
-		Use:   "list teams [ORGANIZATION]",
-		Short: "list teams by organization",
-	}
-
-	listPermissionsCmd = &cobra.Command{
-		Use:   "list permissions [ORGANIZATION] [TEAM]",
-		Short: "list permissions by team",
-	}
-
-	infoCmd = &cobra.Command{
-		Use:   "info [name]",
-		Short: "list account information",
-	}
-
-	editCmd = &cobra.Command{
-		Use:   "edit [name]",
-		Short: "edits account information",
-	}
-
-	deleteCmd = &cobra.Command{
-		Use:   "delete [name]",
-		Short: "deletes account",
-	}
-
-	addOrganizationMembersCmd = &cobra.Command{
-		Use:   "add organization members [ORGANIZATION] [MEMBERS...]",
-		Short: "Add users to an organization",
-	}
-
-	addTeamMembersCmd = &cobra.Command{
-		Use:   "add team members [ORGANIZATION] [TEAM] [MEMBERS...]",
-		Short: "Add users to a team",
-	}
-
-	removeOrganizationMembersCmd = &cobra.Command{
-		Use:   "remove organization members [ORGANIZATION] [MEMBERS...]",
-		Short: "Remove users from an organization",
-	}
-
-	removeTeamMembersCmd = &cobra.Command{
-		Use:   "remove team members [ORGANIZATION] [TEAM] [MEMBERS...]",
-		Short: "Remove users from a team",
-	}
-
-	grantPermissionCmd = &cobra.Command{
-		Use:   "grant [RESOURCE_ID] [LEVEL] [ORGANIZATION] [TEAM]",
-		Short: "Grant permission to a team for a resource",
-	}
-
-	editPermissionCmd = &cobra.Command{
-		Use:   "grant [RESOURCE_ID] [LEVEL] [ORGANIZATION] [TEAM] ",
-		Short: "Edit a permission for a resource",
-	}
-
-	revokePermissionCmd = &cobra.Command{
-		Use:   "revoke [RESOURCE_ID] [ORGANIZATION] [TEAM]",
-		Short: "Revoke permission from a team for a resource",
-	}
-
-	transferOwnershipCmd = &cobra.Command{
-		Use:   "transfer [RESOURCE_ID] [ORGANIZATION]",
-		Short: "Transfer ownership of a resource to a different organization",
 	}
 )
 
@@ -163,8 +87,9 @@ func init() {
 	RootCmd.AddCommand(AccountCmd)
 	AccountCmd.AddCommand(signUpCmd)
 	AccountCmd.AddCommand(verifyCmd)
-	AccountCmd.AddCommand(pwdResetCmd)
-	AccountCmd.AddCommand(pwdChangeCmd)
+	AccountCmd.AddCommand(pwdCmd)
+	pwdCmd.AddCommand(pwdResetCmd)
+	pwdCmd.AddCommand(pwdChangeCmd)
 }
 
 // login gets the username and password, validates the command line inputs
@@ -172,7 +97,7 @@ func init() {
 func login(amp *client.AMP) (err error) {
 	fmt.Println("This will login an existing personal AMP account.")
 	username := getUserName()
-	password, err := getPassword()
+	password, err := getPwd()
 	if err != nil {
 		return fmt.Errorf("user error: %v", err)
 	}
@@ -222,7 +147,7 @@ func verify(amp *client.AMP) (err error) {
 	fmt.Println("This will verify your account and confirm your password.")
 	code := getCode()
 	username := getUserName()
-	password, err := getPassword()
+	password, err := getPwd()
 	if err != nil {
 		return fmt.Errorf("user error: %v", err)
 	}
@@ -238,6 +163,14 @@ func verify(amp *client.AMP) (err error) {
 	}
 	color.Set(color.FgGreen, color.Bold)
 	fmt.Println("Hi", username, "! Your account has now be activated.")
+	color.Unset()
+	return nil
+}
+
+func pwd(amp *client.AMP, cmd *cobra.Command, args []string) (err error) {
+	color.Set(color.FgYellow, color.Bold)
+	fmt.Println("Choose a command for password operation")
+	fmt.Println("Use amp account password -h for help")
 	color.Unset()
 	return nil
 }
@@ -271,7 +204,16 @@ func pwdReset(amp *client.AMP, cmd *cobra.Command, args []string) error {
 func pwdChange(amp *client.AMP, cmd *cobra.Command, args []string) error {
 	fmt.Println("This will allow you to update your existing password.")
 	username := getUserName()
-	existingPwd := getExistingPwd()
+	color.Set(color.FgYellow, color.Bold)
+	fmt.Println("Enter your current password.")
+	color.Unset()
+	existingPwd, err := getPwd()
+	if err != nil {
+		return fmt.Errorf("user error: %v", err)
+	}
+	color.Set(color.FgYellow, color.Bold)
+	fmt.Println("Enter new password.")
+	color.Unset()
 	newPwd, err := getPwd()
 	if err != nil {
 		return fmt.Errorf("user error: %v", err)
@@ -341,51 +283,22 @@ func getCode() (code string) {
 	return
 }
 
-func getPassword() (password string, err error) {
+func getPwd() (password string, err error) {
 	fmt.Print("password: ")
 	pw, err := gopass.GetPasswd()
-	if err != nil {
-		if err == gopass.ErrInterrupted {
-			err = fmt.Errorf(err.Error())
-			return
-		} else {
-			return
-		}
-	}
-	password = string(pw)
-	err = account.CheckPassword(password)
 	if err != nil {
 		color.Set(color.FgRed, color.Bold)
 		fmt.Println("Password is mandatory. Try again!")
 		color.Unset()
 		fmt.Println("")
-		return getPassword()
-	}
-	err = account.CheckPasswordStrength(password)
-	if err != nil {
-		if strings.Contains(err.Error(), "password too weak") {
-			color.Set(color.FgRed, color.Bold)
-			fmt.Println("Password entered is too weak. Password must be at least 8 characters long. Try again!")
-			color.Unset()
-			fmt.Println("")
-			return getPassword()
-		} else {
-			return
-		}
-	}
-	return
-}
-
-func getPwd() (password string, err error) {
-	fmt.Print("password: ")
-	password, err = checkPwd()
-	if err != nil {
-		color.Set(color.FgRed, color.Bold)
-		fmt.Println(err)
-		color.Unset()
-		fmt.Println("")
 		return getPwd()
 	}
+	password = string(pw)
+	err = account.CheckPassword(password)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	err = account.CheckPasswordStrength(password)
 	if err != nil {
 		if strings.Contains(err.Error(), "password too weak") {
@@ -402,7 +315,7 @@ func getPwd() (password string, err error) {
 }
 
 func getConfirmNewPwd(newPwd string) {
-	color.Set(color.FgGreen, color.Bold)
+	color.Set(color.FgYellow, color.Bold)
 	fmt.Println("Enter Password again for confirmation.")
 	color.Unset()
 	confirmNewPwd, _ := getPwd()
@@ -416,27 +329,4 @@ func getConfirmNewPwd(newPwd string) {
 		return
 	}
 	return
-}
-
-func getExistingPwd() (existingPwd string) {
-	fmt.Print("existing password: ")
-	existingPwd, err := checkPwd()
-	if err != nil {
-		color.Set(color.FgRed, color.Bold)
-		fmt.Println(err)
-		color.Unset()
-		fmt.Println("")
-		return getExistingPwd()
-	}
-	return
-}
-
-func checkPwd() (pwd string, err error) {
-	pw, err := gopass.GetPasswd()
-	if err != nil {
-		return
-	}
-	pwd = string(pw)
-	err = account.CheckPassword(pwd)
-	return pwd, err
 }

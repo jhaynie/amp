@@ -32,9 +32,37 @@ func CheckPassword(password string) error {
 	return nil
 }
 
-func checkOrganizationName(name string) error {
+func CheckOrganizationName(name string) error {
 	if name == "" {
 		return grpc.Errorf(codes.InvalidArgument, "organization name is mandatory")
+	}
+	return nil
+}
+
+func CheckTeamName(name string) error {
+	if name == "" {
+		return grpc.Errorf(codes.InvalidArgument, "team name is mandatory")
+	}
+	return nil
+}
+
+func CheckPermissionLevel(name string) error {
+	if name == "" {
+		return grpc.Errorf(codes.InvalidArgument, "permission level is mandatory")
+	}
+	return nil
+}
+
+func CheckResourceID(name string) error {
+	if name == "" {
+		return grpc.Errorf(codes.InvalidArgument, "resource ID is mandatory")
+	}
+	return nil
+}
+
+func CheckMembers(members []string) error {
+	if len(members) == 0 {
+		return grpc.Errorf(codes.InvalidArgument, "At least one member is mandatory")
 	}
 	return nil
 }
@@ -117,7 +145,7 @@ func (r *VerificationRequest) Validate() (err error) {
 
 // Validate validates OrganizationRequest
 func (r *OrganizationRequest) Validate() (err error) {
-	err = checkOrganizationName(r.Name)
+	err = CheckOrganizationName(r.Name)
 	if err != nil {
 		return
 	}

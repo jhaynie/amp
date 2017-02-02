@@ -26,7 +26,7 @@ var (
 	// storagePutCmd represents the creation of storage key-value pair
 	storagePutCmd = &cobra.Command{
 		Use:   "put [key] [val]",
-		Short: "Assign specified value with specified key",
+		Short: "Create/Update storage object",
 		Long: `Put command (amp kv put) creates a storage object with the key-value input if the key does not already exist.
 Else, it updates the existing key with the new input value.`,
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -36,7 +36,7 @@ Else, it updates the existing key with the new input value.`,
 	// storageGetCmd represents the retrieval of storage value based on key
 	storageGetCmd = &cobra.Command{
 		Use:   "get [key]",
-		Short: "Retrieve a storage object",
+		Short: "Retrieve storage object",
 		Long: `Get command (amp kv get) retrieves a key-value pair based on the specified input key.
 If not found, an appropriate message is returned.`,
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -46,7 +46,7 @@ If not found, an appropriate message is returned.`,
 	// storageDeleteCmd represents the deletion of storage value based on key
 	storageDeleteCmd = &cobra.Command{
 		Use:   "del [key]",
-		Short: "Delete a storage object (alias: rm)",
+		Short: "Delete storage object (alias: rm)",
 		Long: `Delete command (amp kv del or amp kv rm) deletes the key-value pair in storage based on the specified input key.
 If not found, an appropriate message is returned.`,
 		Aliases: []string{"rm"},
@@ -57,7 +57,7 @@ If not found, an appropriate message is returned.`,
 	// storageListCmd represents the list of storage key-value pair
 	storageListCmd = &cobra.Command{
 		Use:   "ls",
-		Short: "List all storage objects",
+		Short: "List storage object",
 		Long: `List command (amp kv ls) returns a list of all the key-value pair in storage.
 If no key-value pair is present, an appropriate message is returned.`,
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -77,24 +77,26 @@ func init() {
 // storagePut validates the input command line arguments and creates or updates storage key-value pair
 // by invoking the corresponding rpc/storage method
 func storagePut(amp *client.AMP, cmd *cobra.Command, args []string) error {
+	var k, v string
 	switch len(args) {
 	case 0:
 		return errors.New("must specify storage key and storage value")
 	case 1:
 		return errors.New("must specify storage value")
 	case 2:
-		// OK
+		k = args[0]
+		v = args[1]
 	default:
 		return errors.New("too many arguments")
 	}
-
-	k := args[0]
-	v := args[1]
-	request := &storage.PutStorage{Key: k, Val: v}
+	request := &storage.PutStorage{
+		Key: k,
+		Val: v,
+	}
 	client := storage.NewStorageClient(amp.Conn)
 	reply, err := client.Put(context.Background(), request)
 	if err != nil {
-		fmt.Println("Key not found: " + k)
+		fmt.Println("Key not found: ", k)
 		return nil
 	}
 	fmt.Println(reply.Val)
@@ -113,9 +115,9 @@ func storageGet(amp *client.AMP, cmd *cobra.Command, args []string) error {
 	if k == "" {
 		return errors.New("must specify storage key")
 	}
-
-	request := &storage.GetStorage{Key: k}
-
+	request := &storage.GetStorage{
+		Key: k,
+	}
 	client := storage.NewStorageClient(amp.Conn)
 	reply, err := client.Get(context.Background(), request)
 	if err != nil {
@@ -138,9 +140,9 @@ func storageDelete(amp *client.AMP, cmd *cobra.Command, args []string) error {
 	if k == "" {
 		return errors.New("must specify storage key")
 	}
-
-	request := &storage.DeleteStorage{Key: k}
-
+	request := &storage.DeleteStorage{
+		Key: k,
+	}
 	client := storage.NewStorageClient(amp.Conn)
 	reply, err := client.Delete(context.Background(), request)
 	if err != nil {
@@ -167,7 +169,6 @@ func storageList(amp *client.AMP, cmd *cobra.Command, args []string) error {
 		fmt.Println("No storage object is available")
 		return nil
 	}
-
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', 0)
 	fmt.Fprintln(w, "KEY\tVALUE\t")
 	fmt.Fprintln(w, "---\t-----\t")
