@@ -1,8 +1,0 @@
-# golang:alpine provides an up to date go build environment
-FROM golang:alpine
-RUN apk --no-cache add make
-WORKDIR /go/src/github.com/appcelerator/amp/examples/mq/demo-mq
-COPY . /go/src/github.com/appcelerator/amp/examples/mq/demo-mq
-RUN make install
-ENTRYPOINT []
-CMD [ "/go/bin/demo-publisher"]

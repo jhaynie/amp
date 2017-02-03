@@ -302,3 +302,6 @@ cover:
 rules:
 	@hack/print-make-rules
 
+examples:
+	@go install ./examples/mq/demo-mq/cmd/demo-publisher
+	@go install ./examples/mq/demo-mq/cmd/demo-subscriber
