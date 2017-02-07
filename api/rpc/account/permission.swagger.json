@@ -1,0 +1,329 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "github.com/appcelerator/amp/api/rpc/account/permission.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/account/{organization}/team/{team}/permission": {
+      "get": {
+        "operationId": "List",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/accountListReply"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "organization",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "team",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "PermissionService"
+        ]
+      }
+    },
+    "/v1/account/{organization}/team/{team}/transfer/{resource_id}": {
+      "post": {
+        "operationId": "TransferOwnership",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "organization",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "team",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "resource_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountTransferOwnershipRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PermissionService"
+        ]
+      }
+    },
+    "/v1/account/{ressource.organization}/team/{ressource.team}/permission": {
+      "post": {
+        "operationId": "Grant",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ressource.organization",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "ressource.team",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountGrantRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PermissionService"
+        ]
+      }
+    },
+    "/v1/account/{ressource.organization}/team/{ressource.team}/permission/{ressource.resource_id}": {
+      "delete": {
+        "operationId": "Revoke",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ressource.organization",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "ressource.team",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "ressource.resource_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "PermissionService"
+        ]
+      },
+      "put": {
+        "operationId": "Edit",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ressource.organization",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "ressource.team",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "ressource.resource_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountEditRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PermissionService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "accountEditRequest": {
+      "type": "object",
+      "properties": {
+        "ressource": {
+          "$ref": "#/definitions/accountRessource"
+        }
+      },
+      "title": "Edit function"
+    },
+    "accountGrantRequest": {
+      "type": "object",
+      "properties": {
+        "ressource": {
+          "$ref": "#/definitions/accountRessource"
+        }
+      },
+      "title": "Grant function"
+    },
+    "accountListReply": {
+      "type": "object",
+      "properties": {
+        "ressources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/accountRessource"
+          }
+        }
+      }
+    },
+    "accountListRequest": {
+      "type": "object",
+      "properties": {
+        "organization": {
+          "type": "string",
+          "format": "string"
+        },
+        "team": {
+          "type": "string",
+          "format": "string"
+        },
+        "level": {
+          "type": "string",
+          "format": "string"
+        },
+        "resource_id": {
+          "type": "string",
+          "format": "string"
+        }
+      },
+      "title": "List function"
+    },
+    "accountRessource": {
+      "type": "object",
+      "properties": {
+        "organization": {
+          "type": "string",
+          "format": "string"
+        },
+        "team": {
+          "type": "string",
+          "format": "string"
+        },
+        "level": {
+          "type": "string",
+          "format": "string"
+        },
+        "resource_id": {
+          "type": "string",
+          "format": "string"
+        }
+      },
+      "title": "Ressource struct"
+    },
+    "accountRevokeRequest": {
+      "type": "object",
+      "properties": {
+        "ressource": {
+          "$ref": "#/definitions/accountRessource"
+        }
+      },
+      "title": "Revoke function"
+    },
+    "accountTransferOwnershipRequest": {
+      "type": "object",
+      "properties": {
+        "organization": {
+          "type": "string",
+          "format": "string"
+        },
+        "team": {
+          "type": "string",
+          "format": "string"
+        },
+        "resource_id": {
+          "type": "string",
+          "format": "string"
+        }
+      },
+      "title": "TransferOwnership function"
+    },
+    "protobufEmpty": {
+      "type": "object",
+      "description": "service Foo {\n      rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);\n    }\n\nThe JSON representation for `Empty` is empty JSON object `{}`.",
+      "title": "A generic empty message that you can re-use to avoid defining duplicated\nempty messages in your APIs. A typical example is to use it as the request\nor the response type of an API method. For instance:"
+    }
+  }
+}

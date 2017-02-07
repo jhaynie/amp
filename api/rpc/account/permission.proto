@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package account;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+service PermissionService {
+  rpc Grant (GrantRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/v1/account/{ressource.organization}/team/{ressource.team}/permission",
+      body: "*"
+    };
+  };
+  rpc List (ListRequest) returns (ListReply) {
+    option (google.api.http) = {
+      get: "/v1/account/{organization}/team/{team}/permission"
+    };
+  };
+  rpc Edit (EditRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/v1/account/{ressource.organization}/team/{ressource.team}/permission/{ressource.resource_id}",
+      body: "*"
+    };
+  };
+  rpc Revoke (RevokeRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/v1/account/{ressource.organization}/team/{ressource.team}/permission/{ressource.resource_id}"
+    };
+  };
+  rpc TransferOwnership (TransferOwnershipRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/v1/account/{organization}/team/{team}/transfer/{resource_id}",
+      body: "*"
+    };
+  };
+}
+
+//Ressource struct
+message Ressource {
+  string organization = 1;
+  string team = 2;
+  string level = 3;
+  string resource_id = 4;
+}
+
+//Grant function
+message GrantRequest {
+  Ressource ressource = 1;
+}
+
+//List function
+message ListRequest {
+  string organization = 1;
+  string team = 2;
+  string level = 3;
+  string resource_id = 4;
+}
+
+message ListReply {
+  repeated Ressource ressources = 1;
+
+}
+
+//Edit function
+message EditRequest {
+  Ressource ressource = 1;
+}
+
+//Revoke function
+message RevokeRequest {
+  Ressource ressource = 1;
+}
+
+//TransferOwnership function
+message TransferOwnershipRequest {
+  string organization = 1;
+  string team = 2;
+  string resource_id = 3;
+}
+

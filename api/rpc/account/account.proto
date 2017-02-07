@@ -1,0 +1,223 @@
+syntax = "proto3";
+
+package account;
+
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+service AccountService {
+  rpc SignUp (SignUpRequest) returns (SignUpReply) {
+    option (google.api.http) = {
+      post: "/v1/account/{name}/signup",
+      body: "*"
+    };
+  };
+  rpc Verify (VerificationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/v1/account/{name}/verification/{code}",
+      body: "*"
+    };
+  };
+  rpc PasswordReset (PasswordResetRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/v1/account/{name}/passwordReset",
+      body: "*"
+    };
+  };
+  rpc PasswordChange (PasswordChangeRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/v1/account/{name}/passwordChange",
+      body: "*"
+    };
+  };
+  rpc Login (LogInRequest) returns (LogInReply) {
+    option (google.api.http) = {
+      post: "/v1/account/{name}/login",
+      body: "*"
+    };
+  };
+  rpc List (ListRequest) returns (ListReply) {
+    option (google.api.http) = {
+      get: "/v1/account"
+    };
+  };
+  rpc Switch (SwitchRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/v1/account/{name}/switch",
+      body: "*"
+    };
+  };
+  rpc GetDetails (GetDetailsRequest) returns (GetDetailsReply) {
+    option (google.api.http) = {
+      get: "/v1/account/{name}"
+    };
+  };
+  rpc Edit (EditRequest) returns (EditRequestReply) {
+    option (google.api.http) = {
+      put: "/v1/account/{name}",
+      body: "*"
+    };
+  };
+  rpc Delete (DeleteRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/v1/account/{name}"
+    };
+  };
+  rpc GetTeams (GetTeamsRequest) returns (GetTeamsReply) {
+    option (google.api.http) = {
+      get: "/v1/account/{name}/teams"
+    };
+  }
+  rpc AddOrganizationMemberships (AddMembershipsRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      patch: "/v1/account/{name}/organization/membership",
+      body: "*"
+    };
+  };
+  rpc DeleteOrganizationMemberships (DeleteMembershipsRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/v1/account/{name}/organization/membership",
+    };
+  };
+}
+
+//Account structs
+
+message Account {
+  string name = 1;
+  string email = 2;
+  bool email_verified = 3;
+  string account_type = 4;
+}
+
+message Billing {
+  string contact = 1;
+  string address_line_1 = 2;
+  string address_line_2 = 3;
+  string city = 4;
+  string state = 5;
+  string zip_code = 6;
+  string phone_number = 7;
+  string fax_number = 8;
+  string email = 9;
+  string card_type = 10;
+  string card_number = 11;
+}
+
+message Settings {
+  map<string, string> param = 2;
+}
+
+// SignUp function
+message SignUpRequest {
+  string name = 1;
+  string email = 2;
+}
+
+message SignUpReply {
+  string sessionKey = 1;
+}
+
+//Verify function
+message VerificationRequest {
+  string name = 1;
+  string password = 2;
+  string code = 3;
+}
+
+//PasswordReset function
+message PasswordResetRequest {
+  string name = 1;
+  string email = 2;
+}
+
+//PasswordChange function
+message PasswordChangeRequest {
+  string name = 1;
+  string existingPassword = 2;
+  string newPassword = 3;
+}
+
+//LogIn function
+message LogInRequest {
+  string name = 1;
+  string password = 2;
+}
+
+message LogInReply {
+  string sessionKey = 1;
+}
+
+//List function
+message ListRequest {
+}
+
+message ListReply {
+  repeated Account accounts = 1;
+  //repeated TeamReply teams = 2;
+  //repeated PermissionRequest permissions = 3;
+}
+
+//Switch function
+message SwitchRequest {
+  string name = 1;
+}
+
+//GetDetails function
+message GetDetailsRequest {
+  string name = 1;
+}
+
+message GetDetailsReply {
+  Account account = 1;
+  Billing billing = 2;
+  Settings settings = 3;
+}
+
+//Edit function
+message EditRequest {
+  string name = 1;
+  string email = 2;
+  string password = 3;
+  string new_password = 4;
+  Billing billing = 5;
+  Settings settings = 6;
+}
+
+message EditRequestReply {
+  Account account = 1;
+  Billing billing = 2;
+  Settings settings = 3;
+}
+
+//Delete function
+message DeleteRequest {
+  string name = 1;
+}
+
+//GetTeams function 
+message GetTeamsRequest {
+  string name = 2;
+}
+
+message Team {
+  string name = 1;
+  string organization = 2;
+}
+
+message GetTeamsReply {
+  repeated Team teams = 1;
+}
+
+//AddOrganizationMemberships
+message AddMembershipsRequest {
+  string name = 1;
+  repeated string Members = 2;
+}
+
+//DeleteOrganizationMemberships
+message DeleteMembershipsRequest {
+  string name = 1;
+  repeated string Members = 2;
+}
