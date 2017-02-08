@@ -3,6 +3,7 @@ package account
 import (
 	pb "github.com/golang/protobuf/ptypes/empty"
 	"golang.org/x/net/context"
+	"golang.org/x/oauth2/google"
 )
 
 // Server is used to implement account.AccountServer
@@ -58,12 +59,17 @@ func (s *Server) Delete(ctx context.Context, in *DeleteRequest) (out *pb.Empty, 
 	return
 }
 
-// GetOrganizations implements account.GetOrganizations
-func (s *Server) GetOrganizations(ctx context.Context, in *GetOrganizationsRequest) (out *GetOrganizationsReply, err error) {
+// GetTeams implements account.GetTeams
+func (s *Server) GetTeams(ctx context.Context, in *GetTeamsRequest) (out *GetTeamsReply, err error) {
 	return
 }
 
-// GetTeams implements account.GetTeams
-func (s *Server) GetTeams(ctx context.Context, in *GetTeamsRequest) (out *GetTeamsReply, err error) {
+// AddOrganizationMemberships implements account.AddOrganizationMemberships
+func (s *Server) AddOrganizationMemberships(ctx context.Context, in *AddMembershipsRequest) (out *pb.Empty, err error) {
+	return
+}
+
+// DeleteOrganizationMemberships implements account.DeleteOrganizationMemberships
+func (s *Server) DeleteOrganizationMemberships(ctx context.Context, in *DeleteMembershipsRequest) (out *pb.Empty, err error) {
 	return
 }
