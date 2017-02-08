@@ -169,59 +169,59 @@ func extensionToGoStringDuration(m github_com_gogo_protobuf_proto.Message) strin
 	s += strings.Join(ss, ",") + "})"
 	return s
 }
-func (m *Duration) Marshal() (dAtA []byte, err error) {
+func (m *Duration) Marshal() (data []byte, err error) {
 	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	data = make([]byte, size)
+	n, err := m.MarshalTo(data)
 	if err != nil {
 		return nil, err
 	}
-	return dAtA[:n], nil
+	return data[:n], nil
 }
 
-func (m *Duration) MarshalTo(dAtA []byte) (int, error) {
+func (m *Duration) MarshalTo(data []byte) (int, error) {
 	var i int
 	_ = i
 	var l int
 	_ = l
 	if m.Seconds != 0 {
-		dAtA[i] = 0x8
+		data[i] = 0x8
 		i++
-		i = encodeVarintDuration(dAtA, i, uint64(m.Seconds))
+		i = encodeVarintDuration(data, i, uint64(m.Seconds))
 	}
 	if m.Nanos != 0 {
-		dAtA[i] = 0x10
+		data[i] = 0x10
 		i++
-		i = encodeVarintDuration(dAtA, i, uint64(m.Nanos))
+		i = encodeVarintDuration(data, i, uint64(m.Nanos))
 	}
 	return i, nil
 }
 
-func encodeFixed64Duration(dAtA []byte, offset int, v uint64) int {
-	dAtA[offset] = uint8(v)
-	dAtA[offset+1] = uint8(v >> 8)
-	dAtA[offset+2] = uint8(v >> 16)
-	dAtA[offset+3] = uint8(v >> 24)
-	dAtA[offset+4] = uint8(v >> 32)
-	dAtA[offset+5] = uint8(v >> 40)
-	dAtA[offset+6] = uint8(v >> 48)
-	dAtA[offset+7] = uint8(v >> 56)
+func encodeFixed64Duration(data []byte, offset int, v uint64) int {
+	data[offset] = uint8(v)
+	data[offset+1] = uint8(v >> 8)
+	data[offset+2] = uint8(v >> 16)
+	data[offset+3] = uint8(v >> 24)
+	data[offset+4] = uint8(v >> 32)
+	data[offset+5] = uint8(v >> 40)
+	data[offset+6] = uint8(v >> 48)
+	data[offset+7] = uint8(v >> 56)
 	return offset + 8
 }
-func encodeFixed32Duration(dAtA []byte, offset int, v uint32) int {
-	dAtA[offset] = uint8(v)
-	dAtA[offset+1] = uint8(v >> 8)
-	dAtA[offset+2] = uint8(v >> 16)
-	dAtA[offset+3] = uint8(v >> 24)
+func encodeFixed32Duration(data []byte, offset int, v uint32) int {
+	data[offset] = uint8(v)
+	data[offset+1] = uint8(v >> 8)
+	data[offset+2] = uint8(v >> 16)
+	data[offset+3] = uint8(v >> 24)
 	return offset + 4
 }
-func encodeVarintDuration(dAtA []byte, offset int, v uint64) int {
+func encodeVarintDuration(data []byte, offset int, v uint64) int {
 	for v >= 1<<7 {
-		dAtA[offset] = uint8(v&0x7f | 0x80)
+		data[offset] = uint8(v&0x7f | 0x80)
 		v >>= 7
 		offset++
 	}
-	dAtA[offset] = uint8(v)
+	data[offset] = uint8(v)
 	return offset + 1
 }
 func (m *Duration) Size() (n int) {
@@ -249,8 +249,8 @@ func sovDuration(x uint64) (n int) {
 func sozDuration(x uint64) (n int) {
 	return sovDuration(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *Duration) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
+func (m *Duration) Unmarshal(data []byte) error {
+	l := len(data)
 	iNdEx := 0
 	for iNdEx < l {
 		preIndex := iNdEx
@@ -262,7 +262,7 @@ func (m *Duration) Unmarshal(dAtA []byte) error {
 			if iNdEx >= l {
 				return io.ErrUnexpectedEOF
 			}
-			b := dAtA[iNdEx]
+			b := data[iNdEx]
 			iNdEx++
 			wire |= (uint64(b) & 0x7F) << shift
 			if b < 0x80 {
@@ -290,7 +290,7 @@ func (m *Duration) Unmarshal(dAtA []byte) error {
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
 				}
-				b := dAtA[iNdEx]
+				b := data[iNdEx]
 				iNdEx++
 				m.Seconds |= (int64(b) & 0x7F) << shift
 				if b < 0x80 {
@@ -309,7 +309,7 @@ func (m *Duration) Unmarshal(dAtA []byte) error {
 				if iNdEx >= l {
 					return io.ErrUnexpectedEOF
 				}
-				b := dAtA[iNdEx]
+				b := data[iNdEx]
 				iNdEx++
 				m.Nanos |= (int32(b) & 0x7F) << shift
 				if b < 0x80 {
@@ -318,7 +318,7 @@ func (m *Duration) Unmarshal(dAtA []byte) error {
 			}
 		default:
 			iNdEx = preIndex
-			skippy, err := skipDuration(dAtA[iNdEx:])
+			skippy, err := skipDuration(data[iNdEx:])
 			if err != nil {
 				return err
 			}
@@ -337,8 +337,8 @@ func (m *Duration) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func skipDuration(dAtA []byte) (n int, err error) {
-	l := len(dAtA)
+func skipDuration(data []byte) (n int, err error) {
+	l := len(data)
 	iNdEx := 0
 	for iNdEx < l {
 		var wire uint64
@@ -349,7 +349,7 @@ func skipDuration(dAtA []byte) (n int, err error) {
 			if iNdEx >= l {
 				return 0, io.ErrUnexpectedEOF
 			}
-			b := dAtA[iNdEx]
+			b := data[iNdEx]
 			iNdEx++
 			wire |= (uint64(b) & 0x7F) << shift
 			if b < 0x80 {
@@ -367,7 +367,7 @@ func skipDuration(dAtA []byte) (n int, err error) {
 					return 0, io.ErrUnexpectedEOF
 				}
 				iNdEx++
-				if dAtA[iNdEx-1] < 0x80 {
+				if data[iNdEx-1] < 0x80 {
 					break
 				}
 			}
@@ -384,7 +384,7 @@ func skipDuration(dAtA []byte) (n int, err error) {
 				if iNdEx >= l {
 					return 0, io.ErrUnexpectedEOF
 				}
-				b := dAtA[iNdEx]
+				b := data[iNdEx]
 				iNdEx++
 				length |= (int(b) & 0x7F) << shift
 				if b < 0x80 {
@@ -407,7 +407,7 @@ func skipDuration(dAtA []byte) (n int, err error) {
 					if iNdEx >= l {
 						return 0, io.ErrUnexpectedEOF
 					}
-					b := dAtA[iNdEx]
+					b := data[iNdEx]
 					iNdEx++
 					innerWire |= (uint64(b) & 0x7F) << shift
 					if b < 0x80 {
@@ -418,7 +418,7 @@ func skipDuration(dAtA []byte) (n int, err error) {
 				if innerWireType == 4 {
 					break
 				}
-				next, err := skipDuration(dAtA[start:])
+				next, err := skipDuration(data[start:])
 				if err != nil {
 					return 0, err
 				}

@@ -114,8 +114,8 @@ func (m *Manager) Apply(pid int) (err error) {
 		return err
 	}
 
-	m.Paths = make(map[string]string)
 	if c.Paths != nil {
+		paths := make(map[string]string)
 		for name, path := range c.Paths {
 			_, err := d.path(name)
 			if err != nil {
@@ -124,12 +124,17 @@ func (m *Manager) Apply(pid int) (err error) {
 				}
 				return err
 			}
-			m.Paths[name] = path
+			paths[name] = path
 		}
+		m.Paths = paths
 		return cgroups.EnterPid(m.Paths, pid)
 	}
 
+	paths := make(map[string]string)
 	for _, sys := range subsystems {
+		if err := sys.Apply(d); err != nil {
+			return err
+		}
 		// TODO: Apply should, ideally, be reentrant or be broken up into a separate
 		// create and join phase so that the cgroup hierarchy for a container can be
 		// created then join consists of writing the process pids to cgroup.procs
@@ -142,12 +147,9 @@ func (m *Manager) Apply(pid int) (err error) {
 			}
 			return err
 		}
-		m.Paths[sys.Name()] = p
-
-		if err := sys.Apply(d); err != nil {
-			return err
-		}
+		paths[sys.Name()] = p
 	}
+	m.Paths = paths
 	return nil
 }
 

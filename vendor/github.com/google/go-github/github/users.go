@@ -156,13 +156,13 @@ func (s *UsersService) ListAll(opt *UserListOptions) ([]*User, *Response, error)
 		return nil, nil, err
 	}
 
-	var users []*User
-	resp, err := s.client.Do(req, &users)
+	users := new([]*User)
+	resp, err := s.client.Do(req, users)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return users, resp, nil
+	return *users, resp, err
 }
 
 // ListInvitations lists all currently-open repository invitations for the

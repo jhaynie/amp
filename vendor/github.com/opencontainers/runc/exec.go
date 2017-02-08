@@ -18,21 +18,20 @@ import (
 var execCommand = cli.Command{
 	Name:  "exec",
 	Usage: "execute new process inside the container",
-	ArgsUsage: `<container-id> <command> [command options]  || -p process.json <container-id>
+	ArgsUsage: `<container-id> <container command> [command options]
 
 Where "<container-id>" is the name for the instance of the container and
-"<command>" is the command to be executed in the container.
-"<command>" can't be empty unless a "-p" flag provided.
+"<container command>" is the command to be executed in the container.
 
 EXAMPLE:
 For example, if the container is configured to run the linux ps command the
 following will output a list of processes running in the container:
-
+	 
        # runc exec <container-id> ps`,
 	Flags: []cli.Flag{
 		cli.StringFlag{
-			Name:  "console-socket",
-			Usage: "path to an AF_UNIX socket which will receive a file descriptor referencing the master end of the console's pseudoterminal",
+			Name:  "console",
+			Usage: "specify the pty slave path for use with the container",
 		},
 		cli.StringFlag{
 			Name:  "cwd",
@@ -87,9 +86,6 @@ following will output a list of processes running in the container:
 		},
 	},
 	Action: func(context *cli.Context) error {
-		if err := checkArgs(context, 1, minArgs); err != nil {
-			return err
-		}
 		if os.Geteuid() != 0 {
 			return fmt.Errorf("runc should be run as root")
 		}
@@ -135,7 +131,7 @@ func execProcess(context *cli.Context) (int, error) {
 		enableSubreaper: false,
 		shouldDestroy:   false,
 		container:       container,
-		consoleSocket:   context.String("console-socket"),
+		console:         context.String("console"),
 		detach:          detach,
 		pidFile:         context.String("pid-file"),
 	}
@@ -179,8 +175,9 @@ func getProcess(context *cli.Context, bundle string) (*specs.Process, error) {
 		p.Capabilities = caps
 	}
 	// append the passed env variables
-	p.Env = append(p.Env, context.StringSlice("env")...)
-
+	for _, e := range context.StringSlice("env") {
+		p.Env = append(p.Env, e)
+	}
 	// set the tty
 	if context.IsSet("tty") {
 		p.Terminal = context.Bool("tty")

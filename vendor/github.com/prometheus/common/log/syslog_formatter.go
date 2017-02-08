@@ -23,8 +23,6 @@ import (
 	"github.com/Sirupsen/logrus"
 )
 
-var _ logrus.Formatter = (*syslogger)(nil)
-
 func init() {
 	setSyslogFormatter = func(appname, local string) error {
 		if appname == "" {
@@ -45,7 +43,7 @@ func init() {
 	}
 }
 
-var prefixTag []byte
+var ceeTag = []byte("@cee:")
 
 type syslogger struct {
 	wrap logrus.Formatter
@@ -58,11 +56,6 @@ func newSyslogger(appname string, facility string, fmter logrus.Formatter) (*sys
 		return nil, err
 	}
 	out, err := syslog.New(priority, appname)
-	_, isJSON := fmter.(*logrus.JSONFormatter)
-	if isJSON {
-		// add cee tag to json formatted syslogs
-		prefixTag = []byte("@cee:")
-	}
 	return &syslogger{
 		out:  out,
 		wrap: fmter,
@@ -99,7 +92,7 @@ func (s *syslogger) Format(e *logrus.Entry) ([]byte, error) {
 	}
 	// only append tag to data sent to syslog (line), not to what
 	// is returned
-	line := string(append(prefixTag, data...))
+	line := string(append(ceeTag, data...))
 
 	switch e.Level {
 	case logrus.PanicLevel:

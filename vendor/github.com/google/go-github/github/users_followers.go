@@ -28,13 +28,13 @@ func (s *UsersService) ListFollowers(user string, opt *ListOptions) ([]*User, *R
 		return nil, nil, err
 	}
 
-	var users []*User
-	resp, err := s.client.Do(req, &users)
+	users := new([]*User)
+	resp, err := s.client.Do(req, users)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return users, resp, nil
+	return *users, resp, err
 }
 
 // ListFollowing lists the people that a user is following.  Passing the empty
@@ -58,13 +58,13 @@ func (s *UsersService) ListFollowing(user string, opt *ListOptions) ([]*User, *R
 		return nil, nil, err
 	}
 
-	var users []*User
-	resp, err := s.client.Do(req, &users)
+	users := new([]*User)
+	resp, err := s.client.Do(req, users)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return users, resp, nil
+	return *users, resp, err
 }
 
 // IsFollowing checks if "user" is following "target".  Passing the empty

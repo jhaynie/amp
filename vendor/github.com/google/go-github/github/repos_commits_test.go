@@ -70,10 +70,9 @@ func TestRepositoriesService_GetCommit(t *testing.T) {
 		      "deletions": 2,
 		      "changes": 12,
 		      "status": "s",
-		      "patch": "p",
-		      "blob_url": "b",
 		      "raw_url": "r",
-		      "contents_url": "c"
+		      "blob_url": "b",
+		      "patch": "p"
 		    }
 		  ]
 		}`)
@@ -107,15 +106,12 @@ func TestRepositoriesService_GetCommit(t *testing.T) {
 		},
 		Files: []CommitFile{
 			{
-				Filename:    String("f"),
-				Additions:   Int(10),
-				Deletions:   Int(2),
-				Changes:     Int(12),
-				Status:      String("s"),
-				Patch:       String("p"),
-				BlobURL:     String("b"),
-				RawURL:      String("r"),
-				ContentsURL: String("c"),
+				Filename:  String("f"),
+				Additions: Int(10),
+				Deletions: Int(2),
+				Changes:   Int(12),
+				Status:    String("s"),
+				Patch:     String("p"),
 			},
 		},
 	}
@@ -180,7 +176,7 @@ func TestRepositoriesService_CompareCommits(t *testing.T) {
 		      "message": "m",
 		      "tree": { "sha": "t" }
 		    },
-		    "author": { "login": "l" },
+		    "author": { "login": "n" },
 		    "committer": { "login": "l" },
 		    "parents": [ { "sha": "s" } ]
 		  },
@@ -207,39 +203,21 @@ func TestRepositoriesService_CompareCommits(t *testing.T) {
 	}
 
 	want := &CommitsComparison{
-		BaseCommit: &RepositoryCommit{
-			SHA: String("s"),
-			Commit: &Commit{
-				Author:    &CommitAuthor{Name: String("n")},
-				Committer: &CommitAuthor{Name: String("n")},
-				Message:   String("m"),
-				Tree:      &Tree{SHA: String("t")},
-			},
-			Author:    &User{Login: String("l")},
-			Committer: &User{Login: String("l")},
-			Parents: []Commit{
-				{
-					SHA: String("s"),
-				},
-			},
-		},
 		Status:       String("s"),
 		AheadBy:      Int(1),
 		BehindBy:     Int(2),
 		TotalCommits: Int(1),
+		BaseCommit: &RepositoryCommit{
+			Commit: &Commit{
+				Author: &CommitAuthor{Name: String("n")},
+			},
+			Author:    &User{Login: String("l")},
+			Committer: &User{Login: String("l")},
+			Message:   String("m"),
+		},
 		Commits: []RepositoryCommit{
 			{
 				SHA: String("s"),
-				Commit: &Commit{
-					Author: &CommitAuthor{Name: String("n")},
-				},
-				Author:    &User{Login: String("l")},
-				Committer: &User{Login: String("l")},
-				Parents: []Commit{
-					{
-						SHA: String("s"),
-					},
-				},
 			},
 		},
 		Files: []CommitFile{
@@ -249,7 +227,7 @@ func TestRepositoriesService_CompareCommits(t *testing.T) {
 		},
 	}
 
-	if !reflect.DeepEqual(got, want) {
+	if reflect.DeepEqual(got, want) {
 		t.Errorf("Repositories.CompareCommits returned \n%+v, want \n%+v", got, want)
 	}
 }

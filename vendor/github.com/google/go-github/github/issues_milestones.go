@@ -66,13 +66,13 @@ func (s *IssuesService) ListMilestones(owner string, repo string, opt *Milestone
 		return nil, nil, err
 	}
 
-	var milestones []*Milestone
-	resp, err := s.client.Do(req, &milestones)
+	milestones := new([]*Milestone)
+	resp, err := s.client.Do(req, milestones)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return milestones, resp, nil
+	return *milestones, resp, err
 }
 
 // GetMilestone gets a single milestone.
@@ -91,7 +91,7 @@ func (s *IssuesService) GetMilestone(owner string, repo string, number int) (*Mi
 		return nil, resp, err
 	}
 
-	return milestone, resp, nil
+	return milestone, resp, err
 }
 
 // CreateMilestone creates a new milestone on the specified repository.
@@ -110,7 +110,7 @@ func (s *IssuesService) CreateMilestone(owner string, repo string, milestone *Mi
 		return nil, resp, err
 	}
 
-	return m, resp, nil
+	return m, resp, err
 }
 
 // EditMilestone edits a milestone.
@@ -129,7 +129,7 @@ func (s *IssuesService) EditMilestone(owner string, repo string, number int, mil
 		return nil, resp, err
 	}
 
-	return m, resp, nil
+	return m, resp, err
 }
 
 // DeleteMilestone deletes a milestone.

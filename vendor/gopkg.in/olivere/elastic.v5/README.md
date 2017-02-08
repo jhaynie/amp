@@ -108,9 +108,6 @@ You typically create one client for your app. Here's a complete example of
 creating a client, creating an index, adding a document, executing a search etc.
 
 ```go
-// Create a context
-ctx := context.Background()
-
 // Create a client
 client, err := elastic.NewClient()
 if err != nil {
@@ -118,7 +115,7 @@ if err != nil {
 }
 
 // Create an index
-_, err = client.CreateIndex("twitter").Do(ctx)
+_, err = client.CreateIndex("twitter").Do()
 if err != nil {
     // Handle error
     panic(err)
@@ -132,7 +129,7 @@ _, err = client.Index().
     Id("1").
     BodyJson(tweet).
     Refresh(true).
-    Do(ctx)
+    Do()
 if err != nil {
     // Handle error
     panic(err)
@@ -146,7 +143,7 @@ searchResult, err := client.Search().
     Sort("user", true). // sort by "user" field, ascending
     From(0).Size(10).   // take documents 0-9
     Pretty(true).       // pretty print request and response JSON
-    Do(ctx)             // execute
+    Do()                // execute
 if err != nil {
     // Handle error
     panic(err)
@@ -193,7 +190,7 @@ if searchResult.Hits.TotalHits > 0 {
 }
 
 // Delete the index again
-_, err = client.DeleteIndex("twitter").Do(ctx)
+_, err = client.DeleteIndex("twitter").Do()
 if err != nil {
     // Handle error
     panic(err)
@@ -281,7 +278,7 @@ See the [wiki](https://github.com/olivere/elastic/wiki) for more details.
   - [x] Max Bucket
   - [x] Min Bucket
   - [x] Sum Bucket
-  - [x] Stats Bucket
+  - [ ] Stats Bucket
   - [ ] Extended Stats Bucket
   - [ ] Percentiles Bucket
   - [x] Moving Average
@@ -309,7 +306,7 @@ See the [wiki](https://github.com/olivere/elastic/wiki) for more details.
 - [x] Index Aliases
 - [x] Update Indices Settings
 - [x] Get Settings
-- [x] Analyze
+- [ ] Analyze
 - [x] Index Templates
 - [ ] Shadow Replica Indices
 - [x] Indices Stats

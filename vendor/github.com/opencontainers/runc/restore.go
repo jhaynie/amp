@@ -83,9 +83,6 @@ using the runc checkpoint command.`,
 		},
 	},
 	Action: func(context *cli.Context) error {
-		if err := checkArgs(context, 1, exactArgs); err != nil {
-			return err
-		}
 		imagePath := context.String("image-path")
 		id := context.Args().First()
 		if id == "" {
@@ -150,7 +147,7 @@ func restoreContainer(context *cli.Context, spec *specs.Spec, config *configs.Co
 
 	setManageCgroupsMode(context, options)
 
-	if err = setEmptyNsMask(context, options); err != nil {
+	if err := setEmptyNsMask(context, options); err != nil {
 		return -1, err
 	}
 
@@ -161,30 +158,29 @@ func restoreContainer(context *cli.Context, spec *specs.Spec, config *configs.Co
 		defer destroy(container)
 	}
 	process := &libcontainer.Process{}
-	tty, err := setupIO(process, rootuid, rootgid, false, detach)
+	tty, err := setupIO(process, rootuid, rootgid, "", false, detach)
 	if err != nil {
 		return -1, err
 	}
-	handler := newSignalHandler(!context.Bool("no-subreaper"))
+	defer tty.Close()
+	handler := newSignalHandler(tty, !context.Bool("no-subreaper"))
 	if err := container.Restore(process, options); err != nil {
 		return -1, err
 	}
-	// We don't need to do a tty.recvtty because config.Terminal is always false.
-	defer tty.Close()
 	if err := tty.ClosePostStart(); err != nil {
 		return -1, err
 	}
 	if pidFile := context.String("pid-file"); pidFile != "" {
 		if err := createPidFile(pidFile, process); err != nil {
-			_ = process.Signal(syscall.SIGKILL)
-			_, _ = process.Wait()
+			process.Signal(syscall.SIGKILL)
+			process.Wait()
 			return -1, err
 		}
 	}
 	if detach {
 		return 0, nil
 	}
-	return handler.forward(process, tty)
+	return handler.forward(process)
 }
 
 func criuOptions(context *cli.Context) *libcontainer.CriuOpts {

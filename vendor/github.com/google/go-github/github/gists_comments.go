@@ -38,13 +38,13 @@ func (s *GistsService) ListComments(gistID string, opt *ListOptions) ([]*GistCom
 		return nil, nil, err
 	}
 
-	var comments []*GistComment
-	resp, err := s.client.Do(req, &comments)
+	comments := new([]*GistComment)
+	resp, err := s.client.Do(req, comments)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return comments, resp, nil
+	return *comments, resp, err
 }
 
 // GetComment retrieves a single comment from a gist.

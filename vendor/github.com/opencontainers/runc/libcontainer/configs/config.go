@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/Sirupsen/logrus"
-	"github.com/opencontainers/runtime-spec/specs-go"
 )
 
 type Rlimit struct {
@@ -244,7 +243,13 @@ func (hooks Hooks) MarshalJSON() ([]byte, error) {
 }
 
 // HookState is the payload provided to a hook on execution.
-type HookState specs.State
+type HookState struct {
+	Version    string `json:"ociVersion"`
+	ID         string `json:"id"`
+	Pid        int    `json:"pid"`
+	Root       string `json:"root"`
+	BundlePath string `json:"bundlePath"`
+}
 
 type Hook interface {
 	// Run executes the hook with the provided state.

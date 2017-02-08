@@ -32,13 +32,13 @@ func (s GitignoresService) List() ([]string, *Response, error) {
 		return nil, nil, err
 	}
 
-	var availableTemplates []string
-	resp, err := s.client.Do(req, &availableTemplates)
+	availableTemplates := new([]string)
+	resp, err := s.client.Do(req, availableTemplates)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return availableTemplates, resp, nil
+	return *availableTemplates, resp, err
 }
 
 // Get a Gitignore by name.

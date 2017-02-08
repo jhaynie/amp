@@ -3,7 +3,7 @@ package specs
 // State holds information about the runtime state of the container.
 type State struct {
 	// Version is the version of the specification that is supported.
-	Version string `json:"ociVersion"`
+	Version string `json:"version"`
 	// ID is the container ID
 	ID string `json:"id"`
 	// Status is the runtime state of the container.

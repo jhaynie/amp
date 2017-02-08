@@ -51,6 +51,7 @@ type setnsProcess struct {
 	fds           []string
 	process       *Process
 	bootstrapData io.Reader
+	rootDir       *os.File
 }
 
 func (p *setnsProcess) startTime() (string, error) {
@@ -69,6 +70,7 @@ func (p *setnsProcess) start() (err error) {
 	defer p.parentPipe.Close()
 	err = p.cmd.Start()
 	p.childPipe.Close()
+	p.rootDir.Close()
 	if err != nil {
 		return newSystemErrorWithCause(err, "starting setns process")
 	}
@@ -98,41 +100,14 @@ func (p *setnsProcess) start() (err error) {
 		return newSystemErrorWithCause(err, "writing config to pipe")
 	}
 
-	ierr := parseSync(p.parentPipe, func(sync *syncT) error {
-		switch sync.Type {
-		case procConsole:
-			if err := writeSync(p.parentPipe, procConsoleReq); err != nil {
-				return newSystemErrorWithCause(err, "writing syncT 'request fd'")
-			}
-
-			masterFile, err := utils.RecvFd(p.parentPipe)
-			if err != nil {
-				return newSystemErrorWithCause(err, "getting master pty from child pipe")
-			}
-
-			if p.process.consoleChan == nil {
-				// TODO: Don't panic here, do something more sane.
-				panic("consoleChan is nil")
-			}
-			p.process.consoleChan <- masterFile
-
-			if err := writeSync(p.parentPipe, procConsoleAck); err != nil {
-				return newSystemErrorWithCause(err, "writing syncT 'ack fd'")
-			}
-		case procReady:
-			// This shouldn't happen.
-			panic("unexpected procReady in setns")
-		case procHooks:
-			// This shouldn't happen.
-			panic("unexpected procHooks in setns")
-		default:
-			return newSystemError(fmt.Errorf("invalid JSON payload from child"))
-		}
-		return nil
-	})
-
 	if err := syscall.Shutdown(int(p.parentPipe.Fd()), syscall.SHUT_WR); err != nil {
 		return newSystemErrorWithCause(err, "calling shutdown on init pipe")
+	}
+	// wait for the child process to fully complete and receive an error message
+	// if one was encoutered
+	var ierr *genericError
+	if err := json.NewDecoder(p.parentPipe).Decode(&ierr); err != nil && err != io.EOF {
+		return newSystemErrorWithCause(err, "decoding init error from pipe")
 	}
 	// Must be done after Shutdown so the child will exit and we can wait for it.
 	if ierr != nil {
@@ -295,31 +270,22 @@ func (p *initProcess) start() error {
 		return newSystemErrorWithCause(err, "sending config to init process")
 	}
 	var (
+		procSync   syncT
 		sentRun    bool
 		sentResume bool
+		ierr       *genericError
 	)
 
-	ierr := parseSync(p.parentPipe, func(sync *syncT) error {
-		switch sync.Type {
-		case procConsole:
-			if err := writeSync(p.parentPipe, procConsoleReq); err != nil {
-				return newSystemErrorWithCause(err, "writing syncT 'request fd'")
+	dec := json.NewDecoder(p.parentPipe)
+loop:
+	for {
+		if err := dec.Decode(&procSync); err != nil {
+			if err == io.EOF {
+				break loop
 			}
-
-			masterFile, err := utils.RecvFd(p.parentPipe)
-			if err != nil {
-				return newSystemErrorWithCause(err, "getting master pty from child pipe")
-			}
-
-			if p.process.consoleChan == nil {
-				// TODO: Don't panic here, do something more sane.
-				panic("consoleChan is nil")
-			}
-			p.process.consoleChan <- masterFile
-
-			if err := writeSync(p.parentPipe, procConsoleAck); err != nil {
-				return newSystemErrorWithCause(err, "writing syncT 'ack fd'")
-			}
+			return newSystemErrorWithCause(err, "decoding sync type from init pipe")
+		}
+		switch procSync.Type {
 		case procReady:
 			if err := p.manager.Set(p.config.Config); err != nil {
 				return newSystemErrorWithCause(err, "setting cgroup config for ready process")
@@ -337,10 +303,10 @@ func (p *initProcess) start() error {
 			if !p.config.Config.Namespaces.Contains(configs.NEWNS) {
 				if p.config.Config.Hooks != nil {
 					s := configs.HookState{
-						Version:    p.container.config.Version,
-						ID:         p.container.id,
-						Pid:        p.pid(),
-						BundlePath: utils.SearchLabels(p.config.Config.Labels, "bundle"),
+						Version: p.container.config.Version,
+						ID:      p.container.id,
+						Pid:     p.pid(),
+						Root:    p.config.Config.Rootfs,
 					}
 					for i, hook := range p.config.Config.Hooks.Prestart {
 						if err := hook.Run(s); err != nil {
@@ -350,8 +316,8 @@ func (p *initProcess) start() error {
 				}
 			}
 			// Sync with child.
-			if err := writeSync(p.parentPipe, procRun); err != nil {
-				return newSystemErrorWithCause(err, "writing syncT 'run'")
+			if err := utils.WriteJSON(p.parentPipe, syncT{procRun}); err != nil {
+				return newSystemErrorWithCause(err, "writing syncT run type")
 			}
 			sentRun = true
 		case procHooks:
@@ -360,6 +326,7 @@ func (p *initProcess) start() error {
 					Version:    p.container.config.Version,
 					ID:         p.container.id,
 					Pid:        p.pid(),
+					Root:       p.config.Config.Rootfs,
 					BundlePath: utils.SearchLabels(p.config.Config.Labels, "bundle"),
 				}
 				for i, hook := range p.config.Config.Hooks.Prestart {
@@ -369,17 +336,25 @@ func (p *initProcess) start() error {
 				}
 			}
 			// Sync with child.
-			if err := writeSync(p.parentPipe, procResume); err != nil {
-				return newSystemErrorWithCause(err, "writing syncT 'resume'")
+			if err := utils.WriteJSON(p.parentPipe, syncT{procResume}); err != nil {
+				return newSystemErrorWithCause(err, "writing syncT resume type")
 			}
 			sentResume = true
+		case procError:
+			// wait for the child process to fully complete and receive an error message
+			// if one was encoutered
+			if err := dec.Decode(&ierr); err != nil && err != io.EOF {
+				return newSystemErrorWithCause(err, "decoding proc error from init")
+			}
+			if ierr != nil {
+				break loop
+			}
+			// Programmer error.
+			panic("No error following JSON procError payload.")
 		default:
 			return newSystemError(fmt.Errorf("invalid JSON payload from child"))
 		}
-
-		return nil
-	})
-
+	}
 	if !sentRun {
 		return newSystemErrorWithCause(ierr, "container init")
 	}
@@ -389,7 +364,6 @@ func (p *initProcess) start() error {
 	if err := syscall.Shutdown(int(p.parentPipe.Fd()), syscall.SHUT_WR); err != nil {
 		return newSystemErrorWithCause(err, "shutting down init pipe")
 	}
-
 	// Must be done after Shutdown so the child will exit and we can wait for it.
 	if ierr != nil {
 		p.wait()
@@ -466,8 +440,6 @@ func getPipeFds(pid int) ([]string, error) {
 
 	dirPath := filepath.Join("/proc", strconv.Itoa(pid), "/fd")
 	for i := 0; i < 3; i++ {
-		// XXX: This breaks if the path is not a valid symlink (which can
-		//      happen in certain particularly unlucky mount namespace setups).
 		f := filepath.Join(dirPath, strconv.Itoa(i))
 		target, err := os.Readlink(f)
 		if err != nil {
@@ -478,10 +450,8 @@ func getPipeFds(pid int) ([]string, error) {
 	return fds, nil
 }
 
-// InitializeIO creates pipes for use with the process's stdio and returns the
-// opposite side for each. Do not use this if you want to have a pseudoterminal
-// set up for you by libcontainer (TODO: fix that too).
-// TODO: This is mostly unnecessary, and should be handled by clients.
+// InitializeIO creates pipes for use with the process's STDIO
+// and returns the opposite side for each
 func (p *Process) InitializeIO(rootuid, rootgid int) (i *IO, err error) {
 	var fds []uintptr
 	i = &IO{}

@@ -60,6 +60,7 @@ func runPoststopHooks(c *linuxContainer) error {
 		s := configs.HookState{
 			Version:    c.config.Version,
 			ID:         c.id,
+			Root:       c.config.Rootfs,
 			BundlePath: utils.SearchLabels(c.config.Labels, "bundle"),
 		}
 		for _, hook := range c.config.Hooks.Poststop {
@@ -195,7 +196,7 @@ func (p *pausedState) destroy() error {
 	return newGenericError(fmt.Errorf("container is paused"), ContainerPaused)
 }
 
-// restoredState is the same as the running state but also has associated checkpoint
+// restoredState is the same as the running state but also has accociated checkpoint
 // information that maybe need destroyed when the container is stopped and destroy is called.
 type restoredState struct {
 	imageDir string

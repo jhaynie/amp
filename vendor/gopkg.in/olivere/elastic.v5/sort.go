@@ -113,9 +113,7 @@ func (s *ScoreSort) Source() (interface{}, error) {
 	x := make(map[string]interface{})
 	source["_score"] = x
 	if s.ascending {
-		x["order"] = "asc"
-	} else {
-		x["order"] = "desc"
+		x["reverse"] = true
 	}
 	return source, nil
 }
@@ -267,6 +265,8 @@ type GeoDistanceSort struct {
 func NewGeoDistanceSort(fieldName string) *GeoDistanceSort {
 	return &GeoDistanceSort{
 		fieldName: fieldName,
+		points:    make([]*GeoPoint, 0),
+		geohashes: make([]string, 0),
 		ascending: true,
 	}
 }
@@ -374,10 +374,8 @@ func (s *GeoDistanceSort) Source() (interface{}, error) {
 		x["distance_type"] = *s.geoDistance
 	}
 
-	if s.ascending {
-		x["order"] = "asc"
-	} else {
-		x["order"] = "desc"
+	if !s.ascending {
+		x["reverse"] = true
 	}
 	if s.sortMode != nil {
 		x["mode"] = *s.sortMode
@@ -483,10 +481,8 @@ func (s *ScriptSort) Source() (interface{}, error) {
 
 	x["type"] = s.typ
 
-	if s.ascending {
-		x["order"] = "asc"
-	} else {
-		x["order"] = "desc"
+	if !s.ascending {
+		x["reverse"] = true
 	}
 	if s.sortMode != nil {
 		x["mode"] = *s.sortMode

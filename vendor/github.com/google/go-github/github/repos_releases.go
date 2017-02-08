@@ -76,12 +76,12 @@ func (s *RepositoriesService) ListReleases(owner, repo string, opt *ListOptions)
 		return nil, nil, err
 	}
 
-	var releases []*RepositoryRelease
-	resp, err := s.client.Do(req, &releases)
+	releases := new([]*RepositoryRelease)
+	resp, err := s.client.Do(req, releases)
 	if err != nil {
 		return nil, resp, err
 	}
-	return releases, resp, nil
+	return *releases, resp, err
 }
 
 // GetRelease fetches a single release.
@@ -188,12 +188,12 @@ func (s *RepositoriesService) ListReleaseAssets(owner, repo string, id int, opt 
 		return nil, nil, err
 	}
 
-	var assets []*ReleaseAsset
-	resp, err := s.client.Do(req, &assets)
+	assets := new([]*ReleaseAsset)
+	resp, err := s.client.Do(req, assets)
 	if err != nil {
-		return nil, resp, err
+		return nil, resp, nil
 	}
-	return assets, resp, nil
+	return *assets, resp, err
 }
 
 // GetReleaseAsset fetches a single release asset.
@@ -210,7 +210,7 @@ func (s *RepositoriesService) GetReleaseAsset(owner, repo string, id int) (*Rele
 	asset := new(ReleaseAsset)
 	resp, err := s.client.Do(req, asset)
 	if err != nil {
-		return nil, resp, err
+		return nil, resp, nil
 	}
 	return asset, resp, err
 }
@@ -248,7 +248,7 @@ func (s *RepositoriesService) DownloadReleaseAsset(owner, repo string, id int) (
 		if !strings.Contains(err.Error(), "disable redirect") {
 			return nil, "", err
 		}
-		return nil, loc, nil // Intentionally return no error with valid redirect URL.
+		return nil, loc, nil
 	}
 
 	if err := CheckResponse(resp); err != nil {

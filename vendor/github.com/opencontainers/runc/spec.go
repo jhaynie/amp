@@ -48,9 +48,9 @@ In the run command above, "container1" is the name for the instance of the
 container that you are starting. The name you provide for the container instance
 must be unique on your host.
 
-An alternative for generating a customized spec config is to use "oci-runtime-tool", the
-sub-command "oci-runtime-tool generate" has lots of options that can be used to do any
-customizations as you want, see [runtime-tools](https://github.com/opencontainers/runtime-tools)
+An alternative for generating a customized spec config is to use "ocitools", the
+sub-command "ocitools generate" has lots of options that can be used to do any
+customizations as you want, see [ocitools](https://github.com/opencontainers/ocitools)
 to get more information.
 
 When starting a container through runc, runc needs root privilege. If not
@@ -65,9 +65,6 @@ container on your host.`,
 		},
 	},
 	Action: func(context *cli.Context) error {
-		if err := checkArgs(context, 0, exactArgs); err != nil {
-			return err
-		}
 		spec := specs.Spec{
 			Version: specs.Version,
 			Platform: specs.Platform{
@@ -95,7 +92,7 @@ container on your host.`,
 					"CAP_KILL",
 					"CAP_NET_BIND_SERVICE",
 				},
-				Rlimits: []specs.LinuxRlimit{
+				Rlimits: []specs.Rlimit{
 					{
 						Type: "RLIMIT_NOFILE",
 						Hard: uint64(1024),
@@ -165,15 +162,15 @@ container on your host.`,
 					"/proc/sys",
 					"/proc/sysrq-trigger",
 				},
-				Resources: &specs.LinuxResources{
-					Devices: []specs.LinuxDeviceCgroup{
+				Resources: &specs.Resources{
+					Devices: []specs.DeviceCgroup{
 						{
 							Allow:  false,
 							Access: sPtr("rwm"),
 						},
 					},
 				},
-				Namespaces: []specs.LinuxNamespace{
+				Namespaces: []specs.Namespace{
 					{
 						Type: "pid",
 					},
@@ -223,7 +220,11 @@ container on your host.`,
 	},
 }
 
-func sPtr(s string) *string { return &s }
+func sPtr(s string) *string      { return &s }
+func rPtr(r rune) *rune          { return &r }
+func iPtr(i int64) *int64        { return &i }
+func u32Ptr(i int64) *uint32     { u := uint32(i); return &u }
+func fmPtr(i int64) *os.FileMode { fm := os.FileMode(i); return &fm }
 
 // loadSpec loads the specification from the provided path.
 func loadSpec(cPath string) (spec *specs.Spec, err error) {
@@ -245,15 +246,15 @@ func loadSpec(cPath string) (spec *specs.Spec, err error) {
 	return spec, validateProcessSpec(&spec.Process)
 }
 
-func createLibContainerRlimit(rlimit specs.LinuxRlimit) (configs.Rlimit, error) {
+func createLibContainerRlimit(rlimit specs.Rlimit) (configs.Rlimit, error) {
 	rl, err := strToRlimit(rlimit.Type)
 	if err != nil {
 		return configs.Rlimit{}, err
 	}
 	return configs.Rlimit{
 		Type: rl,
-		Hard: rlimit.Hard,
-		Soft: rlimit.Soft,
+		Hard: uint64(rlimit.Hard),
+		Soft: uint64(rlimit.Soft),
 	}, nil
 }
 

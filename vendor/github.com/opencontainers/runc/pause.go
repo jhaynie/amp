@@ -20,10 +20,11 @@ paused. `,
 
 Use runc list to identiy instances of containers and their current status.`,
 	Action: func(context *cli.Context) error {
-		if err := checkArgs(context, 1, minArgs); err != nil {
-			return err
-		}
 		hasError := false
+		if !context.Args().Present() {
+			return fmt.Errorf("runc: \"pause\" requires a minimum of 1 argument")
+		}
+
 		factory, err := loadFactory(context)
 		if err != nil {
 			return err
@@ -60,10 +61,11 @@ resumed.`,
 
 Use runc list to identiy instances of containers and their current status.`,
 	Action: func(context *cli.Context) error {
-		if err := checkArgs(context, 1, minArgs); err != nil {
-			return err
-		}
 		hasError := false
+		if !context.Args().Present() {
+			return fmt.Errorf("runc: \"resume\" requires a minimum of 1 argument")
+		}
+
 		factory, err := loadFactory(context)
 		if err != nil {
 			return err

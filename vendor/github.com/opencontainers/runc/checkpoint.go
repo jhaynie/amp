@@ -34,9 +34,6 @@ checkpointed.`,
 		cli.StringSliceFlag{Name: "empty-ns", Usage: "create a namespace, but don't restore its properies"},
 	},
 	Action: func(context *cli.Context) error {
-		if err := checkArgs(context, 1, exactArgs); err != nil {
-			return err
-		}
 		container, err := getContainer(context)
 		if err != nil {
 			return err
@@ -105,7 +102,7 @@ func setManageCgroupsMode(context *cli.Context, options *libcontainer.CriuOpts) 
 	}
 }
 
-var namespaceMapping = map[specs.LinuxNamespaceType]int{
+var namespaceMapping = map[specs.NamespaceType]int{
 	specs.NetworkNamespace: syscall.CLONE_NEWNET,
 }
 
@@ -113,7 +110,7 @@ func setEmptyNsMask(context *cli.Context, options *libcontainer.CriuOpts) error 
 	var nsmask int
 
 	for _, ns := range context.StringSlice("empty-ns") {
-		f, exists := namespaceMapping[specs.LinuxNamespaceType(ns)]
+		f, exists := namespaceMapping[specs.NamespaceType(ns)]
 		if !exists {
 			return fmt.Errorf("namespace %q is not supported", ns)
 		}

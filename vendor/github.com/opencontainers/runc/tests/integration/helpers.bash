@@ -3,7 +3,6 @@
 # Root directory of integration tests.
 INTEGRATION_ROOT=$(dirname "$(readlink -f "$BASH_SOURCE")")
 RUNC="${INTEGRATION_ROOT}/../../runc"
-RECVTTY="${INTEGRATION_ROOT}/../../contrib/cmd/recvtty/recvtty"
 GOPATH="${INTEGRATION_ROOT}/../../../.."
 
 # Test data path.
@@ -18,7 +17,7 @@ HELLO_IMAGE="$TESTDATA/hello-world.tar"
 HELLO_BUNDLE="$BATS_TMPDIR/hello-world"
 
 # CRIU PATH
-CRIU="$(which criu)"
+CRIU="/usr/local/sbin/criu"
 
 # Kernel version
 KERNEL_VERSION="$(uname -r)"
@@ -29,16 +28,11 @@ KERNEL_MINOR="${KERNEL_MINOR%%.*}"
 # Root state path.
 ROOT="$BATS_TMPDIR/runc"
 
-# Path to console socket.
-CONSOLE_SOCKET="$BATS_TMPDIR/console.sock"
-
 # Cgroup mount
-CGROUP_MEMORY_BASE_PATH=$(grep "cgroup" /proc/self/mountinfo | gawk 'toupper($NF) ~ /\<MEMORY\>/ { print $5; exit }')
-CGROUP_CPU_BASE_PATH=$(grep "cgroup" /proc/self/mountinfo | gawk 'toupper($NF) ~ /\<CPU\>/ { print $5; exit }')
+CGROUP_BASE_PATH=$(grep "cgroup" /proc/self/mountinfo | gawk 'toupper($NF) ~ /\<MEMORY\>/ { print $5; exit }')
 
 # CONFIG_MEMCG_KMEM support
-KMEM="${CGROUP_MEMORY_BASE_PATH}/memory.kmem.limit_in_bytes"
-RT_PERIOD="${CGROUP_CPU_BASE_PATH}/cpu.rt_period_us"
+KMEM="${CGROUP_BASE_PATH}/memory.kmem.limit_in_bytes"
 
 # Wrapper for runc.
 function runc() {
@@ -73,11 +67,6 @@ function requires() {
 				;;
 			cgroups_kmem)
 				if [ ! -e "$KMEM" ]; then
-					skip "Test requires ${var}."
-				fi
-				;;
-			cgroups_rt)
-				if [ ! -e "$RT_PERIOD" ]; then
 					skip "Test requires ${var}."
 				fi
 				;;
@@ -153,31 +142,14 @@ function testcontainer() {
 	[[ "${output}" == *"$2"* ]]
 }
 
-function setup_recvtty() {
-	# We need to start recvtty in the background, so we double fork in the shell.
-	("$RECVTTY" --pid-file "$BATS_TMPDIR/recvtty.pid" --mode null "$CONSOLE_SOCKET" &) &
-}
-
-function teardown_recvtty() {
-	# When we kill recvtty, the container will also be killed.
-	if [ -f "$BATS_TMPDIR/recvtty.pid" ]; then
-		kill -9 $(cat "$BATS_TMPDIR/recvtty.pid")
-	fi
-
-	# Clean up the files that might be left over.
-	rm -f "$BATS_TMPDIR/recvtty.pid"
-	rm -f "$CONSOLE_SOCKET"
-}
-
 function setup_busybox() {
-	setup_recvtty
 	run mkdir "$BUSYBOX_BUNDLE"
 	run mkdir "$BUSYBOX_BUNDLE"/rootfs
 	if [ -e "/testdata/busybox.tar" ]; then
 		BUSYBOX_IMAGE="/testdata/busybox.tar"
 	fi
 	if [ ! -e $BUSYBOX_IMAGE ]; then
-		curl -o $BUSYBOX_IMAGE -sSL 'https://github.com/docker-library/busybox/raw/a0558a9006ce0dd6f6ec5d56cfd3f32ebeeb815f/glibc/busybox.tar.xz'
+		curl -o $BUSYBOX_IMAGE -sSL 'https://github.com/jpetazzo/docker-busybox/raw/buildroot-2014.11/rootfs.tar'
 	fi
 	tar -C "$BUSYBOX_BUNDLE"/rootfs -xf "$BUSYBOX_IMAGE"
 	cd "$BUSYBOX_BUNDLE"
@@ -185,7 +157,6 @@ function setup_busybox() {
 }
 
 function setup_hello() {
-	setup_recvtty
 	run mkdir "$HELLO_BUNDLE"
 	run mkdir "$HELLO_BUNDLE"/rootfs
 	tar -C "$HELLO_BUNDLE"/rootfs -xf "$HELLO_IMAGE"
@@ -196,10 +167,7 @@ function setup_hello() {
 
 function teardown_running_container() {
 	runc list
-	# $1 should be a container name such as "test_busybox"
-	# here we detect "test_busybox "(with one extra blank) to avoid conflict prefix
-	# e.g. "test_busybox" and "test_busybox_update"
-	if [[ "${output}" == *"$1 "* ]]; then
+	if [[ "${output}" == *"$1"* ]]; then
 		runc kill $1 KILL
 		retry 10 1 eval "__runc state '$1' | grep -q 'stopped'"
 		runc delete $1
@@ -208,10 +176,7 @@ function teardown_running_container() {
 
 function teardown_running_container_inroot() {
 	ROOT=$2 runc list
-	# $1 should be a container name such as "test_busybox"
-	# here we detect "test_busybox "(with one extra blank) to avoid conflict prefix
-	# e.g. "test_busybox" and "test_busybox_update"
-	if [[ "${output}" == *"$1 "* ]]; then
+	if [[ "${output}" == *"$1"* ]]; then
 		ROOT=$2 runc kill $1 KILL
 		retry 10 1 eval "ROOT='$2' __runc state '$1' | grep -q 'stopped'"
 		ROOT=$2 runc delete $1
@@ -220,14 +185,12 @@ function teardown_running_container_inroot() {
 
 function teardown_busybox() {
 	cd "$INTEGRATION_ROOT"
-	teardown_recvtty
 	teardown_running_container test_busybox
 	run rm -f -r "$BUSYBOX_BUNDLE"
 }
 
 function teardown_hello() {
 	cd "$INTEGRATION_ROOT"
-	teardown_recvtty
 	teardown_running_container test_hello
 	run rm -f -r "$HELLO_BUNDLE"
 }

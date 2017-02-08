@@ -2,7 +2,6 @@ package integration
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -39,12 +38,12 @@ func testExecPS(t *testing.T, userns bool) {
 	defer remove(rootfs)
 	config := newTemplateConfig(rootfs)
 	if userns {
-		config.UidMappings = []configs.IDMap{{HostID: 0, ContainerID: 0, Size: 1000}}
-		config.GidMappings = []configs.IDMap{{HostID: 0, ContainerID: 0, Size: 1000}}
+		config.UidMappings = []configs.IDMap{{0, 0, 1000}}
+		config.GidMappings = []configs.IDMap{{0, 0, 1000}}
 		config.Namespaces = append(config.Namespaces, configs.Namespace{Type: configs.NEWUSER})
 	}
 
-	buffers, exitCode, err := runContainer(config, "", "ps", "-o", "pid,user,comm")
+	buffers, exitCode, err := runContainer(config, "", "ps")
 	if err != nil {
 		t.Fatalf("%s: %s", buffers, err)
 	}
@@ -181,8 +180,8 @@ func testRlimit(t *testing.T, userns bool) {
 
 	config := newTemplateConfig(rootfs)
 	if userns {
-		config.UidMappings = []configs.IDMap{{HostID: 0, ContainerID: 0, Size: 1000}}
-		config.GidMappings = []configs.IDMap{{HostID: 0, ContainerID: 0, Size: 1000}}
+		config.UidMappings = []configs.IDMap{{0, 0, 1000}}
+		config.GidMappings = []configs.IDMap{{0, 0, 1000}}
 		config.Namespaces = append(config.Namespaces, configs.Namespace{Type: configs.NEWUSER})
 	}
 
@@ -1049,32 +1048,17 @@ func TestHook(t *testing.T) {
 	if testing.Short() {
 		return
 	}
-
-	bundle, err := newTestBundle()
+	root, err := newTestRoot()
 	ok(t, err)
-	defer remove(bundle)
+	defer os.RemoveAll(root)
 
 	rootfs, err := newRootfs()
 	ok(t, err)
 	defer remove(rootfs)
 
 	config := newTemplateConfig(rootfs)
-	expectedBundlePath := bundle
+	expectedBundlePath := "/path/to/bundle/path"
 	config.Labels = append(config.Labels, fmt.Sprintf("bundle=%s", expectedBundlePath))
-
-	getRootfsFromBundle := func(bundle string) (string, error) {
-		f, err := os.Open(filepath.Join(bundle, "config.json"))
-		if err != nil {
-			return "", err
-		}
-
-		var config configs.Config
-		if err = json.NewDecoder(f).Decode(&config); err != nil {
-			return "", err
-		}
-		return config.Rootfs, nil
-	}
-
 	config.Hooks = &configs.Hooks{
 		Prestart: []configs.Hook{
 			configs.NewFunctionHook(func(s configs.HookState) error {
@@ -1082,11 +1066,7 @@ func TestHook(t *testing.T) {
 					t.Fatalf("Expected prestart hook bundlePath '%s'; got '%s'", expectedBundlePath, s.BundlePath)
 				}
 
-				root, err := getRootfsFromBundle(s.BundlePath)
-				if err != nil {
-					return err
-				}
-				f, err := os.Create(filepath.Join(root, "test"))
+				f, err := os.Create(filepath.Join(s.Root, "test"))
 				if err != nil {
 					return err
 				}
@@ -1099,11 +1079,7 @@ func TestHook(t *testing.T) {
 					t.Fatalf("Expected poststart hook bundlePath '%s'; got '%s'", expectedBundlePath, s.BundlePath)
 				}
 
-				root, err := getRootfsFromBundle(s.BundlePath)
-				if err != nil {
-					return err
-				}
-				return ioutil.WriteFile(filepath.Join(root, "test"), []byte("hello world"), 0755)
+				return ioutil.WriteFile(filepath.Join(s.Root, "test"), []byte("hello world"), 0755)
 			}),
 		},
 		Poststop: []configs.Hook{
@@ -1112,20 +1088,10 @@ func TestHook(t *testing.T) {
 					t.Fatalf("Expected poststop hook bundlePath '%s'; got '%s'", expectedBundlePath, s.BundlePath)
 				}
 
-				root, err := getRootfsFromBundle(s.BundlePath)
-				if err != nil {
-					return err
-				}
-				return os.RemoveAll(filepath.Join(root, "test"))
+				return os.RemoveAll(filepath.Join(s.Root, "test"))
 			}),
 		},
 	}
-
-	// write config of json format into config.json under bundle
-	f, err := os.OpenFile(filepath.Join(bundle, "config.json"), os.O_CREATE|os.O_RDWR, 0644)
-	ok(t, err)
-	ok(t, json.NewEncoder(f).Encode(config))
-
 	container, err := factory.Create("test", config)
 	ok(t, err)
 
@@ -1565,8 +1531,8 @@ func TestInitJoinNetworkAndUser(t *testing.T) {
 
 	// Execute a long-running container
 	config1 := newTemplateConfig(rootfs)
-	config1.UidMappings = []configs.IDMap{{HostID: 0, ContainerID: 0, Size: 1000}}
-	config1.GidMappings = []configs.IDMap{{HostID: 0, ContainerID: 0, Size: 1000}}
+	config1.UidMappings = []configs.IDMap{{0, 0, 1000}}
+	config1.GidMappings = []configs.IDMap{{0, 0, 1000}}
 	config1.Namespaces = append(config1.Namespaces, configs.Namespace{Type: configs.NEWUSER})
 	container1, err := newContainer(config1)
 	ok(t, err)
@@ -1597,8 +1563,8 @@ func TestInitJoinNetworkAndUser(t *testing.T) {
 	defer remove(rootfs2)
 
 	config2 := newTemplateConfig(rootfs2)
-	config2.UidMappings = []configs.IDMap{{HostID: 0, ContainerID: 0, Size: 1000}}
-	config2.GidMappings = []configs.IDMap{{HostID: 0, ContainerID: 0, Size: 1000}}
+	config2.UidMappings = []configs.IDMap{{0, 0, 1000}}
+	config2.GidMappings = []configs.IDMap{{0, 0, 1000}}
 	config2.Namespaces.Add(configs.NEWNET, netns1)
 	config2.Namespaces.Add(configs.NEWUSER, userns1)
 	config2.Cgroups.Path = "integration/test2"

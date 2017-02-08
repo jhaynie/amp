@@ -74,13 +74,13 @@ func (s *PullRequestsService) ListComments(owner string, repo string, number int
 	// TODO: remove custom Accept header when this API fully launches.
 	req.Header.Set("Accept", mediaTypeReactionsPreview)
 
-	var comments []*PullRequestComment
-	resp, err := s.client.Do(req, &comments)
+	comments := new([]*PullRequestComment)
+	resp, err := s.client.Do(req, comments)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return comments, resp, nil
+	return *comments, resp, err
 }
 
 // GetComment fetches the specified pull request comment.
@@ -102,7 +102,7 @@ func (s *PullRequestsService) GetComment(owner string, repo string, number int) 
 		return nil, resp, err
 	}
 
-	return comment, resp, nil
+	return comment, resp, err
 }
 
 // CreateComment creates a new comment on the specified pull request.
@@ -121,7 +121,7 @@ func (s *PullRequestsService) CreateComment(owner string, repo string, number in
 		return nil, resp, err
 	}
 
-	return c, resp, nil
+	return c, resp, err
 }
 
 // EditComment updates a pull request comment.
@@ -140,7 +140,7 @@ func (s *PullRequestsService) EditComment(owner string, repo string, number int,
 		return nil, resp, err
 	}
 
-	return c, resp, nil
+	return c, resp, err
 }
 
 // DeleteComment deletes a pull request comment.

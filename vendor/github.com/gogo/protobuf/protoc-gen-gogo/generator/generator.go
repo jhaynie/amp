@@ -1672,11 +1672,7 @@ func (g *Generator) goTag(message *Descriptor, field *descriptor.FieldDescriptor
 		enum += CamelCaseSlice(obj.TypeName())
 	}
 	packed := ""
-	if (field.Options != nil && field.Options.GetPacked()) ||
-		// Per https://developers.google.com/protocol-buffers/docs/proto3#simple:
-		// "In proto3, repeated fields of scalar numeric types use packed encoding by default."
-		(message.proto3() && (field.Options == nil || field.Options.Packed == nil) &&
-			isRepeated(field) && IsScalar(field)) {
+	if field.Options != nil && field.Options.GetPacked() {
 		packed = ",packed"
 	}
 	fieldName := field.GetName()
@@ -1744,15 +1740,7 @@ func (g *Generator) goTag(message *Descriptor, field *descriptor.FieldDescriptor
 	if field.OneofIndex != nil {
 		oneof = ",oneof"
 	}
-	stdtime := ""
-	if gogoproto.IsStdTime(field) {
-		stdtime = ",stdtime"
-	}
-	stdduration := ""
-	if gogoproto.IsStdDuration(field) {
-		stdduration = ",stdduration"
-	}
-	return strconv.Quote(fmt.Sprintf("%s,%d,%s%s%s%s%s%s%s%s%s%s%s%s%s",
+	return strconv.Quote(fmt.Sprintf("%s,%d,%s%s%s%s%s%s%s%s%s%s%s",
 		wiretype,
 		field.GetNumber(),
 		optrepreq,
@@ -1765,9 +1753,7 @@ func (g *Generator) goTag(message *Descriptor, field *descriptor.FieldDescriptor
 		ctype,
 		casttype,
 		castkey,
-		castvalue,
-		stdtime,
-		stdduration))
+		castvalue))
 }
 
 func needsStar(field *descriptor.FieldDescriptorProto, proto3 bool, allowOneOf bool) bool {
@@ -1880,14 +1866,8 @@ func (g *Generator) GoType(message *Descriptor, field *descriptor.FieldDescripto
 		if len(packageName) > 0 {
 			g.customImports = append(g.customImports, packageName)
 		}
-	case gogoproto.IsStdTime(field):
-		g.customImports = append(g.customImports, "time")
-		typ = "time.Time"
-	case gogoproto.IsStdDuration(field):
-		g.customImports = append(g.customImports, "time")
-		typ = "time.Duration"
 	}
-	if needsStar(field, g.file.proto3 && field.Extendee == nil, message != nil && message.allowOneof()) {
+	if needsStar(field, g.file.proto3, message != nil && message.allowOneof()) {
 		typ = "*" + typ
 	}
 	if isRepeated(field) {
@@ -1958,9 +1938,7 @@ func (g *Generator) GoMapType(d *Descriptor, field *descriptor.FieldDescriptorPr
 		if !gogoproto.IsNullable(m.ValueAliasField) {
 			valType = strings.TrimPrefix(valType, "*")
 		}
-		if !gogoproto.IsStdTime(field) && !gogoproto.IsStdDuration(field) {
-			g.RecordTypeUse(m.ValueAliasField.GetTypeName())
-		}
+		g.RecordTypeUse(m.ValueAliasField.GetTypeName())
 	default:
 		if gogoproto.IsCustomType(m.ValueAliasField) {
 			if !gogoproto.IsNullable(m.ValueAliasField) {
@@ -2176,9 +2154,7 @@ func (g *Generator) generateMessage(message *Descriptor) {
 
 		g.PrintComments(fmt.Sprintf("%s,%d,%d", message.path, messageFieldPath, i))
 		g.P(fieldName, "\t", typename, "\t`", tag, "`")
-		if !gogoproto.IsStdTime(field) && !gogoproto.IsStdDuration(field) {
-			g.RecordTypeUse(field.GetTypeName())
-		}
+		g.RecordTypeUse(field.GetTypeName())
 	}
 	if len(message.ExtensionRange) > 0 {
 		if gogoproto.HasExtensionsMap(g.file.FileDescriptorProto, message.DescriptorProto) {
@@ -2407,9 +2383,7 @@ func (g *Generator) generateMessage(message *Descriptor) {
 			_, wiretype := g.GoType(message, field)
 			tag := "protobuf:" + g.goTag(message, field, wiretype)
 			g.P("type ", oneofTypeName[field], " struct{ ", fieldNames[field], " ", fieldTypes[field], " `", tag, "` }")
-			if !gogoproto.IsStdTime(field) && !gogoproto.IsStdDuration(field) {
-				g.RecordTypeUse(field.GetTypeName())
-			}
+			g.RecordTypeUse(field.GetTypeName())
 		}
 		g.P()
 		for _, field := range message.Field {
@@ -2551,11 +2525,7 @@ func (g *Generator) generateMessage(message *Descriptor) {
 				} else {
 					goTyp, _ := g.GoType(message, field)
 					goTypName := GoTypeToName(goTyp)
-					if !gogoproto.IsNullable(field) && gogoproto.IsStdDuration(field) {
-						g.P("return 0")
-					} else {
-						g.P("return ", goTypName, "{}")
-					}
+					g.P("return ", goTypName, "{}")
 				}
 			case descriptor.FieldDescriptorProto_TYPE_BOOL:
 				g.P("return false")
@@ -2712,41 +2682,13 @@ func (g *Generator) generateMessage(message *Descriptor) {
 				fieldWire[field] = wire
 				g.P("_ = b.EncodeVarint(", field.Number, "<<3|", g.Pkg["proto"], ".", wire, ")")
 				if *field.Type == descriptor.FieldDescriptorProto_TYPE_BYTES && gogoproto.IsCustomType(field) {
-					g.P(`dAtA, err := `, val, `.Marshal()`)
+					g.P(`data, err := `, val, `.Marshal()`)
 					g.P(`if err != nil {`)
 					g.In()
 					g.P(`return err`)
 					g.Out()
 					g.P(`}`)
-					val = "dAtA"
-				} else if gogoproto.IsStdTime(field) {
-					pkg := g.useTypes()
-					if gogoproto.IsNullable(field) {
-						g.P(`dAtA, err := `, pkg, `.StdTimeMarshal(*`, val, `)`)
-					} else {
-						g.P(`dAtA, err := `, pkg, `.StdTimeMarshal(`, val, `)`)
-					}
-					g.P(`if err != nil {`)
-					g.In()
-					g.P(`return err`)
-					g.Out()
-					g.P(`}`)
-					val = "dAtA"
-					pre, post = "b.EncodeRawBytes(", ")"
-				} else if gogoproto.IsStdDuration(field) {
-					pkg := g.useTypes()
-					if gogoproto.IsNullable(field) {
-						g.P(`dAtA, err := `, pkg, `.StdDurationMarshal(*`, val, `)`)
-					} else {
-						g.P(`dAtA, err := `, pkg, `.StdDurationMarshal(`, val, `)`)
-					}
-					g.P(`if err != nil {`)
-					g.In()
-					g.P(`return err`)
-					g.Out()
-					g.P(`}`)
-					val = "dAtA"
-					pre, post = "b.EncodeRawBytes(", ")"
+					val = "data"
 				}
 				if !canFail {
 					g.P("_ = ", pre, val, post)
@@ -2810,13 +2752,9 @@ func (g *Generator) generateMessage(message *Descriptor) {
 				dec = "b.DecodeGroup(msg)"
 				// handled specially below
 			case descriptor.FieldDescriptorProto_TYPE_MESSAGE:
-				if gogoproto.IsStdTime(field) || gogoproto.IsStdDuration(field) {
-					dec = "b.DecodeRawBytes(true)"
-				} else {
-					g.P("msg := new(", fieldTypes[field][1:], ")") // drop star
-					lhs = "err"
-					dec = "b.DecodeMessage(msg)"
-				}
+				g.P("msg := new(", fieldTypes[field][1:], ")") // drop star
+				lhs = "err"
+				dec = "b.DecodeMessage(msg)"
 				// handled specially below
 			case descriptor.FieldDescriptorProto_TYPE_BYTES:
 				dec = "b.DecodeRawBytes(true)"
@@ -2851,34 +2789,6 @@ func (g *Generator) generateMessage(message *Descriptor) {
 				g.P(`c := &cc`)
 				g.P(`err = c.Unmarshal(`, val, `)`)
 				val = "*c"
-			} else if gogoproto.IsStdTime(field) {
-				pkg := g.useTypes()
-				g.P(`if err != nil {`)
-				g.In()
-				g.P(`return true, err`)
-				g.Out()
-				g.P(`}`)
-				g.P(`c := new(time.Time)`)
-				g.P(`if err2 := `, pkg, `.StdTimeUnmarshal(c, `, val, `); err2 != nil {`)
-				g.In()
-				g.P(`return true, err`)
-				g.Out()
-				g.P(`}`)
-				val = "c"
-			} else if gogoproto.IsStdDuration(field) {
-				pkg := g.useTypes()
-				g.P(`if err != nil {`)
-				g.In()
-				g.P(`return true, err`)
-				g.Out()
-				g.P(`}`)
-				g.P(`c := new(time.Duration)`)
-				g.P(`if err2 := `, pkg, `.StdDurationUnmarshal(c, `, val, `); err2 != nil {`)
-				g.In()
-				g.P(`return true, err`)
-				g.Out()
-				g.P(`}`)
-				val = "c"
 			}
 			if cast != "" {
 				val = cast + "(" + val + ")"
@@ -2891,9 +2801,7 @@ func (g *Generator) generateMessage(message *Descriptor) {
 				val += " != 0"
 			case descriptor.FieldDescriptorProto_TYPE_GROUP,
 				descriptor.FieldDescriptorProto_TYPE_MESSAGE:
-				if !gogoproto.IsStdTime(field) && !gogoproto.IsStdDuration(field) {
-					val = "msg"
-				}
+				val = "msg"
 			}
 			if gogoproto.IsCastType(field) {
 				_, typ, err := getCastType(field)
@@ -2958,21 +2866,7 @@ func (g *Generator) generateMessage(message *Descriptor) {
 					fixed = g.Pkg["proto"] + ".Size(" + val + ")"
 				case descriptor.FieldDescriptorProto_TYPE_MESSAGE:
 					wire = "WireBytes"
-					if gogoproto.IsStdTime(field) {
-						if gogoproto.IsNullable(field) {
-							val = "*" + val
-						}
-						pkg := g.useTypes()
-						g.P("s := ", pkg, ".SizeOfStdTime(", val, ")")
-					} else if gogoproto.IsStdDuration(field) {
-						if gogoproto.IsNullable(field) {
-							val = "*" + val
-						}
-						pkg := g.useTypes()
-						g.P("s := ", pkg, ".SizeOfStdDuration(", val, ")")
-					} else {
-						g.P("s := ", g.Pkg["proto"], ".Size(", val, ")")
-					}
+					g.P("s := ", g.Pkg["proto"], ".Size(", val, ")")
 					fixed = "s"
 					varint = fixed
 				case descriptor.FieldDescriptorProto_TYPE_BYTES:
@@ -3247,32 +3141,6 @@ func isRequired(field *descriptor.FieldDescriptorProto) bool {
 // Is this field repeated?
 func isRepeated(field *descriptor.FieldDescriptorProto) bool {
 	return field.Label != nil && *field.Label == descriptor.FieldDescriptorProto_LABEL_REPEATED
-}
-
-// Is this field a scalar numeric type?
-func IsScalar(field *descriptor.FieldDescriptorProto) bool {
-	if field.Type == nil {
-		return false
-	}
-	switch *field.Type {
-	case descriptor.FieldDescriptorProto_TYPE_DOUBLE,
-		descriptor.FieldDescriptorProto_TYPE_FLOAT,
-		descriptor.FieldDescriptorProto_TYPE_INT64,
-		descriptor.FieldDescriptorProto_TYPE_UINT64,
-		descriptor.FieldDescriptorProto_TYPE_INT32,
-		descriptor.FieldDescriptorProto_TYPE_FIXED64,
-		descriptor.FieldDescriptorProto_TYPE_FIXED32,
-		descriptor.FieldDescriptorProto_TYPE_BOOL,
-		descriptor.FieldDescriptorProto_TYPE_UINT32,
-		descriptor.FieldDescriptorProto_TYPE_ENUM,
-		descriptor.FieldDescriptorProto_TYPE_SFIXED32,
-		descriptor.FieldDescriptorProto_TYPE_SFIXED64,
-		descriptor.FieldDescriptorProto_TYPE_SINT32,
-		descriptor.FieldDescriptorProto_TYPE_SINT64:
-		return true
-	default:
-		return false
-	}
 }
 
 // badToUnderscore is the mapping function used to generate Go names from package names,

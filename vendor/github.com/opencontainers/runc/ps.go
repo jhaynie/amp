@@ -25,9 +25,6 @@ var psCommand = cli.Command{
 		},
 	},
 	Action: func(context *cli.Context) error {
-		if err := checkArgs(context, 1, minArgs); err != nil {
-			return err
-		}
 		container, err := getContainer(context)
 		if err != nil {
 			return err
@@ -39,7 +36,10 @@ var psCommand = cli.Command{
 		}
 
 		if context.String("format") == "json" {
-			return json.NewEncoder(os.Stdout).Encode(pids)
+			if err := json.NewEncoder(os.Stdout).Encode(pids); err != nil {
+				return err
+			}
+			return nil
 		}
 
 		// [1:] is to remove command name, ex:

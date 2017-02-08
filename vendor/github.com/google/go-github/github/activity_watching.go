@@ -37,13 +37,13 @@ func (s *ActivityService) ListWatchers(owner, repo string, opt *ListOptions) ([]
 		return nil, nil, err
 	}
 
-	var watchers []*User
-	resp, err := s.client.Do(req, &watchers)
+	watchers := new([]*User)
+	resp, err := s.client.Do(req, watchers)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return watchers, resp, nil
+	return *watchers, resp, err
 }
 
 // ListWatched lists the repositories the specified user is watching.  Passing
@@ -67,13 +67,13 @@ func (s *ActivityService) ListWatched(user string, opt *ListOptions) ([]*Reposit
 		return nil, nil, err
 	}
 
-	var watched []*Repository
-	resp, err := s.client.Do(req, &watched)
+	watched := new([]*Repository)
+	resp, err := s.client.Do(req, watched)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return watched, resp, nil
+	return *watched, resp, err
 }
 
 // GetRepositorySubscription returns the subscription for the specified
@@ -103,10 +103,6 @@ func (s *ActivityService) GetRepositorySubscription(owner, repo string) (*Subscr
 // SetRepositorySubscription sets the subscription for the specified repository
 // for the authenticated user.
 //
-// To watch a repository, set subscription.Subscribed to true.
-// To ignore notifications made within a repository, set subscription.Ignored to true.
-// To stop watching a repository, use DeleteRepositorySubscription.
-//
 // GitHub API Docs: https://developer.github.com/v3/activity/watching/#set-a-repository-subscription
 func (s *ActivityService) SetRepositorySubscription(owner, repo string, subscription *Subscription) (*Subscription, *Response, error) {
 	u := fmt.Sprintf("repos/%s/%s/subscription", owner, repo)
@@ -127,9 +123,6 @@ func (s *ActivityService) SetRepositorySubscription(owner, repo string, subscrip
 
 // DeleteRepositorySubscription deletes the subscription for the specified
 // repository for the authenticated user.
-//
-// This is used to stop watching a repository. To control whether or not to
-// receive notifications from a repository, use SetRepositorySubscription.
 //
 // GitHub API Docs: https://developer.github.com/v3/activity/watching/#delete-a-repository-subscription
 func (s *ActivityService) DeleteRepositorySubscription(owner, repo string) (*Response, error) {

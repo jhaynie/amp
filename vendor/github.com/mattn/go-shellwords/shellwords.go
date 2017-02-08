@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 	"regexp"
+	"strings"
 )
 
 var (
@@ -34,23 +35,21 @@ func replaceEnv(s string) string {
 type Parser struct {
 	ParseEnv      bool
 	ParseBacktick bool
-	Position      int
 }
 
 func NewParser() *Parser {
-	return &Parser{ParseEnv, ParseBacktick, 0}
+	return &Parser{ParseEnv, ParseBacktick}
 }
 
 func (p *Parser) Parse(line string) ([]string, error) {
+	line = strings.TrimSpace(line)
+
 	args := []string{}
 	buf := ""
 	var escaped, doubleQuoted, singleQuoted, backQuote bool
 	backtick := ""
 
-	pos := -1
-
-loop:
-	for i, r := range line {
+	for _, r := range line {
 		if escaped {
 			buf += string(r)
 			escaped = false
@@ -108,11 +107,6 @@ loop:
 				singleQuoted = !singleQuoted
 				continue
 			}
-		case ';', '&', '|', '<', '>':
-			if !(escaped || singleQuoted || doubleQuoted || backQuote) {
-				pos = i
-				break loop
-			}
 		}
 
 		buf += string(r)
@@ -131,8 +125,6 @@ loop:
 	if escaped || singleQuoted || doubleQuoted || backQuote {
 		return nil, errors.New("invalid command line string")
 	}
-
-	p.Position = pos
 
 	return args, nil
 }

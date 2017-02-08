@@ -109,23 +109,20 @@ other options are ignored.
 		},
 	},
 	Action: func(context *cli.Context) error {
-		if err := checkArgs(context, 1, exactArgs); err != nil {
-			return err
-		}
 		container, err := getContainer(context)
 		if err != nil {
 			return err
 		}
 
-		r := specs.LinuxResources{
-			Memory: &specs.LinuxMemory{
+		r := specs.Resources{
+			Memory: &specs.Memory{
 				Limit:       u64Ptr(0),
 				Reservation: u64Ptr(0),
 				Swap:        u64Ptr(0),
 				Kernel:      u64Ptr(0),
 				KernelTCP:   u64Ptr(0),
 			},
-			CPU: &specs.LinuxCPU{
+			CPU: &specs.CPU{
 				Shares:          u64Ptr(0),
 				Quota:           u64Ptr(0),
 				Period:          u64Ptr(0),
@@ -134,7 +131,7 @@ other options are ignored.
 				Cpus:            sPtr(""),
 				Mems:            sPtr(""),
 			},
-			BlockIO: &specs.LinuxBlockIO{
+			BlockIO: &specs.BlockIO{
 				Weight: u16Ptr(0),
 			},
 		}
@@ -224,6 +221,9 @@ other options are ignored.
 		config.Cgroups.Resources.MemoryReservation = int64(*r.Memory.Reservation)
 		config.Cgroups.Resources.MemorySwap = int64(*r.Memory.Swap)
 
-		return container.Set(config)
+		if err := container.Set(config); err != nil {
+			return err
+		}
+		return nil
 	},
 }

@@ -187,11 +187,11 @@ func (c *Client) ListServiceHooks() ([]*ServiceHook, *Response, error) {
 		return nil, nil, err
 	}
 
-	var hooks []*ServiceHook
-	resp, err := c.Do(req, &hooks)
+	hooks := new([]*ServiceHook)
+	resp, err := c.Do(req, hooks)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return hooks, resp, nil
+	return *hooks, resp, err
 }

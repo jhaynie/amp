@@ -28,11 +28,11 @@ func (s *IntegrationsService) ListInstallations(opt *ListOptions) ([]*Installati
 	// TODO: remove custom Accept header when this API fully launches.
 	req.Header.Set("Accept", mediaTypeIntegrationPreview)
 
-	var i []*Installation
+	i := new([]*Installation)
 	resp, err := s.client.Do(req, &i)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return i, resp, nil
+	return *i, resp, err
 }
