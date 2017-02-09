@@ -73,7 +73,7 @@ func (s *cmdManager) connectDocker() error {
 	s.docker = cli
 	return nil
 }
- */
+*/
 
 func (s *cmdManager) printf(col int, format string, args ...interface{}) {
 	if s.quiet {

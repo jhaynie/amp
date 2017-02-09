@@ -27,7 +27,7 @@ var _ io.Reader
 var _ = runtime.String
 var _ = utilities.NewDoubleArray
 
-func request_AccountService_SignUp_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_SignUp_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq SignUpRequest
 	var metadata runtime.ServerMetadata
 
@@ -58,7 +58,7 @@ func request_AccountService_SignUp_0(ctx context.Context, marshaler runtime.Mars
 
 }
 
-func request_AccountService_Verify_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_Verify_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq VerificationRequest
 	var metadata runtime.ServerMetadata
 
@@ -100,7 +100,7 @@ func request_AccountService_Verify_0(ctx context.Context, marshaler runtime.Mars
 
 }
 
-func request_AccountService_PasswordReset_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_PasswordReset_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq PasswordResetRequest
 	var metadata runtime.ServerMetadata
 
@@ -131,7 +131,7 @@ func request_AccountService_PasswordReset_0(ctx context.Context, marshaler runti
 
 }
 
-func request_AccountService_PasswordChange_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_PasswordChange_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq PasswordChangeRequest
 	var metadata runtime.ServerMetadata
 
@@ -162,7 +162,7 @@ func request_AccountService_PasswordChange_0(ctx context.Context, marshaler runt
 
 }
 
-func request_AccountService_Login_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_Login_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq LogInRequest
 	var metadata runtime.ServerMetadata
 
@@ -193,7 +193,7 @@ func request_AccountService_Login_0(ctx context.Context, marshaler runtime.Marsh
 
 }
 
-func request_AccountService_List_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_List_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListAccountRequest
 	var metadata runtime.ServerMetadata
 
@@ -202,7 +202,7 @@ func request_AccountService_List_0(ctx context.Context, marshaler runtime.Marsha
 
 }
 
-func request_AccountService_Switch_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_Switch_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq SwitchRequest
 	var metadata runtime.ServerMetadata
 
@@ -233,7 +233,7 @@ func request_AccountService_Switch_0(ctx context.Context, marshaler runtime.Mars
 
 }
 
-func request_AccountService_GetDetails_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_GetDetails_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetAccountDetailsRequest
 	var metadata runtime.ServerMetadata
 
@@ -260,7 +260,7 @@ func request_AccountService_GetDetails_0(ctx context.Context, marshaler runtime.
 
 }
 
-func request_AccountService_Edit_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_Edit_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq EditAccountRequest
 	var metadata runtime.ServerMetadata
 
@@ -291,7 +291,7 @@ func request_AccountService_Edit_0(ctx context.Context, marshaler runtime.Marsha
 
 }
 
-func request_AccountService_Delete_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_Delete_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq DeleteAccountRequest
 	var metadata runtime.ServerMetadata
 
@@ -318,7 +318,7 @@ func request_AccountService_Delete_0(ctx context.Context, marshaler runtime.Mars
 
 }
 
-func request_AccountService_GetTeams_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_GetTeams_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetTeamsRequest
 	var metadata runtime.ServerMetadata
 
@@ -345,7 +345,7 @@ func request_AccountService_GetTeams_0(ctx context.Context, marshaler runtime.Ma
 
 }
 
-func request_AccountService_AddOrganizationMemberships_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_AddOrganizationMemberships_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq AddOrganizationMembershipsRequest
 	var metadata runtime.ServerMetadata
 
@@ -377,10 +377,10 @@ func request_AccountService_AddOrganizationMemberships_0(ctx context.Context, ma
 }
 
 var (
-	filter_AccountService_DeleteOrganizationMemberships_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_Account_DeleteOrganizationMemberships_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 )
 
-func request_AccountService_DeleteOrganizationMemberships_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_DeleteOrganizationMemberships_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq DeleteOrganizationMembershipsRequest
 	var metadata runtime.ServerMetadata
 
@@ -402,7 +402,7 @@ func request_AccountService_DeleteOrganizationMemberships_0(ctx context.Context,
 		return nil, metadata, err
 	}
 
-	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_AccountService_DeleteOrganizationMemberships_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_Account_DeleteOrganizationMemberships_0); err != nil {
 		return nil, metadata, grpc.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -411,7 +411,7 @@ func request_AccountService_DeleteOrganizationMemberships_0(ctx context.Context,
 
 }
 
-func request_AccountService_CreateTeam_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_CreateTeam_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq CreateTeamRequest
 	var metadata runtime.ServerMetadata
 
@@ -453,7 +453,7 @@ func request_AccountService_CreateTeam_0(ctx context.Context, marshaler runtime.
 
 }
 
-func request_AccountService_ListTeam_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_ListTeam_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListTeamRequest
 	var metadata runtime.ServerMetadata
 
@@ -480,7 +480,7 @@ func request_AccountService_ListTeam_0(ctx context.Context, marshaler runtime.Ma
 
 }
 
-func request_AccountService_EditTeam_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_EditTeam_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq EditTeamRequest
 	var metadata runtime.ServerMetadata
 
@@ -522,7 +522,7 @@ func request_AccountService_EditTeam_0(ctx context.Context, marshaler runtime.Ma
 
 }
 
-func request_AccountService_GetTeamDetails_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_GetTeamDetails_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetTeamDetailsRequest
 	var metadata runtime.ServerMetadata
 
@@ -560,7 +560,7 @@ func request_AccountService_GetTeamDetails_0(ctx context.Context, marshaler runt
 
 }
 
-func request_AccountService_DeleteTeam_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_DeleteTeam_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq DeleteTeamRequest
 	var metadata runtime.ServerMetadata
 
@@ -598,7 +598,7 @@ func request_AccountService_DeleteTeam_0(ctx context.Context, marshaler runtime.
 
 }
 
-func request_AccountService_AddTeamMemberships_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_AddTeamMemberships_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq AddTeamMembershipsRequest
 	var metadata runtime.ServerMetadata
 
@@ -641,10 +641,10 @@ func request_AccountService_AddTeamMemberships_0(ctx context.Context, marshaler 
 }
 
 var (
-	filter_AccountService_DeleteTeamMemberships_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization": 0, "name": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
+	filter_Account_DeleteTeamMemberships_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization": 0, "name": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
 )
 
-func request_AccountService_DeleteTeamMemberships_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_DeleteTeamMemberships_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq DeleteTeamMembershipsRequest
 	var metadata runtime.ServerMetadata
 
@@ -677,7 +677,7 @@ func request_AccountService_DeleteTeamMemberships_0(ctx context.Context, marshal
 		return nil, metadata, err
 	}
 
-	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_AccountService_DeleteTeamMemberships_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_Account_DeleteTeamMemberships_0); err != nil {
 		return nil, metadata, grpc.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -686,7 +686,7 @@ func request_AccountService_DeleteTeamMemberships_0(ctx context.Context, marshal
 
 }
 
-func request_AccountService_GrantPermission_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_GrantPermission_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GrantPermissionRequest
 	var metadata runtime.ServerMetadata
 
@@ -729,10 +729,10 @@ func request_AccountService_GrantPermission_0(ctx context.Context, marshaler run
 }
 
 var (
-	filter_AccountService_ListPermission_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization": 0, "team": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
+	filter_Account_ListPermission_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization": 0, "team": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
 )
 
-func request_AccountService_ListPermission_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_ListPermission_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListPermissionRequest
 	var metadata runtime.ServerMetadata
 
@@ -765,7 +765,7 @@ func request_AccountService_ListPermission_0(ctx context.Context, marshaler runt
 		return nil, metadata, err
 	}
 
-	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_AccountService_ListPermission_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_Account_ListPermission_0); err != nil {
 		return nil, metadata, grpc.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -774,7 +774,7 @@ func request_AccountService_ListPermission_0(ctx context.Context, marshaler runt
 
 }
 
-func request_AccountService_EditPermission_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_EditPermission_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq EditPermissionRequest
 	var metadata runtime.ServerMetadata
 
@@ -828,10 +828,10 @@ func request_AccountService_EditPermission_0(ctx context.Context, marshaler runt
 }
 
 var (
-	filter_AccountService_RevokePermission_0 = &utilities.DoubleArray{Encoding: map[string]int{"ressource": 0, "organization": 1, "team": 2, "resource_id": 3}, Base: []int{1, 1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 2, 2, 2, 3, 4, 5}}
+	filter_Account_RevokePermission_0 = &utilities.DoubleArray{Encoding: map[string]int{"ressource": 0, "organization": 1, "team": 2, "resource_id": 3}, Base: []int{1, 1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 2, 2, 2, 3, 4, 5}}
 )
 
-func request_AccountService_RevokePermission_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_RevokePermission_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq RevokePermissionRequest
 	var metadata runtime.ServerMetadata
 
@@ -875,7 +875,7 @@ func request_AccountService_RevokePermission_0(ctx context.Context, marshaler ru
 		return nil, metadata, err
 	}
 
-	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_AccountService_RevokePermission_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_Account_RevokePermission_0); err != nil {
 		return nil, metadata, grpc.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -884,7 +884,7 @@ func request_AccountService_RevokePermission_0(ctx context.Context, marshaler ru
 
 }
 
-func request_AccountService_TransferPermissionOwnership_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_Account_TransferPermissionOwnership_0(ctx context.Context, marshaler runtime.Marshaler, client AccountClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq TransferPermissionOwnershipRequest
 	var metadata runtime.ServerMetadata
 
@@ -937,9 +937,9 @@ func request_AccountService_TransferPermissionOwnership_0(ctx context.Context, m
 
 }
 
-// RegisterAccountServiceHandlerFromEndpoint is same as RegisterAccountServiceHandler but
+// RegisterAccountHandlerFromEndpoint is same as RegisterAccountHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterAccountServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+func RegisterAccountHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.Dial(endpoint, opts...)
 	if err != nil {
 		return err
@@ -959,15 +959,15 @@ func RegisterAccountServiceHandlerFromEndpoint(ctx context.Context, mux *runtime
 		}()
 	}()
 
-	return RegisterAccountServiceHandler(ctx, mux, conn)
+	return RegisterAccountHandler(ctx, mux, conn)
 }
 
-// RegisterAccountServiceHandler registers the http handlers for service AccountService to "mux".
+// RegisterAccountHandler registers the http handlers for service Account to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	client := NewAccountServiceClient(conn)
+func RegisterAccountHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	client := NewAccountClient(conn)
 
-	mux.Handle("POST", pattern_AccountService_SignUp_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Account_SignUp_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -984,18 +984,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_SignUp_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_SignUp_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_SignUp_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_SignUp_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_AccountService_Verify_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Account_Verify_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1012,18 +1012,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_Verify_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_Verify_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_Verify_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_Verify_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_AccountService_PasswordReset_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Account_PasswordReset_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1040,18 +1040,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_PasswordReset_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_PasswordReset_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_PasswordReset_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_PasswordReset_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_AccountService_PasswordChange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Account_PasswordChange_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1068,18 +1068,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_PasswordChange_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_PasswordChange_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_PasswordChange_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_PasswordChange_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_AccountService_Login_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Account_Login_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1096,18 +1096,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_Login_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_Login_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_Login_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_Login_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_AccountService_List_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Account_List_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1124,18 +1124,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_List_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_List_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_List_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_List_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("PUT", pattern_AccountService_Switch_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("PUT", pattern_Account_Switch_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1152,18 +1152,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_Switch_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_Switch_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_Switch_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_Switch_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_AccountService_GetDetails_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Account_GetDetails_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1180,18 +1180,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_GetDetails_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_GetDetails_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_GetDetails_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_GetDetails_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("PUT", pattern_AccountService_Edit_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("PUT", pattern_Account_Edit_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1208,18 +1208,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_Edit_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_Edit_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_Edit_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_Edit_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("DELETE", pattern_AccountService_Delete_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("DELETE", pattern_Account_Delete_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1236,18 +1236,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_Delete_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_Delete_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_Delete_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_Delete_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_AccountService_GetTeams_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Account_GetTeams_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1264,18 +1264,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_GetTeams_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_GetTeams_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_GetTeams_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_GetTeams_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("PATCH", pattern_AccountService_AddOrganizationMemberships_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("PATCH", pattern_Account_AddOrganizationMemberships_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1292,18 +1292,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_AddOrganizationMemberships_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_AddOrganizationMemberships_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_AddOrganizationMemberships_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_AddOrganizationMemberships_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("DELETE", pattern_AccountService_DeleteOrganizationMemberships_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("DELETE", pattern_Account_DeleteOrganizationMemberships_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1320,18 +1320,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_DeleteOrganizationMemberships_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_DeleteOrganizationMemberships_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_DeleteOrganizationMemberships_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_DeleteOrganizationMemberships_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_AccountService_CreateTeam_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Account_CreateTeam_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1348,18 +1348,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_CreateTeam_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_CreateTeam_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_CreateTeam_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_CreateTeam_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_AccountService_ListTeam_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Account_ListTeam_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1376,18 +1376,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_ListTeam_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_ListTeam_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_ListTeam_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_ListTeam_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("PUT", pattern_AccountService_EditTeam_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("PUT", pattern_Account_EditTeam_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1404,18 +1404,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_EditTeam_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_EditTeam_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_EditTeam_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_EditTeam_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_AccountService_GetTeamDetails_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Account_GetTeamDetails_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1432,18 +1432,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_GetTeamDetails_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_GetTeamDetails_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_GetTeamDetails_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_GetTeamDetails_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("DELETE", pattern_AccountService_DeleteTeam_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("DELETE", pattern_Account_DeleteTeam_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1460,18 +1460,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_DeleteTeam_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_DeleteTeam_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_DeleteTeam_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_DeleteTeam_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("PATCH", pattern_AccountService_AddTeamMemberships_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("PATCH", pattern_Account_AddTeamMemberships_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1488,18 +1488,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_AddTeamMemberships_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_AddTeamMemberships_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_AddTeamMemberships_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_AddTeamMemberships_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("DELETE", pattern_AccountService_DeleteTeamMemberships_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("DELETE", pattern_Account_DeleteTeamMemberships_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1516,18 +1516,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_DeleteTeamMemberships_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_DeleteTeamMemberships_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_DeleteTeamMemberships_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_DeleteTeamMemberships_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_AccountService_GrantPermission_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Account_GrantPermission_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1544,18 +1544,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_GrantPermission_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_GrantPermission_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_GrantPermission_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_GrantPermission_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_AccountService_ListPermission_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Account_ListPermission_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1572,18 +1572,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_ListPermission_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_ListPermission_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_ListPermission_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_ListPermission_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("PUT", pattern_AccountService_EditPermission_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("PUT", pattern_Account_EditPermission_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1600,18 +1600,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_EditPermission_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_EditPermission_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_EditPermission_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_EditPermission_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("DELETE", pattern_AccountService_RevokePermission_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("DELETE", pattern_Account_RevokePermission_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1628,18 +1628,18 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_RevokePermission_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_RevokePermission_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_RevokePermission_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_RevokePermission_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_AccountService_TransferPermissionOwnership_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Account_TransferPermissionOwnership_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 		if cn, ok := w.(http.CloseNotifier); ok {
@@ -1656,14 +1656,14 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 		}
-		resp, md, err := request_AccountService_TransferPermissionOwnership_0(rctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_Account_TransferPermissionOwnership_0(rctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_AccountService_TransferPermissionOwnership_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_Account_TransferPermissionOwnership_0(ctx, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -1671,105 +1671,105 @@ func RegisterAccountServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 }
 
 var (
-	pattern_AccountService_SignUp_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "account", "name", "signup"}, ""))
+	pattern_Account_SignUp_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "account", "name", "signup"}, ""))
 
-	pattern_AccountService_Verify_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"v1", "account", "name", "verification", "code"}, ""))
+	pattern_Account_Verify_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"v1", "account", "name", "verification", "code"}, ""))
 
-	pattern_AccountService_PasswordReset_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "account", "name", "passwordReset"}, ""))
+	pattern_Account_PasswordReset_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "account", "name", "passwordReset"}, ""))
 
-	pattern_AccountService_PasswordChange_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "account", "name", "passwordChange"}, ""))
+	pattern_Account_PasswordChange_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "account", "name", "passwordChange"}, ""))
 
-	pattern_AccountService_Login_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "account", "name", "login"}, ""))
+	pattern_Account_Login_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "account", "name", "login"}, ""))
 
-	pattern_AccountService_List_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "account"}, ""))
+	pattern_Account_List_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "account"}, ""))
 
-	pattern_AccountService_Switch_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "account", "name", "switch"}, ""))
+	pattern_Account_Switch_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "account", "name", "switch"}, ""))
 
-	pattern_AccountService_GetDetails_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "account", "name"}, ""))
+	pattern_Account_GetDetails_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "account", "name"}, ""))
 
-	pattern_AccountService_Edit_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "account", "name"}, ""))
+	pattern_Account_Edit_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "account", "name"}, ""))
 
-	pattern_AccountService_Delete_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "account", "name"}, ""))
+	pattern_Account_Delete_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "account", "name"}, ""))
 
-	pattern_AccountService_GetTeams_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "account", "name", "teams"}, ""))
+	pattern_Account_GetTeams_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "account", "name", "teams"}, ""))
 
-	pattern_AccountService_AddOrganizationMemberships_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 2, 4}, []string{"v1", "account", "name", "organization", "membership"}, ""))
+	pattern_Account_AddOrganizationMemberships_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 2, 4}, []string{"v1", "account", "name", "organization", "membership"}, ""))
 
-	pattern_AccountService_DeleteOrganizationMemberships_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 2, 4}, []string{"v1", "account", "name", "organization", "membership"}, ""))
+	pattern_Account_DeleteOrganizationMemberships_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 2, 4}, []string{"v1", "account", "name", "organization", "membership"}, ""))
 
-	pattern_AccountService_CreateTeam_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"v1", "account", "organization", "team", "name"}, ""))
+	pattern_Account_CreateTeam_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"v1", "account", "organization", "team", "name"}, ""))
 
-	pattern_AccountService_ListTeam_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "account", "organization", "team"}, ""))
+	pattern_Account_ListTeam_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "account", "organization", "team"}, ""))
 
-	pattern_AccountService_EditTeam_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"v1", "account", "organization", "team", "name"}, ""))
+	pattern_Account_EditTeam_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"v1", "account", "organization", "team", "name"}, ""))
 
-	pattern_AccountService_GetTeamDetails_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"v1", "account", "organization", "team", "name"}, ""))
+	pattern_Account_GetTeamDetails_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"v1", "account", "organization", "team", "name"}, ""))
 
-	pattern_AccountService_DeleteTeam_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"v1", "account", "organization", "team", "name"}, ""))
+	pattern_Account_DeleteTeam_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"v1", "account", "organization", "team", "name"}, ""))
 
-	pattern_AccountService_AddTeamMemberships_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"v1", "account", "organization", "team", "name", "membership"}, ""))
+	pattern_Account_AddTeamMemberships_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"v1", "account", "organization", "team", "name", "membership"}, ""))
 
-	pattern_AccountService_DeleteTeamMemberships_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"v1", "account", "organization", "team", "name", "membership"}, ""))
+	pattern_Account_DeleteTeamMemberships_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"v1", "account", "organization", "team", "name", "membership"}, ""))
 
-	pattern_AccountService_GrantPermission_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"v1", "account", "ressource.organization", "team", "ressource.team", "permission"}, ""))
+	pattern_Account_GrantPermission_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"v1", "account", "ressource.organization", "team", "ressource.team", "permission"}, ""))
 
-	pattern_AccountService_ListPermission_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"v1", "account", "organization", "team", "permission"}, ""))
+	pattern_Account_ListPermission_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"v1", "account", "organization", "team", "permission"}, ""))
 
-	pattern_AccountService_EditPermission_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6}, []string{"v1", "account", "ressource.organization", "team", "ressource.team", "permission", "ressource.resource_id"}, ""))
+	pattern_Account_EditPermission_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6}, []string{"v1", "account", "ressource.organization", "team", "ressource.team", "permission", "ressource.resource_id"}, ""))
 
-	pattern_AccountService_RevokePermission_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6}, []string{"v1", "account", "ressource.organization", "team", "ressource.team", "permission", "ressource.resource_id"}, ""))
+	pattern_Account_RevokePermission_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6}, []string{"v1", "account", "ressource.organization", "team", "ressource.team", "permission", "ressource.resource_id"}, ""))
 
-	pattern_AccountService_TransferPermissionOwnership_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"v1", "account", "organization", "team", "transfer", "resource_id"}, ""))
+	pattern_Account_TransferPermissionOwnership_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"v1", "account", "organization", "team", "transfer", "resource_id"}, ""))
 )
 
 var (
-	forward_AccountService_SignUp_0 = runtime.ForwardResponseMessage
+	forward_Account_SignUp_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_Verify_0 = runtime.ForwardResponseMessage
+	forward_Account_Verify_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_PasswordReset_0 = runtime.ForwardResponseMessage
+	forward_Account_PasswordReset_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_PasswordChange_0 = runtime.ForwardResponseMessage
+	forward_Account_PasswordChange_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_Login_0 = runtime.ForwardResponseMessage
+	forward_Account_Login_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_List_0 = runtime.ForwardResponseMessage
+	forward_Account_List_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_Switch_0 = runtime.ForwardResponseMessage
+	forward_Account_Switch_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_GetDetails_0 = runtime.ForwardResponseMessage
+	forward_Account_GetDetails_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_Edit_0 = runtime.ForwardResponseMessage
+	forward_Account_Edit_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_Delete_0 = runtime.ForwardResponseMessage
+	forward_Account_Delete_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_GetTeams_0 = runtime.ForwardResponseMessage
+	forward_Account_GetTeams_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_AddOrganizationMemberships_0 = runtime.ForwardResponseMessage
+	forward_Account_AddOrganizationMemberships_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_DeleteOrganizationMemberships_0 = runtime.ForwardResponseMessage
+	forward_Account_DeleteOrganizationMemberships_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_CreateTeam_0 = runtime.ForwardResponseMessage
+	forward_Account_CreateTeam_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_ListTeam_0 = runtime.ForwardResponseMessage
+	forward_Account_ListTeam_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_EditTeam_0 = runtime.ForwardResponseMessage
+	forward_Account_EditTeam_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_GetTeamDetails_0 = runtime.ForwardResponseMessage
+	forward_Account_GetTeamDetails_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_DeleteTeam_0 = runtime.ForwardResponseMessage
+	forward_Account_DeleteTeam_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_AddTeamMemberships_0 = runtime.ForwardResponseMessage
+	forward_Account_AddTeamMemberships_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_DeleteTeamMemberships_0 = runtime.ForwardResponseMessage
+	forward_Account_DeleteTeamMemberships_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_GrantPermission_0 = runtime.ForwardResponseMessage
+	forward_Account_GrantPermission_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_ListPermission_0 = runtime.ForwardResponseMessage
+	forward_Account_ListPermission_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_EditPermission_0 = runtime.ForwardResponseMessage
+	forward_Account_EditPermission_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_RevokePermission_0 = runtime.ForwardResponseMessage
+	forward_Account_RevokePermission_0 = runtime.ForwardResponseMessage
 
-	forward_AccountService_TransferPermissionOwnership_0 = runtime.ForwardResponseMessage
+	forward_Account_TransferPermissionOwnership_0 = runtime.ForwardResponseMessage
 )

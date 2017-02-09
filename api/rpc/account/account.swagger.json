@@ -27,7 +27,7 @@
           }
         },
         "tags": [
-          "AccountService"
+          "Account"
         ]
       }
     },
@@ -52,7 +52,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       },
       "delete": {
@@ -75,7 +75,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       },
       "put": {
@@ -106,7 +106,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       }
     },
@@ -139,7 +139,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       }
     },
@@ -164,7 +164,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       },
       "patch": {
@@ -195,7 +195,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       }
     },
@@ -228,7 +228,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       }
     },
@@ -261,7 +261,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       }
     },
@@ -294,7 +294,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       }
     },
@@ -327,7 +327,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       }
     },
@@ -352,7 +352,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       }
     },
@@ -392,7 +392,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       }
     },
@@ -417,7 +417,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       }
     },
@@ -449,7 +449,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       },
       "delete": {
@@ -479,7 +479,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       },
       "post": {
@@ -518,7 +518,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       },
       "put": {
@@ -556,7 +556,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       }
     },
@@ -588,7 +588,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       },
       "patch": {
@@ -626,7 +626,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       }
     },
@@ -658,7 +658,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       }
     },
@@ -705,7 +705,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       }
     },
@@ -746,7 +746,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       }
     },
@@ -785,7 +785,7 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       },
       "put": {
@@ -830,13 +830,13 @@
           }
         ],
         "tags": [
-          "AccountService"
+          "Account"
         ]
       }
     }
   },
   "definitions": {
-    "accountAccount": {
+    "accountAccountEntry": {
       "type": "object",
       "properties": {
         "name": {
@@ -1075,7 +1075,7 @@
       "type": "object",
       "properties": {
         "account": {
-          "$ref": "#/definitions/accountAccount"
+          "$ref": "#/definitions/accountAccountEntry"
         },
         "billing": {
           "$ref": "#/definitions/accountBilling"
@@ -1169,7 +1169,7 @@
         "accounts": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/accountAccount"
+            "$ref": "#/definitions/accountAccountEntry"
           }
         }
       }

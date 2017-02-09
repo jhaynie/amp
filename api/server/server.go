@@ -60,6 +60,7 @@ func Start(config Config) {
 
 	// register services
 	s := grpc.NewServer()
+
 	// project.RegisterProjectServer(s, &project.Service{})
 	logs.RegisterLogsServer(s, &logs.Server{
 		Es:            &runtime.Elasticsearch,

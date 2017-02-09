@@ -10,6 +10,7 @@ import (
 	//"google.golang.org/grpc"
 
 	//tested packages
+	"github.com/appcelerator/amp/api/rpc/account"
 	"github.com/appcelerator/amp/api/rpc/function"
 	"github.com/appcelerator/amp/api/rpc/logs"
 	"github.com/appcelerator/amp/api/rpc/service"
@@ -21,7 +22,6 @@ import (
 	"github.com/appcelerator/amp/pkg/config"
 	"google.golang.org/grpc"
 	"time"
-	"github.com/appcelerator/amp/api/rpc/account"
 )
 
 var (
@@ -33,7 +33,7 @@ var (
 	serviceClient  service.ServiceClient
 	logsClient     logs.LogsClient
 	store          storage.Interface
-	accountClient  account.AccountServiceClient
+	accountClient  account.AccountClient
 )
 
 func TestMain(m *testing.M) {
@@ -62,7 +62,7 @@ func TestMain(m *testing.M) {
 	topicClient = topic.NewTopicClient(conn)
 	serviceClient = service.NewServiceClient(conn)
 	logsClient = logs.NewLogsClient(conn)
-	accountClient = account.NewAccountServiceClient(conn)
+	accountClient = account.NewAccountClient(conn)
 
 	// start tests
 	os.Exit(m.Run())

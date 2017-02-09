@@ -2,15 +2,10 @@ syntax = "proto3";
 
 package account;
 
-
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
-//-------------------------------------------------------------------------------------------------
-// Account Service
-//-------------------------------------------------------------------------------------------------
-
-service AccountService {
+service Account {
   rpc SignUp (SignUpRequest) returns (SignUpReply) {
     option (google.api.http) = {
       post: "/v1/account/{name}/signup",
@@ -156,7 +151,7 @@ service AccountService {
 
 //Account structs
 
-message Account {
+message AccountEntry {
   string name = 1;
   string email = 2;
   bool email_verified = 3;
@@ -228,7 +223,7 @@ message ListAccountRequest {
 }
 
 message ListAccountReply {
-  repeated Account accounts = 1;
+  repeated AccountEntry accounts = 1;
 }
 
 //Switch function
@@ -242,7 +237,7 @@ message GetAccountDetailsRequest {
 }
 
 message GetAccountDetailsReply {
-  Account account = 1;
+  AccountEntry account = 1;
   Billing billing = 2;
   Settings settings = 3;
 }
@@ -289,7 +284,6 @@ message DeleteOrganizationMembershipsRequest {
 //-------------------------------------------------------------------------------------------------
 // Team structs
 //-------------------------------------------------------------------------------------------------
-
 
 //Create function
 message CreateTeamRequest {
@@ -350,7 +344,6 @@ message DeleteTeamMembershipsRequest {
 //-------------------------------------------------------------------------------------------------
 // Permission Structs
 //-------------------------------------------------------------------------------------------------
-
 
 //Ressource struct
 message Ressource {
