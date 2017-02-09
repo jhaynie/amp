@@ -1,3 +1,4 @@
+
 package tests
 
 import (
@@ -9,186 +10,161 @@ import (
 )
 
 var (
-	accountName  string
-	accountEmail string
-	accountPwd   string
-	accountType  string
+	account1Name string
+	account1Email string
+	account1Pwd string
+	account2Name string
+	account2Email string
+	account2Pwd string
+	accountOrgType = "organization"
 )
 
-//Test two stacks life cycle in the same time
-func TestOrgShouldSignUpAndVerify(t *testing.T) {
-	accountName = fmt.Sprintf("userorg%d", time.Now().Unix())
+//Create two organization accounts
+func TestAccountOrgShouldSignUpAndVerify(t *testing.T) {
+	accountName = fmt.Sprintf("used%d", time.Now().Unix())
 	accountPwd = "pwd"
 	accountEmail = "amp@axway.com"
-	accountType = "organization"
 
-	//SignUp      Billing
-	signupAnswer, signUpErr := accountClient.SignUp(ctx, &account.SignUpRequest{
-		Name:        accountName,
-		Password:    accountPwd,
-		Email:       accountEmail,
-		AccountType: accountType,
+	account1Name = fmt.Sprintf("accountOrg%d", time.Now().Unix())
+	account1Pwd = "pwd1"
+	account1Email = "amp@axway.com"
+
+	account2Name = fmt.Sprintf("accountOrg%d", time.Now().Unix())
+	account2Pwd = "pwd2"
+	account2Email = "amp@axway.com"
+
+	//SignUp account 1
+	_, signUpErr1 :=accountClient.SignUp(ctx, &account.SignUpRequest {
+		Name: account1Name,
+		Password: account1Pwd,
+		Email: account1Email,
+		AccountType: accountOrgType,
 	})
-	if signUpErr != nil {
+	if signUpErr1!=nil {
+		t.Fatal(signUpErr1)
+	}
+	//a way to get the code...
+	code:= "ok"
+	_, verifyErr1 := accountClient.Verify(ctx,  &account.VerificationRequest {
+		Name: account1Name,
+		Password: account1Pwd,
+		Code: code,
+	})
+	if verifyErr1!=nil {
+		t.Fatal(verifyErr1)
+	}
+	//SignUp Account 2
+	_, signUpErr2 :=accountClient.SignUp(ctx, &account.SignUpRequest {
+		Name: account2Name,
+		Password: account1Pwd,
+		Email: account2Email,
+		AccountType: accountOrgType,
+	})
+	if signUpErr2!=nil {
+		t.Fatal(signUpErr2)
+	}
+	//a way to get the code...
+	code= "ok"
+	_, verifyErr2 := accountClient.Verify(ctx,  &account.VerificationRequest {
+		Name: account2Name,
+		Password: account2Pwd,
+		Code: code,
+	})
+	if verifyErr2!=nil {
+		t.Fatal(verifyErr2)
+	}
+	//SignUp user
+	_, signUpErr :=accountClient.SignUp(ctx, &account.SignUpRequest {
+		Name: accountName,
+		Password: accountPwd,
+		Email: accountEmail,
+		AccountType: accountUserType,
+	})
+	if signUpErr!=nil {
 		t.Fatal(signUpErr)
 	}
-	if signupAnswer.SessionKey == "" {
-		t.Fatal("invalide sessionKey")
-	}
-
-	code := "bad"
-	//Verify with a bad code
-	_, verifyErr1 := accountClient.Verify(ctx, &account.VerificationRequest{
-		Name:     accountName,
-		Password: accountPwd,
-		Code:     code,
-	})
-	if verifyErr1 == nil {
-		t.Fatal("Should have error executing Verify with a bad code")
-	}
-
 	//a way to get the code...
-	code = "ok"
-	_, verifyErr2 := accountClient.Verify(ctx, &account.VerificationRequest{
-		Name:     accountName,
+	code= "ok"
+	_, verifyErr := accountClient.Verify(ctx,  &account.VerificationRequest {
+		Name: accountName,
 		Password: accountPwd,
-		Code:     code,
+		Code: code,
 	})
-	if verifyErr2 != nil {
-		t.Fatal("invalide verify code")
+	if verifyErr!=nil {
+		t.Fatal(verifyErr)
 	}
 }
 
-func TestOrgShouldLogInResetPwdChangeItLogInAgain(t *testing.T) {
+func TestAccountOrgShouldLogInResetPwdChangeItLogInAgain(t *testing.T) {
 	//Login with bad pwd
 	_, badLoginErr := accountClient.Login(ctx, &account.LogInRequest{
-		Name:     accountName,
+		Name: accountName,
 		Password: "badPwd",
 	})
 	if badLoginErr == nil {
 		t.Fatal("Shoud have error, login with a bad pwd")
 	}
-
-	//Login with the right pwd
-	loginAnswer1, loginErr := accountClient.Login(ctx, &account.LogInRequest{
-		Name:     accountName,
-		Password: accountPwd,
-	})
-	if loginErr != nil {
-		t.Fatal(loginErr)
-	}
-	if loginAnswer1.SessionKey == "" {
-		t.Fatal("invalide sessionKey")
-	}
-	//Reset password
-	_, pwdResetErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{
-		Name:  accountName,
-		Email: accountEmail,
-	})
-	if pwdResetErr != nil {
-		t.Fatal(pwdResetErr)
-	}
-
-	//Change password
-	req := &account.PasswordChangeRequest{
-		Name:             accountName,
-		ExistingPassword: accountPwd,
-	}
-	accountPwd = "newPwd"
-	req.NewPassword = accountPwd
-	_, pwdChangeErr := accountClient.PasswordChange(ctx, req)
-	if pwdChangeErr != nil {
-		t.Fatal(pwdChangeErr)
-	}
-
-	//Login again using new password
-	loginAnswer2, loginErr := accountClient.Login(ctx, &account.LogInRequest{
-		Name:     accountName,
-		Password: accountPwd,
-	})
-	if loginErr != nil {
-		t.Fatal(loginErr)
-	}
-	if loginAnswer2.SessionKey == "" {
-		t.Fatal("invalide sessionKey")
-	}
 }
 
-func TestOrgShouldEditAccount(t *testing.T) {
-	//Edit email account
-	accountEmail = "ampnew@axway.com"
-	_, editErr1 := accountClient.Edit(ctx, &account.EditAccountRequest{
-		Name:  accountName,
-		Email: accountEmail,
-	})
-	if editErr1 != nil {
-		t.Fatal(editErr1)
+func TestAccountOrgShouldEditAccount(t *testing.T) {
+	//create settings object
+	settingMap:=make(map[string]string)
+	settingMap["testkey"]="testval"
+	//create billing object
+	billing := &account.Billing{
+		Contact: "Axway",
+		AddressLine_1: "Tour W",
+		AddressLine_2 : "esplanade boieldieu",
+		City: "Paris - La Defense",
+		State: "Paris",
+		ZipCode: "92030",
+		PhoneNumber: "33147172222",
+		FaxNumber: "Does fax still exist??",
+		Email: "payerMan@axway.com",
+		CardType: "visa",
+		CardNumber: "1234567890",
 	}
-
-	//Shouldn't be able to log without eamil verified
-	_, loginErr := accountClient.Login(ctx, &account.LogInRequest{
-		Name:     accountName,
-		Password: accountPwd,
-	})
-	if loginErr == nil {
-		t.Fatal("Shouldn't be able to log without email verified")
-	}
-	//Verify email
-	//a way to get the code...
-	code := "ok"
-	_, verifyErr := accountClient.Verify(ctx, &account.VerificationRequest{
-		Name:     accountName,
-		Password: accountPwd,
-		Code:     code,
-	})
-	if verifyErr != nil {
-		t.Fatal("invalide verify code")
-	}
-	settingMap := make(map[string]string)
-	settingMap["testkey"] = "testval"
-	//edit biiling and settings
-	_, editErr2 := accountClient.Edit(ctx, &account.EditAccountRequest{
-		Name: accountName,
-		Billing: &account.Billing{
-			Contact:       "Axway",
-			AddressLine_1: "Tour W",
-			AddressLine_2: "esplanade boieldieu",
-			City:          "Paris - La Defense",
-			State:         "Paris",
-			ZipCode:       "92030",
-			PhoneNumber:   "33147172222",
-			FaxNumber:     "Does fax still exist??",
-			Email:         "payerMan@axway.com",
-			CardType:      "visa",
-			CardNumber:    "1234567890",
-		},
+	//Update account1
+	_, editErr1 := accountClient.Edit(ctx, &account.EditAccountRequest  {
+		Name: account1Name,
+		Billing: billing,
 		Settings: &account.Settings{
 			Param: settingMap,
 		},
 	})
-	if editErr2 != nil {
+	if editErr1!=nil {
+		t.Fatal(editErr1)
+	}
+	//update account 2
+	_, editErr2 := accountClient.Edit(ctx, &account.EditAccountRequest  {
+		Name: account2Name,
+		Billing: billing,
+		Settings: &account.Settings{
+			Param: settingMap,
+		},
+	})
+	if editErr2!=nil {
 		t.Fatal(editErr2)
 	}
 }
 
-func TestOrgShouldListAndGetAccountDetails(t *testing.T) {
+func TestAccountOrgShouldListAndGetAccountDetails(t *testing.T) {
 	//List existing accounts
 	list, listErr := accountClient.List(ctx, &account.ListAccountRequest{})
-	if listErr != nil {
+	if listErr!=nil {
 		t.Fatal(listErr)
 	}
-	found := false
+	found:=0
 	for _, acc := range list.Accounts {
-		if acc.Name == accountName {
-			found = true
-			break
+		if acc.Name == account1Name || acc.Name==account2Name {
+			found++
 		}
 	}
-	if !found {
-		t.Fatal("List error, juste created account not found")
+	if found!=2 {
+		t.Fatal("List error, juste created accounts are not found")
 	}
-	ret, getDetailsErr := accountClient.GetDetails(ctx, &account.GetAccountDetailsRequest{
-		Name: accountName,
+	ret, getDetailsErr:= accountClient.GetDetails(ctx, &account.GetAccountDetailsRequest{
+		Name: account1Name,
 	})
 	if getDetailsErr != nil {
 		t.Fatal(getDetailsErr)
@@ -202,8 +178,8 @@ func TestOrgShouldListAndGetAccountDetails(t *testing.T) {
 	if !ret.Account.EmailVerified {
 		t.Fatalf("Account.EmailVerified should be: true\n")
 	}
-	if ret.Account.AccountType != accountType {
-		t.Fatalf("Account.AccountType should be: %s\n", accountType)
+	if ret.Account.AccountType != accountOrgType {
+		t.Fatalf("Account.AccountType should be: %s\n", accountOrgType)
 	}
 	if ret.Billing.Contact != "Axway" {
 		t.Fatalf("Billing.Contact should be: Axway\n")
@@ -237,14 +213,141 @@ func TestOrgShouldListAndGetAccountDetails(t *testing.T) {
 	}
 	if val, ok := ret.Settings.Param["testkey"]; !ok {
 		t.Fatalf("Setting['testKey'] doesn't exist")
-	} else if val != "testval" {
+	} else if val!="testval" {
 		t.Fatalf("Settings['testkey] should be: testval\n")
 	}
 }
 
-func TestOrgShouldRemoveAccount(t *testing.T) {
+func TestAccountOrgAddTeam(t *testing.T) {
+	//create a team
+	_, createTeamErr := accountClient.CreateTeam(ctx, &account.CreateTeamRequest{
+		Organization: account1Name,
+		Name: "myTeam",
+		Description: "My team for test",
+	})
+	if createTeamErr != nil {
+		t.Fatal(createTeamErr)
+	}
+	//List team and verify my team is in it
+	teamList, teamListErr := accountClient.ListTeam(ctx, &account.ListTeamRequest{
+		Organization: account1Name,
+	})
+	if teamListErr!=nil {
+		t.Fatal(teamListErr)
+	}
+	found:=false
+	for _, teamName := range teamList.TeamNames {
+		 if teamName=="myTeam" {
+			 found=true
+			 break
+		 }
+	}
+	if !found {
+		t.Fatal("the just created team 'myTeam' is not found in team list")
+	}
+}
+
+
+func TestAccountOrgEditTeamAndList(t *testing.T) {
+	//create a team
+	_, editTeamErr := accountClient.EditTeam(ctx, &account.EditTeamRequest{
+		Organization: account1Name,
+		Name: "myTeam",
+		NewName: "myNewTeam",
+		NewDescription: "My new team for test",
+	})
+	if editTeamErr != nil {
+		t.Fatal(editTeamErr)
+	}
+	//List team and verify my team is in it
+	teamList, teamListErr := accountClient.ListTeam(ctx, &account.ListTeamRequest{
+		Organization: account1Name,
+	})
+	if teamListErr!=nil {
+		t.Fatal(teamListErr)
+	}
+	found:=false
+	for _, teamName := range teamList.TeamNames {
+		if teamName=="myNewTeam" {
+			found=true
+			break
+		}
+	}
+	if !found {
+		t.Fatal("the just created team 'myTeam' is not found in team list")
+	}
+}
+
+func TestAccountOrgMoveTeamToAnotherOrganization(t *testing.T) {
+	//create a team
+	_, editTeamErr := accountClient.EditTeam(ctx, &account.EditTeamRequest{
+		Organization: account1Name,
+		Name: "myTeam",
+		NewOrganization: account2Name,
+	})
+	if editTeamErr != nil {
+		t.Fatal(editTeamErr)
+	}
+	//List team of account2 and verify my team is in it
+	teamList1, teamListErr1 := accountClient.ListTeam(ctx, &account.ListTeamRequest{
+		Organization: account2Name,
+	})
+	if teamListErr1!=nil {
+		t.Fatal(teamListErr1)
+	}
+	found:=false
+	for _, teamName := range teamList1.TeamNames {
+		if teamName=="myNewTeam" {
+			found=true
+			break
+		}
+	}
+	if !found {
+		t.Fatal("the team 'myTeam' has not been move to another organization")
+	}
+	//List team of account1 and verify my team is not there anymore
+	teamList2, teamListErr2 := accountClient.ListTeam(ctx, &account.ListTeamRequest{
+		Organization: account1Name,
+	})
+	if teamListErr2!=nil {
+		t.Fatal(teamListErr2)
+	}
+	found=false
+	for _, teamName := range  teamList2.TeamNames {
+		if teamName=="myNewTeam" {
+			found=true
+			break
+		}
+	}
+	if found {
+		t.Fatal("the team 'myTeam' should have been moved, but it stays in its original organization")
+	}
+}
+
+func TestAccountOrgShouldAddUserToTeam(t *testing.T) {
+	//Try to add a bad user in the team
+	_, addUserErr1 := accountClient.AddTeamMemberships(ctx, &account.AddTeamMembershipsRequest{
+		Organization: account2Name,
+		Name: "myNewTeam",
+		Members: []string{"badUser"},
+	})
+	if addUserErr1==nil {
+		t.Fatal("Should have error when added the user who doesn't exist in a team")
+	}
+	//add a reguler user in a team
+	_, addUserErr2 := accountClient.AddTeamMemberships(ctx, &account.AddTeamMembershipsRequest{
+		Organization: account2Name,
+		Name: "myNewTeam",
+		Members: []string{ accountName },
+	})
+	if addUserErr2==nil {
+		t.Fatal(addUserErr2)
+	}
+}
+
+func TestAccountOrgShouldRemoveAccount(t *testing.T) {
 	//Remove account
-	_, removeErr := accountClient.Delete(ctx, &account.DeleteAccountRequest{
+	_, removeErr:=accountClient.Delete(ctx, &account.DeleteAccountRequest{
 		Name: accountName,
 	})
 	if removeErr != nil {
@@ -252,11 +355,12 @@ func TestOrgShouldRemoveAccount(t *testing.T) {
 	}
 	//try to login again
 	//Shouldn't be able to log without eamil verified
-	_, loginErr := accountClient.Login(ctx, &account.LogInRequest{
-		Name:     accountName,
+	_, loginErr :=accountClient.Login(ctx, &account.LogInRequest {
+		Name: accountName,
 		Password: accountPwd,
 	})
-	if loginErr == nil {
-		t.Fatal("Shouldn't be able to login after accound deleted")
+	if loginErr==nil {
+		t.Fatal("Shouldn't be able to login after the account has been deleted")
 	}
 }
+

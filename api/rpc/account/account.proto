@@ -305,7 +305,9 @@ message ListTeamReply {
 message EditTeamRequest {
   string organization = 1;
   string name = 2;
-  string description = 3;
+  string new_organization = 3;
+  string new_name = 4;
+  string new_description = 5;
 }
 
 //GetDetails function

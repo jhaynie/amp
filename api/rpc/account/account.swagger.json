@@ -1064,7 +1064,15 @@
           "type": "string",
           "format": "string"
         },
-        "description": {
+        "new_organization": {
+          "type": "string",
+          "format": "string"
+        },
+        "new_name": {
+          "type": "string",
+          "format": "string"
+        },
+        "new_description": {
           "type": "string",
           "format": "string"
         }
