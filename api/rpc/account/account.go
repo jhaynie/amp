@@ -1,51 +1,185 @@
 package account
 
 import (
-	"fmt"
+	"github.com/appcelerator/amp/data/account"
+	"github.com/appcelerator/amp/data/account/schema"
+	"github.com/appcelerator/amp/data/storage"
+	"github.com/dgrijalva/jwt-go"
 	pb "github.com/golang/protobuf/ptypes/empty"
 	"github.com/hlandau/passlib"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"log"
+	"os"
+	"time"
 )
 
-const hash = "$s2$16384$8$1$42JtddBgSqrJMwc3YuTNW+R+$ISfEF3jkvYQYk4AK/UFAxdqnmNFVeUw2gUVXEMBDAng=" // password
+// TODO: this MUST NOT be public
+// TODO: find a way to store this key secretly
+var secretKey = []byte("&kv@l3go-f=@^*@ush0(o5*5utxe6932j9di+ume=$mkj%d&&9*%k53(bmpksf&!c2&zpw$z=8ndi6ib)&nxms0ia7rf*sj9g8r4")
+
+type signUpClaims struct {
+	AccountID string `json:"AccountID"`
+	jwt.StandardClaims
+}
+
+type logInClaims struct {
+	AccountID string `json:"AccountID"`
+	jwt.StandardClaims
+}
 
 // Server is used to implement account.AccountServer
-type Server struct{}
+type Server struct {
+	accounts account.Interface
+}
+
+// NewServer instantiates account.Server
+func NewServer(store storage.Interface) *Server {
+	return &Server{accounts: account.NewStore(store)}
+}
 
 // SignUp implements account.SignUp
-func (s *Server) SignUp(ctx context.Context, in *SignUpRequest) (out *SignUpReply, err error) {
-	err = in.Validate()
-	if err != nil {
+func (s *Server) SignUp(ctx context.Context, in *SignUpRequest) (*SignUpReply, error) {
+	// Validate input
+	if err := in.Validate(); err != nil {
 		return nil, err
 	}
-	_, err = passlib.Hash(in.Password)
+
+	// Check if account already exists
+	alreadyExists, err := s.accounts.GetAccountByUserName(ctx, in.UserName)
 	if err != nil {
-		return nil, grpc.Errorf(codes.Internal, "hashing error")
+		return nil, grpc.Errorf(codes.Internal, err.Error())
 	}
-	out = &SignUpReply{}
-	out.SessionKey = in.Name
-	return
+	if alreadyExists != nil {
+		return nil, grpc.Errorf(codes.AlreadyExists, "account already exists")
+	}
+
+	// Hash password
+	passwordHash, err := passlib.Hash(in.Password)
+	if err != nil {
+		return nil, grpc.Errorf(codes.Internal, err.Error())
+	}
+
+	// Create the new account
+	account := &schema.Account{
+		Email:        in.Email,
+		UserName:     in.UserName,
+		Type:         in.AccountType,
+		IsVerified:   false,
+		PasswordHash: passwordHash,
+	}
+	id, err := s.accounts.CreateAccount(ctx, account)
+	if err != nil {
+		return nil, grpc.Errorf(codes.Internal, "storage error")
+	}
+	log.Println("Successfully created account", in.UserName)
+
+	// Forge the verification token
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, signUpClaims{
+		id, // The token contains the account id to verify
+		jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Hour).Unix(),
+			Issuer:    os.Args[0],
+		},
+	})
+
+	// Sign the token
+	ss, err := token.SignedString(secretKey)
+	if err != nil {
+		return nil, grpc.Errorf(codes.Internal, err.Error())
+	}
+
+	// TODO: send confirmation email with token
+
+	return &SignUpReply{Token: ss}, nil
 }
 
 // Verify implements account.Verify
-func (s *Server) Verify(ctx context.Context, in *VerificationRequest) (out *pb.Empty, err error) {
-	err = in.Validate()
-	if err != nil {
+func (s *Server) Verify(ctx context.Context, in *VerificationRequest) (*pb.Empty, error) {
+	if err := in.Validate(); err != nil {
 		return nil, err
 	}
-	_, err = passlib.Hash(in.Password)
+
+	// Validate the token
+	token, err := jwt.ParseWithClaims(in.Token, &signUpClaims{}, func(t *jwt.Token) (interface{}, error) {
+		return secretKey, nil
+	})
 	if err != nil {
-		return nil, grpc.Errorf(codes.Internal, "hashing error")
+		return nil, grpc.Errorf(codes.Internal, err.Error())
 	}
-	out = &pb.Empty{}
-	fmt.Println(in.Code)
-	return
+	if !token.Valid {
+		return &pb.Empty{}, grpc.Errorf(codes.InvalidArgument, "invalid token")
+	}
+
+	// Get the claims
+	claims, ok := token.Claims.(*signUpClaims)
+	if !ok {
+		return &pb.Empty{}, grpc.Errorf(codes.Internal, "invalid claims")
+	}
+
+	// Activate the account
+	account, err := s.accounts.GetAccount(ctx, claims.AccountID)
+	if err != nil {
+		return &pb.Empty{}, grpc.Errorf(codes.Internal, err.Error())
+	}
+	account.IsVerified = true
+	if err := s.accounts.UpdateAccount(ctx, account); err != nil {
+		return &pb.Empty{}, grpc.Errorf(codes.Internal, err.Error())
+	}
+	log.Println("Successfully verified account", account.UserName)
+
+	return &pb.Empty{}, nil
+}
+
+// Login implements account.Login
+func (s *Server) Login(ctx context.Context, in *LogInRequest) (*LogInReply, error) {
+	if err := in.Validate(); err != nil {
+		return nil, err
+	}
+
+	// Get the account
+	account, err := s.accounts.GetAccountByUserName(ctx, in.UserName)
+	if err != nil {
+		return nil, grpc.Errorf(codes.Internal, err.Error())
+	}
+	if account == nil {
+		return nil, grpc.Errorf(codes.NotFound, "account not found")
+	}
+
+	// Check if account is verified
+	if !account.IsVerified {
+		return nil, grpc.Errorf(codes.FailedPrecondition, "account not verified")
+	}
+
+	// Check password
+	_, err = passlib.Verify(in.Password, account.PasswordHash)
+	if err != nil {
+		return nil, grpc.Errorf(codes.Unauthenticated, err.Error())
+	}
+
+	// Forge the authentication token
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, logInClaims{
+		account.Id, // The token contains the account id
+		jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(24 * time.Hour).Unix(),
+			Issuer:    os.Args[0],
+		},
+	})
+
+	// Sign the token
+	ss, err := token.SignedString(secretKey)
+	if err != nil {
+		return nil, grpc.Errorf(codes.Internal, err.Error())
+	}
+	log.Println("Successfully login for account", account.UserName)
+
+	return &LogInReply{Token: ss}, nil
 }
 
 // PasswordReset implements account.PasswordReset
 func (s *Server) PasswordReset(ctx context.Context, in *PasswordResetRequest) (out *pb.Empty, err error) {
+	// TODO: check if account is verified
 	err = in.Validate()
 	if err != nil {
 		return nil, err
@@ -56,26 +190,13 @@ func (s *Server) PasswordReset(ctx context.Context, in *PasswordResetRequest) (o
 
 // PasswordChange implements account.PasswordChange
 func (s *Server) PasswordChange(ctx context.Context, in *PasswordChangeRequest) (out *pb.Empty, err error) {
-	return
-}
-
-// Login implements account.Login
-func (s *Server) Login(ctx context.Context, in *LogInRequest) (out *LogInReply, err error) {
-	err = in.Validate()
-	if err != nil {
-		return nil, err
-	}
-	_, err = passlib.Verify(in.Password, hash)
-	if err != nil {
-		return nil, grpc.Errorf(codes.Unauthenticated, err.Error())
-	}
-	out = &LogInReply{}
-	out.SessionKey = in.Name
+	// TODO: check if account is verified
 	return
 }
 
 // List implements account.List
 func (s *Server) List(ctx context.Context, in *ListAccountRequest) (out *ListAccountReply, err error) {
+	// TODO: check if account is verified
 	//if in.Type != "individual" && in.Type != "organization" {
 	//	return nil, grpc.Errorf(codes.InvalidArgument, "account type is mandatory")
 	//}
@@ -85,7 +206,8 @@ func (s *Server) List(ctx context.Context, in *ListAccountRequest) (out *ListAcc
 
 // Switch implements account.Switch
 func (s *Server) Switch(ctx context.Context, in *SwitchRequest) (out *pb.Empty, err error) {
-	if in.Name == "" {
+	// TODO: check if account is verified
+	if in.UserName == "" {
 		return nil, grpc.Errorf(codes.InvalidArgument, "organization name is mandatory")
 	}
 	out = &pb.Empty{}
@@ -94,7 +216,8 @@ func (s *Server) Switch(ctx context.Context, in *SwitchRequest) (out *pb.Empty, 
 
 // GetDetails implements account.GetDetails
 func (s *Server) GetDetails(ctx context.Context, in *GetAccountDetailsRequest) (out *GetAccountDetailsReply, err error) {
-	if in.Name == "" {
+	// TODO: check if account is verified
+	if in.UserName == "" {
 		return nil, grpc.Errorf(codes.InvalidArgument, "name is mandatory")
 	}
 	out = &GetAccountDetailsReply{}
@@ -103,6 +226,7 @@ func (s *Server) GetDetails(ctx context.Context, in *GetAccountDetailsRequest) (
 
 // Edit implements account.Edit
 func (s *Server) Edit(ctx context.Context, in *EditAccountRequest) (out *pb.Empty, err error) {
+	// TODO: check if account is verified
 	err = in.Validate()
 	if err != nil {
 		return
@@ -123,7 +247,8 @@ func (s *Server) Edit(ctx context.Context, in *EditAccountRequest) (out *pb.Empt
 
 // Delete implements account.Delete
 func (s *Server) Delete(ctx context.Context, in *DeleteAccountRequest) (out *pb.Empty, err error) {
-	if in.Name == "" {
+	// TODO: check if account is verified
+	if in.UserName == "" {
 		return nil, grpc.Errorf(codes.InvalidArgument, "name is mandatory")
 	}
 	out = &pb.Empty{}
@@ -132,12 +257,14 @@ func (s *Server) Delete(ctx context.Context, in *DeleteAccountRequest) (out *pb.
 
 // GetTeams implements account.GetTeams
 func (s *Server) GetTeams(ctx context.Context, in *GetTeamsRequest) (out *GetTeamsReply, err error) {
+	// TODO: check if account is verified
 	out = &GetTeamsReply{}
 	return
 }
 
 // AddOrganizationMemberships implements account.AddOrganizationMemberships
 func (s *Server) AddOrganizationMemberships(ctx context.Context, in *AddOrganizationMembershipsRequest) (out *pb.Empty, err error) {
+	// TODO: check if account is verified
 	if in.Name == "" {
 		return nil, grpc.Errorf(codes.InvalidArgument, "organization name is mandatory")
 	}
@@ -150,6 +277,7 @@ func (s *Server) AddOrganizationMemberships(ctx context.Context, in *AddOrganiza
 
 // DeleteOrganizationMemberships implements account.DeleteOrganizationMemberships
 func (s *Server) DeleteOrganizationMemberships(ctx context.Context, in *DeleteOrganizationMembershipsRequest) (out *pb.Empty, err error) {
+	// TODO: check if account is verified
 	if in.Name == "" {
 		return nil, grpc.Errorf(codes.InvalidArgument, "organization name is mandatory")
 	}
@@ -162,6 +290,7 @@ func (s *Server) DeleteOrganizationMemberships(ctx context.Context, in *DeleteOr
 
 // CreateTeam implements account.CreateTeam
 func (s *Server) CreateTeam(ctx context.Context, in *CreateTeamRequest) (out *pb.Empty, err error) {
+	// TODO: check if account is verified
 	out = &pb.Empty{}
 	if in.Name == "" {
 		return nil, grpc.Errorf(codes.InvalidArgument, "team name is mandatory")
@@ -174,6 +303,7 @@ func (s *Server) CreateTeam(ctx context.Context, in *CreateTeamRequest) (out *pb
 
 // ListTeam implements account.ListTeam
 func (s *Server) ListTeam(ctx context.Context, in *ListTeamRequest) (out *ListTeamReply, err error) {
+	// TODO: check if account is verified
 	if in.Organization == "" {
 		return nil, grpc.Errorf(codes.InvalidArgument, "organization name is mandatory")
 	}
@@ -183,6 +313,7 @@ func (s *Server) ListTeam(ctx context.Context, in *ListTeamRequest) (out *ListTe
 
 // EditTeam implements account.EditTeam
 func (s *Server) EditTeam(ctx context.Context, in *EditTeamRequest) (out *pb.Empty, err error) {
+	// TODO: check if account is verified
 	if in.Name == "" {
 		return nil, grpc.Errorf(codes.InvalidArgument, "team name is mandatory")
 	}
@@ -195,6 +326,7 @@ func (s *Server) EditTeam(ctx context.Context, in *EditTeamRequest) (out *pb.Emp
 
 // GetTeamDetails implements account.GetTeamDetails
 func (s *Server) GetTeamDetails(ctx context.Context, in *GetTeamDetailsRequest) (out *GetTeamDetailsReply, err error) {
+	// TODO: check if account is verified
 	if in.Name == "" {
 		return nil, grpc.Errorf(codes.InvalidArgument, "team name is mandatory")
 	}
@@ -207,6 +339,7 @@ func (s *Server) GetTeamDetails(ctx context.Context, in *GetTeamDetailsRequest) 
 
 // DeleteTeam implements account.DeleteTeam
 func (s *Server) DeleteTeam(ctx context.Context, in *DeleteTeamRequest) (out *pb.Empty, err error) {
+	// TODO: check if account is verified
 	if in.Name == "" {
 		return nil, grpc.Errorf(codes.InvalidArgument, "team name is mandatory")
 	}
@@ -219,6 +352,7 @@ func (s *Server) DeleteTeam(ctx context.Context, in *DeleteTeamRequest) (out *pb
 
 // AddTeamMemberships implements account.AddTeamMemberships
 func (s *Server) AddTeamMemberships(ctx context.Context, in *AddTeamMembershipsRequest) (out *pb.Empty, err error) {
+	// TODO: check if account is verified
 	if in.Name == "" {
 		return nil, grpc.Errorf(codes.InvalidArgument, "team name is mandatory")
 	}
@@ -234,6 +368,7 @@ func (s *Server) AddTeamMemberships(ctx context.Context, in *AddTeamMembershipsR
 
 // DeleteTeamMemberships implements account.DeleteTeamMemberships
 func (s *Server) DeleteTeamMemberships(ctx context.Context, in *DeleteTeamMembershipsRequest) (out *pb.Empty, err error) {
+	// TODO: check if account is verified
 	if in.Name == "" {
 		return nil, grpc.Errorf(codes.InvalidArgument, "team name is mandatory")
 	}
@@ -249,6 +384,7 @@ func (s *Server) DeleteTeamMemberships(ctx context.Context, in *DeleteTeamMember
 
 // GrantPermission implements account.GrantPermission
 func (s *Server) GrantPermission(ctx context.Context, in *GrantPermissionRequest) (out *pb.Empty, err error) {
+	// TODO: check if account is verified
 	//if in.Team == "" {
 	//	return nil, grpc.Errorf(codes.InvalidArgument, "team name is mandatory")
 	//}
@@ -267,6 +403,7 @@ func (s *Server) GrantPermission(ctx context.Context, in *GrantPermissionRequest
 
 // ListPermission implements account.ListPermission
 func (s *Server) ListPermission(ctx context.Context, in *ListPermissionRequest) (out *ListPermissionReply, err error) {
+	// TODO: check if account is verified
 	if in.Team != "" && in.Organization == "" {
 		return nil, grpc.Errorf(codes.InvalidArgument, "organization name is mandatory")
 	}
@@ -276,6 +413,7 @@ func (s *Server) ListPermission(ctx context.Context, in *ListPermissionRequest) 
 
 // EditPermission implements account.EditPermission
 func (s *Server) EditPermission(ctx context.Context, in *EditPermissionRequest) (out *pb.Empty, err error) {
+	// TODO: check if account is verified
 	//if in.Team == "" {
 	//	return nil, grpc.Errorf(codes.InvalidArgument, "team name is mandatory")
 	//}
@@ -294,6 +432,7 @@ func (s *Server) EditPermission(ctx context.Context, in *EditPermissionRequest) 
 
 // RevokePermission implements account.RevokePermission
 func (s *Server) RevokePermission(ctx context.Context, in *RevokePermissionRequest) (out *pb.Empty, err error) {
+	// TODO: check if account is verified
 	//if in.Team == "" {
 	//	return nil, grpc.Errorf(codes.InvalidArgument, "team name is mandatory")
 	//}
@@ -309,6 +448,7 @@ func (s *Server) RevokePermission(ctx context.Context, in *RevokePermissionReque
 
 // TransferPermissionOwnership implements account.TransferPermissionOwnership
 func (s *Server) TransferPermissionOwnership(ctx context.Context, in *TransferPermissionOwnershipRequest) (out *pb.Empty, err error) {
+	// TODO: check if account is verified
 	if in.Team == "" {
 		return nil, grpc.Errorf(codes.InvalidArgument, "team name is mandatory")
 	}

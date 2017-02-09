@@ -31,86 +31,7 @@
         ]
       }
     },
-    "/v1/account/{name}": {
-      "get": {
-        "operationId": "GetDetails",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/accountGetAccountDetailsReply"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "name",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "string"
-          }
-        ],
-        "tags": [
-          "Account"
-        ]
-      },
-      "delete": {
-        "operationId": "Delete",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/protobufEmpty"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "name",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "string"
-          }
-        ],
-        "tags": [
-          "Account"
-        ]
-      },
-      "put": {
-        "operationId": "Edit",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/protobufEmpty"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "name",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/accountEditAccountRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Account"
-        ]
-      }
-    },
-    "/v1/account/{name}/login": {
+    "/v1/account/login": {
       "post": {
         "operationId": "Login",
         "responses": {
@@ -123,19 +44,63 @@
         },
         "parameters": [
           {
-            "name": "name",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "string"
-          },
-          {
             "name": "body",
             "in": "body",
             "required": true,
             "schema": {
               "$ref": "#/definitions/accountLogInRequest"
             }
+          }
+        ],
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/v1/account/signup": {
+      "post": {
+        "operationId": "SignUp",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/accountSignUpReply"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountSignUpRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/v1/account/verify/{token}": {
+      "get": {
+        "operationId": "Verify",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
           }
         ],
         "tags": [
@@ -199,138 +164,6 @@
         ]
       }
     },
-    "/v1/account/{name}/passwordChange": {
-      "post": {
-        "operationId": "PasswordChange",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/protobufEmpty"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "name",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/accountPasswordChangeRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Account"
-        ]
-      }
-    },
-    "/v1/account/{name}/passwordReset": {
-      "post": {
-        "operationId": "PasswordReset",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/protobufEmpty"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "name",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/accountPasswordResetRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Account"
-        ]
-      }
-    },
-    "/v1/account/{name}/signup": {
-      "post": {
-        "operationId": "SignUp",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/accountSignUpReply"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "name",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/accountSignUpRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Account"
-        ]
-      }
-    },
-    "/v1/account/{name}/switch": {
-      "put": {
-        "operationId": "Switch",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/protobufEmpty"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "name",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/accountSwitchRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Account"
-        ]
-      }
-    },
     "/v1/account/{name}/teams": {
       "get": {
         "operationId": "GetTeams",
@@ -349,46 +182,6 @@
             "required": true,
             "type": "string",
             "format": "string"
-          }
-        ],
-        "tags": [
-          "Account"
-        ]
-      }
-    },
-    "/v1/account/{name}/verification/{code}": {
-      "post": {
-        "operationId": "Verify",
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/protobufEmpty"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "name",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "string"
-          },
-          {
-            "name": "code",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/accountVerificationRequest"
-            }
           }
         ],
         "tags": [
@@ -833,13 +626,191 @@
           "Account"
         ]
       }
+    },
+    "/v1/account/{user_name}": {
+      "get": {
+        "operationId": "GetDetails",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/accountGetAccountDetailsReply"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "Account"
+        ]
+      },
+      "delete": {
+        "operationId": "Delete",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "Account"
+        ]
+      },
+      "put": {
+        "operationId": "Edit",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountEditAccountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/v1/account/{user_name}/passwordChange": {
+      "post": {
+        "operationId": "PasswordChange",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountPasswordChangeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/v1/account/{user_name}/passwordReset": {
+      "post": {
+        "operationId": "PasswordReset",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountPasswordResetRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/v1/account/{user_name}/switch": {
+      "put": {
+        "operationId": "Switch",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountSwitchRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Account"
+        ]
+      }
     }
   },
   "definitions": {
     "accountAccountEntry": {
       "type": "object",
       "properties": {
-        "name": {
+        "user_name": {
           "type": "string",
           "format": "string"
         },
@@ -852,8 +823,7 @@
           "format": "boolean"
         },
         "account_type": {
-          "type": "string",
-          "format": "string"
+          "$ref": "#/definitions/schemaAccountType"
         }
       }
     },
@@ -965,7 +935,7 @@
     "accountDeleteAccountRequest": {
       "type": "object",
       "properties": {
-        "name": {
+        "user_name": {
           "type": "string",
           "format": "string"
         }
@@ -1027,7 +997,7 @@
     "accountEditAccountRequest": {
       "type": "object",
       "properties": {
-        "name": {
+        "user_name": {
           "type": "string",
           "format": "string"
         },
@@ -1096,7 +1066,7 @@
     "accountGetAccountDetailsRequest": {
       "type": "object",
       "properties": {
-        "name": {
+        "user_name": {
           "type": "string",
           "format": "string"
         }
@@ -1244,7 +1214,7 @@
     "accountLogInReply": {
       "type": "object",
       "properties": {
-        "sessionKey": {
+        "token": {
           "type": "string",
           "format": "string"
         }
@@ -1253,7 +1223,7 @@
     "accountLogInRequest": {
       "type": "object",
       "properties": {
-        "name": {
+        "user_name": {
           "type": "string",
           "format": "string"
         },
@@ -1267,7 +1237,7 @@
     "accountPasswordChangeRequest": {
       "type": "object",
       "properties": {
-        "name": {
+        "user_name": {
           "type": "string",
           "format": "string"
         },
@@ -1285,7 +1255,7 @@
     "accountPasswordResetRequest": {
       "type": "object",
       "properties": {
-        "name": {
+        "user_name": {
           "type": "string",
           "format": "string"
         },
@@ -1342,7 +1312,7 @@
     "accountSignUpReply": {
       "type": "object",
       "properties": {
-        "sessionKey": {
+        "token": {
           "type": "string",
           "format": "string"
         }
@@ -1351,7 +1321,7 @@
     "accountSignUpRequest": {
       "type": "object",
       "properties": {
-        "name": {
+        "user_name": {
           "type": "string",
           "format": "string"
         },
@@ -1364,8 +1334,7 @@
           "format": "string"
         },
         "account_type": {
-          "type": "string",
-          "format": "string"
+          "$ref": "#/definitions/schemaAccountType"
         }
       },
       "title": "SignUp function"
@@ -1373,7 +1342,7 @@
     "accountSwitchRequest": {
       "type": "object",
       "properties": {
-        "name": {
+        "user_name": {
           "type": "string",
           "format": "string"
         }
@@ -1414,15 +1383,7 @@
     "accountVerificationRequest": {
       "type": "object",
       "properties": {
-        "name": {
-          "type": "string",
-          "format": "string"
-        },
-        "password": {
-          "type": "string",
-          "format": "string"
-        },
-        "code": {
+        "token": {
           "type": "string",
           "format": "string"
         }
@@ -1433,6 +1394,14 @@
       "type": "object",
       "description": "service Foo {\n      rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);\n    }\n\nThe JSON representation for `Empty` is empty JSON object `{}`.",
       "title": "A generic empty message that you can re-use to avoid defining duplicated\nempty messages in your APIs. A typical example is to use it as the request\nor the response type of an API method. For instance:"
+    },
+    "schemaAccountType": {
+      "type": "string",
+      "enum": [
+        "USER",
+        "ORGANIZATION"
+      ],
+      "default": "USER"
     }
   }
 }

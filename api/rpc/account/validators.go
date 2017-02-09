@@ -6,43 +6,46 @@ import (
 	//"github.com/holys/safe"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"strings"
 )
 
-const codeLength = 8
-const minPasswordLength = 8
+func isEmpty(s string) bool {
+	return s == "" || strings.TrimSpace(s) == ""
+}
 
-func checkName(name string) error {
-	if name == "" {
+func checkUserName(userName string) error {
+	if isEmpty(userName) {
 		return grpc.Errorf(codes.InvalidArgument, "name is mandatory")
 	}
 	return nil
 }
 
-func CheckUserName(name string) error {
-	if name == "" {
-		return grpc.Errorf(codes.InvalidArgument, "user name is mandatory")
-	}
-	return nil
-}
-
-func CheckPassword(password string) error {
-	if password == "" {
+func checkPassword(password string) error {
+	if isEmpty(password) {
 		return grpc.Errorf(codes.InvalidArgument, "password is mandatory")
 	}
+	// TODO: check password strength
+	//err = CheckPasswordStrength(r.Password)
+	//if err != nil {
+	//	return
+	//}
 	return nil
 }
 
 func checkOrganizationName(name string) error {
-	if name == "" {
+	if isEmpty(name) {
 		return grpc.Errorf(codes.InvalidArgument, "organization name is mandatory")
 	}
 	return nil
 }
 
-func CheckEmailAddress(email string) (processedEmail string, err error) {
+func checkEmail(email string) (string, error) {
 	address, err := mail.ParseAddress(email)
 	if err != nil {
 		return "", grpc.Errorf(codes.InvalidArgument, err.Error())
+	}
+	if isEmpty(address.Address) {
+		return "", grpc.Errorf(codes.InvalidArgument, "email is mandatory")
 	}
 	return address.Address, nil
 }
@@ -60,34 +63,23 @@ func CheckEmailAddress(email string) (processedEmail string, err error) {
 //	return nil
 //}
 
-func CheckVerificationCodeFormat(code string) error {
-	if len(code) != codeLength {
-		return grpc.Errorf(codes.InvalidArgument, "invalid verification code")
+// Validate validates SignUpRequest
+func (r *SignUpRequest) Validate() (err error) {
+	if r.Email, err = checkEmail(r.Email); err != nil {
+		return err
+	}
+	if err = checkPassword(r.Password); err != nil {
+		return err
+	}
+	if err = checkUserName(r.UserName); err != nil {
+		return err
 	}
 	return nil
 }
 
-// Validate validates SignUpRequest
-func (r *SignUpRequest) Validate() (err error) {
-	err = CheckUserName(r.Name)
-	if err != nil {
-		return
-	}
-	email, err := CheckEmailAddress(r.Email)
-	if err != nil {
-		return
-	}
-	r.Email = email
-	//err = CheckPasswordStrength(r.Password)
-	//if err != nil {
-	//	return
-	//}
-	return
-}
-
 // Validate validates VerificationRequest
 func (r *VerificationRequest) Validate() error {
-	return CheckVerificationCodeFormat(r.Code)
+	return nil
 }
 
 //func (r *OrganizationRequest) Validate() (err error) {
@@ -104,19 +96,24 @@ func (r *VerificationRequest) Validate() error {
 //}
 
 // Validate validates LogInRequest
-func (r *LogInRequest) Validate() error {
-	return CheckUserName(r.Name)
+func (r *LogInRequest) Validate() (err error) {
+	if err = checkUserName(r.UserName); err != nil {
+		return err
+	}
+	if err = checkPassword(r.Password); err != nil {
+		return err
+	}
+	return nil
 }
 
 // Validate validates EditRequest
 func (r *EditAccountRequest) Validate() (err error) {
-	err = checkName(r.Name)
-	if err != nil {
-		return
+	if err = checkUserName(r.UserName); err != nil {
+		return err
 	}
 	if r.Email != "" {
 		var email string
-		email, err = CheckEmailAddress(r.Email)
+		email, err = checkEmail(r.Email)
 		if err != nil {
 			return
 		}
@@ -133,14 +130,11 @@ func (r *EditAccountRequest) Validate() (err error) {
 
 // Validate validates PasswordResetRequest
 func (r *PasswordResetRequest) Validate() (err error) {
-	err = CheckUserName(r.Name)
-	if err != nil {
-		return
+	if err = checkUserName(r.UserName); err != nil {
+		return err
 	}
-	email, err := CheckEmailAddress(r.Email)
-	if err != nil {
-		return
+	if r.Email, err = checkEmail(r.Email); err != nil {
+		return err
 	}
-	r.Email = email
 	return
 }

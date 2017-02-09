@@ -7,37 +7,21 @@ import (
 )
 
 func TestTopicShouldCreateAndDeleteATopic(t *testing.T) {
-	created, err := topicClient.Create(ctx, &CreateRequest{
-		Topic: &TopicEntry{
-			Name: "test-topic",
-		},
-	})
+	created, err := topicClient.Create(ctx, &CreateRequest{Topic: &TopicEntry{Name: "test-topic"}})
 	assert.NoError(t, err)
 
-	_, err = topicClient.Delete(ctx, &DeleteRequest{
-		Id: created.Topic.Id,
-	})
+	_, err = topicClient.Delete(ctx, &DeleteRequest{Id: created.Topic.Id})
 	assert.NoError(t, err)
 }
 
 func TestTopicShouldFailWhenCreatingAnAlreadyExistingTopic(t *testing.T) {
-	created, err := topicClient.Create(ctx, &CreateRequest{
-		Topic: &TopicEntry{
-			Name: "test-topic",
-		},
-	})
+	created, err := topicClient.Create(ctx, &CreateRequest{Topic: &TopicEntry{Name: "test-topic"}})
 	assert.NoError(t, err)
 
-	_, err = topicClient.Create(ctx, &CreateRequest{
-		Topic: &TopicEntry{
-			Name: "test-topic",
-		},
-	})
+	_, err = topicClient.Create(ctx, &CreateRequest{Topic: &TopicEntry{Name: "test-topic"}})
 	assert.Error(t, err)
 
-	_, err = topicClient.Delete(ctx, &DeleteRequest{
-		Id: created.Topic.Id,
-	})
+	_, err = topicClient.Delete(ctx, &DeleteRequest{Id: created.Topic.Id})
 	assert.NoError(t, err)
 }
 

@@ -3,7 +3,7 @@ package account
 import (
 	"context"
 
-	"github.com/appcelerator/amp/data/schema/account"
+	"github.com/appcelerator/amp/data/account/schema"
 )
 
 // Interface defines the Account data access layer
@@ -14,15 +14,18 @@ type Interface interface {
 	// GetAccount fetches an account by id
 	GetAccount(ctx context.Context, id string) (account *schema.Account, err error)
 
-	// GetAccountByEmail fetches an account by email
-	GetAccountByEmail(ctx context.Context, email string) (account *schema.Account, err error)
+	// GetAccountByUserName fetches an account by user name
+	GetAccountByUserName(ctx context.Context, userName string) (account *schema.Account, err error)
 
 	// ListAccounts lists accounts
 	ListAccounts(ctx context.Context) (accounts []*schema.Account, err error)
 
 	// UpdateAccount updates an account
-	UpdateAccount(ctx context.Context, update *schema.Account) (updated *schema.Account, err error)
+	UpdateAccount(ctx context.Context, update *schema.Account) (err error)
 
 	// DeleteAccount deletes an account by id
-	DeleteAccount(ctx context.Context, id string) (account *schema.Account, err error)
+	DeleteAccount(ctx context.Context, id string) (err error)
+
+	// Reset resets the account store
+	Reset(ctx context.Context) (err error)
 }
