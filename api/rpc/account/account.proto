@@ -37,7 +37,7 @@ service AccountService {
       body: "*"
     };
   };
-  rpc List (ListRequest) returns (ListReply) {
+  rpc List (ListAccountRequest) returns (ListAccountReply) {
     option (google.api.http) = {
       get: "/v1/account"
     };
@@ -48,18 +48,18 @@ service AccountService {
       body: "*"
     };
   };
-  rpc GetDetails (GetDetailsRequest) returns (GetDetailsReply) {
+  rpc GetDetails (GetAccountDetailsRequest) returns (GetAccountDetailsReply) {
     option (google.api.http) = {
       get: "/v1/account/{name}"
     };
   };
-  rpc Edit (EditRequest) returns (EditRequestReply) {
+  rpc Edit (EditAccountRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       put: "/v1/account/{name}",
       body: "*"
     };
   };
-  rpc Delete (DeleteRequest) returns (google.protobuf.Empty) {
+  rpc Delete (DeleteAccountRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete: "/v1/account/{name}"
     };
@@ -69,15 +69,15 @@ service AccountService {
       get: "/v1/account/{name}/teams"
     };
   }
-  rpc AddOrganizationMemberships (AddMembershipsRequest) returns (google.protobuf.Empty) {
+  rpc AddOrganizationMemberships (AddOrganizationMembershipsRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       patch: "/v1/account/{name}/organization/membership",
       body: "*"
     };
   };
-  rpc DeleteOrganizationMemberships (DeleteMembershipsRequest) returns (google.protobuf.Empty) {
+  rpc DeleteOrganizationMemberships (DeleteOrganizationMembershipsRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete: "/v1/account/{name}/organization/membership",
+      delete: "/v1/account/{name}/organization/membership"
     };
   };
 }
@@ -112,7 +112,9 @@ message Settings {
 // SignUp function
 message SignUpRequest {
   string name = 1;
-  string email = 2;
+  string password = 2;
+  string email = 3;
+  string account_type = 4;
 }
 
 message SignUpReply {
@@ -150,13 +152,11 @@ message LogInReply {
 }
 
 //List function
-message ListRequest {
+message ListAccountRequest {
 }
 
-message ListReply {
+message ListAccountReply {
   repeated Account accounts = 1;
-  //repeated TeamReply teams = 2;
-  //repeated PermissionRequest permissions = 3;
 }
 
 //Switch function
@@ -165,38 +165,30 @@ message SwitchRequest {
 }
 
 //GetDetails function
-message GetDetailsRequest {
+message GetAccountDetailsRequest {
   string name = 1;
 }
 
-message GetDetailsReply {
+message GetAccountDetailsReply {
   Account account = 1;
   Billing billing = 2;
   Settings settings = 3;
 }
 
 //Edit function
-message EditRequest {
+message EditAccountRequest {
   string name = 1;
   string email = 2;
-  string password = 3;
-  string new_password = 4;
-  Billing billing = 5;
-  Settings settings = 6;
-}
-
-message EditRequestReply {
-  Account account = 1;
-  Billing billing = 2;
-  Settings settings = 3;
+  Billing billing = 3;
+  Settings settings = 4;
 }
 
 //Delete function
-message DeleteRequest {
+message DeleteAccountRequest {
   string name = 1;
 }
 
-//GetTeams function 
+//GetTeams function
 message GetTeamsRequest {
   string name = 2;
 }
@@ -211,13 +203,13 @@ message GetTeamsReply {
 }
 
 //AddOrganizationMemberships
-message AddMembershipsRequest {
+message AddOrganizationMembershipsRequest {
   string name = 1;
   repeated string Members = 2;
 }
 
 //DeleteOrganizationMemberships
-message DeleteMembershipsRequest {
+message DeleteOrganizationMembershipsRequest {
   string name = 1;
   repeated string Members = 2;
 }

@@ -28,7 +28,7 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 
 func request_TeamService_Create_0(ctx context.Context, marshaler runtime.Marshaler, client TeamServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateRequest
+	var protoReq CreateTeamRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil {
@@ -70,7 +70,7 @@ func request_TeamService_Create_0(ctx context.Context, marshaler runtime.Marshal
 }
 
 func request_TeamService_List_0(ctx context.Context, marshaler runtime.Marshaler, client TeamServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListRequest
+	var protoReq ListTeamRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -97,7 +97,7 @@ func request_TeamService_List_0(ctx context.Context, marshaler runtime.Marshaler
 }
 
 func request_TeamService_Edit_0(ctx context.Context, marshaler runtime.Marshaler, client TeamServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq EditRequest
+	var protoReq EditTeamRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil {
@@ -139,7 +139,7 @@ func request_TeamService_Edit_0(ctx context.Context, marshaler runtime.Marshaler
 }
 
 func request_TeamService_GetDetails_0(ctx context.Context, marshaler runtime.Marshaler, client TeamServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetDetailsRequest
+	var protoReq GetTeamDetailsRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -177,7 +177,7 @@ func request_TeamService_GetDetails_0(ctx context.Context, marshaler runtime.Mar
 }
 
 func request_TeamService_Delete_0(ctx context.Context, marshaler runtime.Marshaler, client TeamServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DeleteRequest
+	var protoReq DeleteTeamRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -215,7 +215,7 @@ func request_TeamService_Delete_0(ctx context.Context, marshaler runtime.Marshal
 }
 
 func request_TeamService_AddMemberships_0(ctx context.Context, marshaler runtime.Marshaler, client TeamServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq AddMembershipsRequest
+	var protoReq AddTeamMembershipsRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil {
@@ -261,7 +261,7 @@ var (
 )
 
 func request_TeamService_DeleteMemberships_0(ctx context.Context, marshaler runtime.Marshaler, client TeamServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DeleteMembershipsRequest
+	var protoReq DeleteTeamMembershipsRequest
 	var metadata runtime.ServerMetadata
 
 	var (

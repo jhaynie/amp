@@ -11,16 +11,16 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"github.com/appcelerator/amp/config"
+	//"github.com/appcelerator/amp/config"
 	"github.com/docker/docker/client"
 	"github.com/fatih/color"
 )
 
 const (
 	//DockerURL docker url
-	DockerURL = amp.DockerDefaultURL
+	//DockerURL = amp.DockerDefaultURL
 	//DockerVersion docker version
-	DockerVersion = amp.DockerDefaultVersion
+	//DockerVersion = amp.DockerDefaultVersion
 	//ClearScreen ANSI Escape code
 	ClearScreen = "\033[2J\033[0;0H"
 	//MoveCursorHome ANSI Escape code
@@ -42,6 +42,7 @@ type cmdManager struct {
 	fcolLines   func(...interface{}) string
 }
 
+/*
 var currentColorTheme = "default"
 var (
 	colRegular = 0
@@ -51,6 +52,7 @@ var (
 	colSuccess = 4
 	colUser    = 5
 )
+*/
 
 func newCmdManager(verbose string) *cmdManager {
 	s := &cmdManager{}
@@ -61,6 +63,7 @@ func newCmdManager(verbose string) *cmdManager {
 	return s
 }
 
+/*
 func (s *cmdManager) connectDocker() error {
 	defaultHeaders := map[string]string{"User-Agent": "amplifier"}
 	cli, err := client.NewClient(DockerURL, DockerVersion, nil, defaultHeaders)
@@ -70,6 +73,7 @@ func (s *cmdManager) connectDocker() error {
 	s.docker = cli
 	return nil
 }
+ */
 
 func (s *cmdManager) printf(col int, format string, args ...interface{}) {
 	if s.quiet {

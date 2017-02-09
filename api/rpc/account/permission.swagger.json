@@ -22,7 +22,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/accountListReply"
+              "$ref": "#/definitions/accountListPermissionReply"
             }
           }
         },
@@ -209,7 +209,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/accountEditRequest"
+              "$ref": "#/definitions/accountEditPermissionRequest"
             }
           }
         ],
@@ -220,7 +220,7 @@
     }
   },
   "definitions": {
-    "accountEditRequest": {
+    "accountEditPermissionRequest": {
       "type": "object",
       "properties": {
         "ressource": {
@@ -238,7 +238,7 @@
       },
       "title": "Grant function"
     },
-    "accountListReply": {
+    "accountListPermissionReply": {
       "type": "object",
       "properties": {
         "ressources": {
@@ -249,7 +249,7 @@
         }
       }
     },
-    "accountListRequest": {
+    "accountListPermissionRequest": {
       "type": "object",
       "properties": {
         "organization": {

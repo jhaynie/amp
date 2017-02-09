@@ -22,7 +22,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/accountListReply"
+              "$ref": "#/definitions/accountListTeamReply"
             }
           }
         },
@@ -47,7 +47,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/accountGetDetailsReply"
+              "$ref": "#/definitions/accountGetTeamDetailsReply"
             }
           }
         },
@@ -131,7 +131,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/accountCreateRequest"
+              "$ref": "#/definitions/accountCreateTeamRequest"
             }
           }
         ],
@@ -169,7 +169,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/accountEditRequest"
+              "$ref": "#/definitions/accountEditTeamRequest"
             }
           }
         ],
@@ -239,7 +239,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/accountAddMembershipsRequest"
+              "$ref": "#/definitions/accountAddTeamMembershipsRequest"
             }
           }
         ],
@@ -250,7 +250,7 @@
     }
   },
   "definitions": {
-    "accountAddMembershipsRequest": {
+    "accountAddTeamMembershipsRequest": {
       "type": "object",
       "properties": {
         "organization": {
@@ -271,7 +271,7 @@
       },
       "title": "AddMembership function"
     },
-    "accountCreateRequest": {
+    "accountCreateTeamRequest": {
       "type": "object",
       "properties": {
         "organization": {
@@ -289,7 +289,7 @@
       },
       "title": "Create function"
     },
-    "accountDeleteMembershipsRequest": {
+    "accountDeleteTeamMembershipsRequest": {
       "type": "object",
       "properties": {
         "organization": {
@@ -310,7 +310,7 @@
       },
       "title": "DeleteMembership function"
     },
-    "accountDeleteRequest": {
+    "accountDeleteTeamRequest": {
       "type": "object",
       "properties": {
         "organization": {
@@ -324,7 +324,7 @@
       },
       "title": "Delete function"
     },
-    "accountEditRequest": {
+    "accountEditTeamRequest": {
       "type": "object",
       "properties": {
         "organization": {
@@ -342,7 +342,7 @@
       },
       "title": "Edit function"
     },
-    "accountGetDetailsReply": {
+    "accountGetTeamDetailsReply": {
       "type": "object",
       "properties": {
         "organization": {
@@ -366,7 +366,7 @@
         }
       }
     },
-    "accountGetDetailsRequest": {
+    "accountGetTeamDetailsRequest": {
       "type": "object",
       "properties": {
         "organization": {
@@ -380,7 +380,7 @@
       },
       "title": "GetDetails function"
     },
-    "accountListReply": {
+    "accountListTeamReply": {
       "type": "object",
       "properties": {
         "team_names": {
@@ -392,7 +392,7 @@
         }
       }
     },
-    "accountListRequest": {
+    "accountListTeamRequest": {
       "type": "object",
       "properties": {
         "organization": {

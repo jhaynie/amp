@@ -6,40 +6,40 @@ import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
 service TeamService {
-  rpc Create (CreateRequest) returns (google.protobuf.Empty) {
+  rpc Create (CreateTeamRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/v1/account/{organization}/team/{name}",
       body: "*"
     };
   };
-  rpc List (ListRequest) returns (ListReply) {
+  rpc List (ListTeamRequest) returns (ListTeamReply) {
     option (google.api.http) = {
       get: "/v1/account/{organization}/team"
     };
   };
-  rpc Edit (EditRequest) returns (google.protobuf.Empty) {
+  rpc Edit (EditTeamRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       put: "/v1/account/{organization}/team/{name}",
       body: "*"
     };
   };
-  rpc GetDetails (GetDetailsRequest) returns (GetDetailsReply) {
+  rpc GetDetails (GetTeamDetailsRequest) returns (GetTeamDetailsReply) {
     option (google.api.http) = {
       get: "/v1/account/{organization}/team/{name}"
     };
   };
-  rpc Delete (DeleteRequest) returns (google.protobuf.Empty) {
+  rpc Delete (DeleteTeamRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete: "/v1/account/{organization}/team/{name}"
     };
   };
-  rpc AddMemberships (AddMembershipsRequest) returns (google.protobuf.Empty) {
+  rpc AddMemberships (AddTeamMembershipsRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       patch: "/v1/account/{organization}/team/{name}/membership",
       body: "*"
     };
   };
-  rpc DeleteMemberships (DeleteMembershipsRequest) returns (google.protobuf.Empty) {
+  rpc DeleteMemberships (DeleteTeamMembershipsRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete: "/v1/account/{organization}/team/{name}/membership"
     };
@@ -47,35 +47,35 @@ service TeamService {
 }
 
 //Create function
-message CreateRequest {
+message CreateTeamRequest {
   string organization = 1;
   string name = 2;
   string description = 3;
 }
 
 //List function
-message ListRequest {
+message ListTeamRequest {
   string organization = 1;
 }
 
-message ListReply {
+message ListTeamReply {
   repeated string team_names = 2;
 }
 
 //Edit function
-message EditRequest {
+message EditTeamRequest {
   string organization = 1;
   string name = 2;
   string description = 3;
 }
 
 //GetDetails function
-message GetDetailsRequest {
+message GetTeamDetailsRequest {
   string organization = 1;
   string name = 2;
 }
 
-message GetDetailsReply {
+message GetTeamDetailsReply {
   string organization = 1;
   string name = 2;
   string description = 3;
@@ -83,20 +83,20 @@ message GetDetailsReply {
 }
 
 //Delete function
-message DeleteRequest {
+message DeleteTeamRequest {
   string organization = 1;
   string name = 2;
 }
 
 //AddMembership function
-message AddMembershipsRequest {
+message AddTeamMembershipsRequest {
   string organization = 1;
   string name = 2;
   repeated string Members = 3;
 }
 
 //DeleteMembership function
-message DeleteMembershipsRequest {
+message DeleteTeamMembershipsRequest {
   string organization = 1;
   string name = 2;
   repeated string Members = 3;

@@ -22,7 +22,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/accountListReply"
+              "$ref": "#/definitions/accountListAccountReply"
             }
           }
         },
@@ -38,7 +38,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/accountGetDetailsReply"
+              "$ref": "#/definitions/accountGetAccountDetailsReply"
             }
           }
         },
@@ -84,7 +84,7 @@
           "200": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/accountEditRequestReply"
+              "$ref": "#/definitions/protobufEmpty"
             }
           }
         },
@@ -101,7 +101,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/accountEditRequest"
+              "$ref": "#/definitions/accountEditAccountRequest"
             }
           }
         ],
@@ -190,7 +190,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/accountAddMembershipsRequest"
+              "$ref": "#/definitions/accountAddOrganizationMembershipsRequest"
             }
           }
         ],
@@ -419,7 +419,7 @@
         }
       }
     },
-    "accountAddMembershipsRequest": {
+    "accountAddOrganizationMembershipsRequest": {
       "type": "object",
       "properties": {
         "name": {
@@ -485,7 +485,17 @@
         }
       }
     },
-    "accountDeleteMembershipsRequest": {
+    "accountDeleteAccountRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "format": "string"
+        }
+      },
+      "title": "Delete function"
+    },
+    "accountDeleteOrganizationMembershipsRequest": {
       "type": "object",
       "properties": {
         "name": {
@@ -502,17 +512,7 @@
       },
       "title": "DeleteOrganizationMemberships"
     },
-    "accountDeleteRequest": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "format": "string"
-        }
-      },
-      "title": "Delete function"
-    },
-    "accountEditRequest": {
+    "accountEditAccountRequest": {
       "type": "object",
       "properties": {
         "name": {
@@ -520,14 +520,6 @@
           "format": "string"
         },
         "email": {
-          "type": "string",
-          "format": "string"
-        },
-        "password": {
-          "type": "string",
-          "format": "string"
-        },
-        "new_password": {
           "type": "string",
           "format": "string"
         },
@@ -540,7 +532,7 @@
       },
       "title": "Edit function"
     },
-    "accountEditRequestReply": {
+    "accountGetAccountDetailsReply": {
       "type": "object",
       "properties": {
         "account": {
@@ -554,21 +546,7 @@
         }
       }
     },
-    "accountGetDetailsReply": {
-      "type": "object",
-      "properties": {
-        "account": {
-          "$ref": "#/definitions/accountAccount"
-        },
-        "billing": {
-          "$ref": "#/definitions/accountBilling"
-        },
-        "settings": {
-          "$ref": "#/definitions/accountSettings"
-        }
-      }
-    },
-    "accountGetDetailsRequest": {
+    "accountGetAccountDetailsRequest": {
       "type": "object",
       "properties": {
         "name": {
@@ -599,7 +577,7 @@
       },
       "title": "GetTeams function"
     },
-    "accountListReply": {
+    "accountListAccountReply": {
       "type": "object",
       "properties": {
         "accounts": {
@@ -610,7 +588,7 @@
         }
       }
     },
-    "accountListRequest": {
+    "accountListAccountRequest": {
       "type": "object",
       "title": "List function"
     },
@@ -697,7 +675,15 @@
           "type": "string",
           "format": "string"
         },
+        "password": {
+          "type": "string",
+          "format": "string"
+        },
         "email": {
+          "type": "string",
+          "format": "string"
+        },
+        "account_type": {
           "type": "string",
           "format": "string"
         }

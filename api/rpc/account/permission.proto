@@ -12,12 +12,12 @@ service PermissionService {
       body: "*"
     };
   };
-  rpc List (ListRequest) returns (ListReply) {
+  rpc List (ListPermissionRequest) returns (ListPermissionReply) {
     option (google.api.http) = {
       get: "/v1/account/{organization}/team/{team}/permission"
     };
   };
-  rpc Edit (EditRequest) returns (google.protobuf.Empty) {
+  rpc Edit (EditPermissionRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       put: "/v1/account/{ressource.organization}/team/{ressource.team}/permission/{ressource.resource_id}",
       body: "*"
@@ -30,7 +30,7 @@ service PermissionService {
   };
   rpc TransferOwnership (TransferOwnershipRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      post: "/v1/account/{organization}/team/{team}/transfer/{resource_id}",
+      post: "/v1/account/{organization}/team/{team}/transfer/{resource_id}"
       body: "*"
     };
   };
@@ -50,20 +50,20 @@ message GrantRequest {
 }
 
 //List function
-message ListRequest {
+message ListPermissionRequest {
   string organization = 1;
   string team = 2;
   string level = 3;
   string resource_id = 4;
 }
 
-message ListReply {
+message ListPermissionReply {
   repeated Ressource ressources = 1;
 
 }
 
 //Edit function
-message EditRequest {
+message EditPermissionRequest {
   Ressource ressource = 1;
 }
 

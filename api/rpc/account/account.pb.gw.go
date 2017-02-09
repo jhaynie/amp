@@ -194,7 +194,7 @@ func request_AccountService_Login_0(ctx context.Context, marshaler runtime.Marsh
 }
 
 func request_AccountService_List_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListRequest
+	var protoReq ListAccountRequest
 	var metadata runtime.ServerMetadata
 
 	msg, err := client.List(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -234,7 +234,7 @@ func request_AccountService_Switch_0(ctx context.Context, marshaler runtime.Mars
 }
 
 func request_AccountService_GetDetails_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetDetailsRequest
+	var protoReq GetAccountDetailsRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -261,7 +261,7 @@ func request_AccountService_GetDetails_0(ctx context.Context, marshaler runtime.
 }
 
 func request_AccountService_Edit_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq EditRequest
+	var protoReq EditAccountRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil {
@@ -292,7 +292,7 @@ func request_AccountService_Edit_0(ctx context.Context, marshaler runtime.Marsha
 }
 
 func request_AccountService_Delete_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DeleteRequest
+	var protoReq DeleteAccountRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -346,7 +346,7 @@ func request_AccountService_GetTeams_0(ctx context.Context, marshaler runtime.Ma
 }
 
 func request_AccountService_AddOrganizationMemberships_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq AddMembershipsRequest
+	var protoReq AddOrganizationMembershipsRequest
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil {
@@ -381,7 +381,7 @@ var (
 )
 
 func request_AccountService_DeleteOrganizationMemberships_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DeleteMembershipsRequest
+	var protoReq DeleteOrganizationMembershipsRequest
 	var metadata runtime.ServerMetadata
 
 	var (
