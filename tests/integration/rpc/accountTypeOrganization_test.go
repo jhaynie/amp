@@ -33,11 +33,11 @@ func TestOrgShouldSignUpAndVerify(t *testing.T) {
 	if signUpErr!=nil {
 		t.Fatal(signUpErr)
 	}
-	if signupAnswer.SessionKey==nil {
+	if signupAnswer.SessionKey=="" {
 		t.Fatal("invalide sessionKey")
 	}
 
-	code :=-1
+	code :="bad"
 	//Verify with a bad code
 	_, verifyErr1 := accountClient.Verify(ctx, &account.VerificationRequest {
 		Name: accountName,
@@ -49,7 +49,7 @@ func TestOrgShouldSignUpAndVerify(t *testing.T) {
 	}
 
 	//a way to get the code...
-	code= 0
+	code= "ok"
 	_, verifyErr2 := accountClient.Verify(ctx,  &account.VerificationRequest {
 		Name: accountName,
 		Password: accountPwd,
@@ -78,7 +78,7 @@ func TestOrgShouldLogInResetPwdChangeItLogInAgain(t *testing.T) {
 	if loginErr!=nil {
 		t.Fatal(loginErr)
 	}
-	if loginAnswer1.SessionKey==nil {
+	if loginAnswer1.SessionKey=="" {
 		t.Fatal("invalide sessionKey")
 	}
 	//Reset password
@@ -136,7 +136,7 @@ func TestOrgShouldEditAccount(t *testing.T) {
 	}
 	//Verify email
 	//a way to get the code...
-	code:= 0
+	code:= "ok"
 	_, verifyErr := accountClient.Verify(ctx,  &account.VerificationRequest {
 		Name: accountName,
 		Password: accountPwd,

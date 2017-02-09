@@ -395,6 +395,444 @@
           "AccountService"
         ]
       }
+    },
+    "/v1/account/{organization}/team": {
+      "get": {
+        "operationId": "ListTeam",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/accountListTeamReply"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "organization",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "AccountService"
+        ]
+      }
+    },
+    "/v1/account/{organization}/team/{name}": {
+      "get": {
+        "operationId": "GetTeamDetails",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/accountGetTeamDetailsReply"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "organization",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "AccountService"
+        ]
+      },
+      "delete": {
+        "operationId": "DeleteTeam",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "organization",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "AccountService"
+        ]
+      },
+      "post": {
+        "summary": "Teams",
+        "operationId": "CreateTeam",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "organization",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountCreateTeamRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AccountService"
+        ]
+      },
+      "put": {
+        "operationId": "EditTeam",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "organization",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountEditTeamRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AccountService"
+        ]
+      }
+    },
+    "/v1/account/{organization}/team/{name}/membership": {
+      "delete": {
+        "operationId": "DeleteTeamMemberships",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "organization",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "AccountService"
+        ]
+      },
+      "patch": {
+        "operationId": "AddTeamMemberships",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "organization",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountAddTeamMembershipsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AccountService"
+        ]
+      }
+    },
+    "/v1/account/{organization}/team/{team}/permission": {
+      "get": {
+        "operationId": "ListPermission",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/accountListPermissionReply"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "organization",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "team",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "AccountService"
+        ]
+      }
+    },
+    "/v1/account/{organization}/team/{team}/transfer/{resource_id}": {
+      "post": {
+        "operationId": "TransferPermissionOwnership",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "organization",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "team",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "resource_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountTransferPermissionOwnershipRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AccountService"
+        ]
+      }
+    },
+    "/v1/account/{ressource.organization}/team/{ressource.team}/permission": {
+      "post": {
+        "summary": "Permissions",
+        "operationId": "GrantPermission",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ressource.organization",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "ressource.team",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountGrantPermissionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AccountService"
+        ]
+      }
+    },
+    "/v1/account/{ressource.organization}/team/{ressource.team}/permission/{ressource.resource_id}": {
+      "delete": {
+        "operationId": "RevokePermission",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ressource.organization",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "ressource.team",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "ressource.resource_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "AccountService"
+        ]
+      },
+      "put": {
+        "operationId": "EditPermission",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ressource.organization",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "ressource.team",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "ressource.resource_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountEditPermissionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AccountService"
+        ]
+      }
     }
   },
   "definitions": {
@@ -435,6 +873,27 @@
         }
       },
       "title": "AddOrganizationMemberships"
+    },
+    "accountAddTeamMembershipsRequest": {
+      "type": "object",
+      "properties": {
+        "organization": {
+          "type": "string",
+          "format": "string"
+        },
+        "name": {
+          "type": "string",
+          "format": "string"
+        },
+        "Members": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "title": "AddMembership function"
     },
     "accountBilling": {
       "type": "object",
@@ -485,6 +944,24 @@
         }
       }
     },
+    "accountCreateTeamRequest": {
+      "type": "object",
+      "properties": {
+        "organization": {
+          "type": "string",
+          "format": "string"
+        },
+        "name": {
+          "type": "string",
+          "format": "string"
+        },
+        "description": {
+          "type": "string",
+          "format": "string"
+        }
+      },
+      "title": "Create function"
+    },
     "accountDeleteAccountRequest": {
       "type": "object",
       "properties": {
@@ -512,6 +989,41 @@
       },
       "title": "DeleteOrganizationMemberships"
     },
+    "accountDeleteTeamMembershipsRequest": {
+      "type": "object",
+      "properties": {
+        "organization": {
+          "type": "string",
+          "format": "string"
+        },
+        "name": {
+          "type": "string",
+          "format": "string"
+        },
+        "Members": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "title": "DeleteMembership function"
+    },
+    "accountDeleteTeamRequest": {
+      "type": "object",
+      "properties": {
+        "organization": {
+          "type": "string",
+          "format": "string"
+        },
+        "name": {
+          "type": "string",
+          "format": "string"
+        }
+      },
+      "title": "Delete function"
+    },
     "accountEditAccountRequest": {
       "type": "object",
       "properties": {
@@ -528,6 +1040,33 @@
         },
         "settings": {
           "$ref": "#/definitions/accountSettings"
+        }
+      },
+      "title": "Edit function"
+    },
+    "accountEditPermissionRequest": {
+      "type": "object",
+      "properties": {
+        "ressource": {
+          "$ref": "#/definitions/accountRessource"
+        }
+      },
+      "title": "Edit function"
+    },
+    "accountEditTeamRequest": {
+      "type": "object",
+      "properties": {
+        "organization": {
+          "type": "string",
+          "format": "string"
+        },
+        "name": {
+          "type": "string",
+          "format": "string"
+        },
+        "description": {
+          "type": "string",
+          "format": "string"
         }
       },
       "title": "Edit function"
@@ -556,6 +1095,44 @@
       },
       "title": "GetDetails function"
     },
+    "accountGetTeamDetailsReply": {
+      "type": "object",
+      "properties": {
+        "organization": {
+          "type": "string",
+          "format": "string"
+        },
+        "name": {
+          "type": "string",
+          "format": "string"
+        },
+        "description": {
+          "type": "string",
+          "format": "string"
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      }
+    },
+    "accountGetTeamDetailsRequest": {
+      "type": "object",
+      "properties": {
+        "organization": {
+          "type": "string",
+          "format": "string"
+        },
+        "name": {
+          "type": "string",
+          "format": "string"
+        }
+      },
+      "title": "GetDetails function"
+    },
     "accountGetTeamsReply": {
       "type": "object",
       "properties": {
@@ -577,6 +1154,15 @@
       },
       "title": "GetTeams function"
     },
+    "accountGrantPermissionRequest": {
+      "type": "object",
+      "properties": {
+        "ressource": {
+          "$ref": "#/definitions/accountRessource"
+        }
+      },
+      "title": "Grant function"
+    },
     "accountListAccountReply": {
       "type": "object",
       "properties": {
@@ -590,6 +1176,61 @@
     },
     "accountListAccountRequest": {
       "type": "object",
+      "title": "List function"
+    },
+    "accountListPermissionReply": {
+      "type": "object",
+      "properties": {
+        "ressources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/accountRessource"
+          }
+        }
+      }
+    },
+    "accountListPermissionRequest": {
+      "type": "object",
+      "properties": {
+        "organization": {
+          "type": "string",
+          "format": "string"
+        },
+        "team": {
+          "type": "string",
+          "format": "string"
+        },
+        "level": {
+          "type": "string",
+          "format": "string"
+        },
+        "resource_id": {
+          "type": "string",
+          "format": "string"
+        }
+      },
+      "title": "List function"
+    },
+    "accountListTeamReply": {
+      "type": "object",
+      "properties": {
+        "team_names": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      }
+    },
+    "accountListTeamRequest": {
+      "type": "object",
+      "properties": {
+        "organization": {
+          "type": "string",
+          "format": "string"
+        }
+      },
       "title": "List function"
     },
     "accountLogInReply": {
@@ -646,6 +1287,37 @@
         }
       },
       "title": "PasswordReset function"
+    },
+    "accountRessource": {
+      "type": "object",
+      "properties": {
+        "organization": {
+          "type": "string",
+          "format": "string"
+        },
+        "team": {
+          "type": "string",
+          "format": "string"
+        },
+        "level": {
+          "type": "string",
+          "format": "string"
+        },
+        "resource_id": {
+          "type": "string",
+          "format": "string"
+        }
+      },
+      "title": "Ressource struct"
+    },
+    "accountRevokePermissionRequest": {
+      "type": "object",
+      "properties": {
+        "ressource": {
+          "$ref": "#/definitions/accountRessource"
+        }
+      },
+      "title": "Revoke function"
     },
     "accountSettings": {
       "type": "object",
@@ -712,6 +1384,24 @@
           "format": "string"
         }
       }
+    },
+    "accountTransferPermissionOwnershipRequest": {
+      "type": "object",
+      "properties": {
+        "organization": {
+          "type": "string",
+          "format": "string"
+        },
+        "team": {
+          "type": "string",
+          "format": "string"
+        },
+        "resource_id": {
+          "type": "string",
+          "format": "string"
+        }
+      },
+      "title": "TransferOwnership function"
     },
     "accountVerificationRequest": {
       "type": "object",
