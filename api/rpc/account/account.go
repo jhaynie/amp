@@ -3,7 +3,6 @@ package account
 import (
 	pb "github.com/golang/protobuf/ptypes/empty"
 	"golang.org/x/net/context"
-	"golang.org/x/oauth2/google"
 )
 
 // Server is used to implement account.AccountServer
@@ -35,7 +34,7 @@ func (s *Server) Login(ctx context.Context, in *LogInRequest) (out *LogInReply, 
 }
 
 // List implements account.List
-func (s *Server) List(ctx context.Context, in *ListRequest) (out *ListReply, err error) {
+func (s *Server) List(ctx context.Context, in *ListAccountRequest) (out *ListAccountReply, err error) {
 	return
 }
 
@@ -45,17 +44,17 @@ func (s *Server) Switch(ctx context.Context, in *SwitchRequest) (out *pb.Empty, 
 }
 
 // GetDetails implements account.GetDetails
-func (s *Server) GetDetails(ctx context.Context, in *GetDetailsRequest) (out *GetDetailsReply, err error) {
+func (s *Server) GetDetails(ctx context.Context, in *GetAccountDetailsRequest) (out *GetAccountDetailsReply, err error) {
 	return
 }
 
 // Edit implements account.Edit
-func (s *Server) Edit(ctx context.Context, in *EditRequest) (out *EditRequestReply, err error) {
+func (s *Server) Edit(ctx context.Context, in *EditAccountRequest) (out *pb.Empty, err error) {
 	return
 }
 
 // Delete implements account.Delete
-func (s *Server) Delete(ctx context.Context, in *DeleteRequest) (out *pb.Empty, err error) {
+func (s *Server) Delete(ctx context.Context, in *DeleteAccountRequest) (out *pb.Empty, err error) {
 	return
 }
 
@@ -65,11 +64,11 @@ func (s *Server) GetTeams(ctx context.Context, in *GetTeamsRequest) (out *GetTea
 }
 
 // AddOrganizationMemberships implements account.AddOrganizationMemberships
-func (s *Server) AddOrganizationMemberships(ctx context.Context, in *AddMembershipsRequest) (out *pb.Empty, err error) {
+func (s *Server) AddOrganizationMemberships(ctx context.Context, in *AddOrganizationMembershipsRequest) (out *pb.Empty, err error) {
 	return
 }
 
 // DeleteOrganizationMemberships implements account.DeleteOrganizationMemberships
-func (s *Server) DeleteOrganizationMemberships(ctx context.Context, in *DeleteMembershipsRequest) (out *pb.Empty, err error) {
+func (s *Server) DeleteOrganizationMemberships(ctx context.Context, in *DeleteOrganizationMembershipsRequest) (out *pb.Empty, err error) {
 	return
 }
