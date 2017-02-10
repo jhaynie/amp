@@ -1,0 +1,7 @@
+name: suite
+timeout: 10m
+lookupdir: ./suite/lookup
+setupdir: ./suite/setup
+testdirs:
+  - ./suite/samples
+teardowndir: ./suite/tearDown

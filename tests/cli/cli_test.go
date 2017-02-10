@@ -11,11 +11,23 @@ import (
 	gexpect "github.com/Thomasrooney/gexpect"
 )
 
+type SuiteSpec struct {
+	Name        string   `yaml:"name"`
+	Timeout     string   `yaml:"timeout"`
+	LookupDir   string   `yaml:"lookupdir"`
+	SetupDir    string   `yaml:"setupdir"`
+	TestDirs    []string `yaml:"testdirs"`
+	TearDownDir string   `yaml:"teardowndir"`
+	Setup				[]TestSpec
+	Tests       []TestSpec
+	TearDown		[]TestSpec
+}
+
 // TestSpec contains all the CommandSpec objects
 type TestSpec struct {
-	Name     string
-	Timeout  time.Duration
-	Commands []CommandSpec
+	Name     string        `yaml:"name"`
+	Timeout  time.Duration `yaml:"timeout"`
+	Commands []CommandSpec `yaml:"commands"`
 }
 
 // CommandSpec defines the commands with arguments and options

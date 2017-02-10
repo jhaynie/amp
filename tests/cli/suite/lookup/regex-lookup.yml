@@ -1,5 +1,5 @@
 logs-all: ([a-zA-Z0-9\.\-:\"\s\_\t\n$&?/\[\]%><,;()+='*{}\\]*)
-logs-metadata: (timestamp:"[A-Z0-9\.\-:\"]+\s+time_id:"[A-Z0-9\.\-:\"]+\s+service_id:"[a-zA-Z0-9$\"]+\s+service_name:"[a-zA-Z0-9\-$\"]+\s+message:"[a-z0-9\./\-:\s\_\"=\t\n\$\\&%?\[\]\%\>\<\,\;\+$\"]+\s+container_id:"[a-z0-9$\"]+\s+node_id:"[a-z0-9$\"]+\s+task_id:"[a-z0-9$\"]+\s+task_name:"[a-zA-Z0-9\.\-$\"]+)
+#logs-metadata: (timestamp:"[A-Z0-9\.\-:\"]+\s+time_id:"[A-Z0-9\.\-:\"]+\s+service_id:"[a-zA-Z0-9$\"]+\s+service_name:"[a-zA-Z0-9\-$\"]+\s+message:"[a-z0-9\./\-:\s\_\"=\t\n\$\\&%?\[\]\%\>\<\,\;\+$\"]+\s+container_id:"[a-z0-9$\"]+\s+node_id:"[a-z0-9$\"]+\s+task_id:"[a-z0-9$\"]+\s+task_name:"[a-zA-Z0-9\.\-$\"]+)
 logs-numbered: ([a-zA-Z0-9\.\-:\"\s\_\t\n\$&%?/\[\]\%\>\<\,\;]*){10}
 docker-service-list-valid-service:   .*({{call .uniq `pinger`}}).*
 docker-service-list-invalid-service: .*[^{{call .uniq `pinger`}}].*
