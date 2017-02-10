@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"errors"
 	"fmt"
 	"regexp"
 	"strings"
@@ -31,98 +32,48 @@ type CommandSpec struct {
 }
 
 var (
-	lookupDir   = "./lookup"
-	setupDir    = "./setup"
-	sampleDir   = "./samples"
-	tearDownDir = "./tearDown"
-	wg          sync.WaitGroup
-	regexMap    map[string]string
+	suiteDir = []string{"./suite"}
+	regexMap map[string]string
 )
 
-// read, parse and execute test commands
-func TestCliCmds(t *testing.T) {
+func TestAllCmds(t *testing.T) {
 
-	// test suite timeout
-	suiteTimeout := "10m"
-	duration, err := time.ParseDuration(suiteTimeout)
+	// setup = parse, run platform
+	suites, err := parseSuite(suiteDir)
 	if err != nil {
-		t.Errorf("Unable to create duration for timeout: Suite. Error:", err)
-		return
+		t.Errorf("Unable to parse suites, reason: %v", err)
 	}
-	// create test suite context
-	cancel := createTimeout(t, duration, "Suite")
-	defer cancel()
-
-	// parse regexes
-	regexMap, err = parseLookup(lookupDir)
-	if err != nil {
-		t.Errorf("Unable to load lookup specs, reason:", err)
-		return
+	for _, suite := range suites {
+		for _, setup := range suite.Setup {
+			t.Run(setup.Name, func(t *testing.T) {
+				runTestSpec(t, setup)
+			})
+		}
 	}
 
-	// create setup timeout and parse setup specs
-	setupTimeout := "8m"
-	setup, err := createTestSpecs(setupDir, setupTimeout)
-	if err != nil {
-		t.Errorf("Unable to create setup specs, reason:", err)
-		return
+	// Main tests
+	for _, suite := range suites {
+		for _, test := range suite.Tests {
+			test := test
+			t.Run(test.Name, func(t *testing.T) {
+				t.Parallel()
+				runTestSpec(t, test)
+			})
+		}
 	}
 
-	// create samples timeout and parse sample specs
-	sampleTimeout := "30s"
-	samples, err := createTestSpecs(sampleDir, sampleTimeout)
-	if err != nil {
-		t.Errorf("Unable to create sample specs, reason:", err)
-		return
-	}
-
-	// create teardown timeout and parse tearDown specs
-	tearDownTimeout := "1.5m"
-	tearDown, err := createTestSpecs(tearDownDir, tearDownTimeout)
-	if err != nil {
-		t.Errorf("Unable to create tearDown specs, reason:", err)
-		return
-	}
-
-	noOfSpecs := len(samples)
-
-	runFramework(t, setup)
-	wg.Add(noOfSpecs)
-	runTests(t, samples)
-	wg.Wait()
-	runFramework(t, tearDown)
-}
-
-func createTestSpecs(directory string, timeout string) ([]*TestSpec, error) {
-	// test spec timeout
-	duration, err := time.ParseDuration(timeout)
-	if err != nil {
-		return nil, fmt.Errorf("Unable to create duration for timeout: %s. Error: %v", directory, err)
-	}
-	// parse tests
-	testSpecs, err := parseSpec(directory, duration)
-	if err != nil {
-		return nil, fmt.Errorf("Unable to load test specs: %s. reason: %v", directory, err)
-	}
-	return testSpecs, nil
-}
-
-// runs a framework (setup/tearDown)
-func runFramework(t *testing.T, commands []*TestSpec) {
-	for _, command := range commands {
-		runFrameworkSpec(t, command)
+	// teardown = run platform, clean goroutines
+	for _, suite := range suites {
+		for _, teardown := range suite.TearDown {
+			t.Run(teardown.Name, func(t *testing.T) {
+				runTestSpec(t, teardown)
+			})
+		}
 	}
 }
 
-// runs test commands
-func runTests(t *testing.T, samples []*TestSpec) {
-	for _, sample := range samples {
-		go runSampleSpec(t, sample)
-	}
-}
-
-// execute framework commands and check for timeout, delay and retry
-func runFrameworkSpec(t *testing.T, test *TestSpec) {
+// execute commands and check for timeout, delay and retry
+func runTestSpec(t *testing.T, test TestSpec) {
 
 	var cache = map[string]string{}
 
@@ -131,26 +82,8 @@ func runFrameworkSpec(t *testing.T, test *TestSpec) {
 	defer cancel()
 
 	// iterate through all the testSpec
-	for _, command := range test.Commands {
-		runCmdSpec(t, command, cache)
-	}
-}
-
-// execute sample commands and decrement waitgroup counter
-func runSampleSpec(t *testing.T, test *TestSpec) {
-
-	var cache = map[string]string{}
-
-	// decrements wg counter
-	defer wg.Done()
-
-	// create test spec context
-	cancel := createTimeout(t, test.Timeout, test.Name)
-	defer cancel()
-
-	// iterate through all the testSpec
-	for _, command := range test.Commands {
-		runCmdSpec(t, command, cache)
+	for _, cmd := range test.Commands {
+		runCmdSpec(t, cmd, cache)
 	}
 }
 
