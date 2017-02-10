@@ -2,14 +2,12 @@ package cli
 
 import (
 	"fmt"
-	"os/exec"
-	"sync"
-
-	"errors"
 	"regexp"
 	"strings"
 	"testing"
 	"time"
+
+	gexpect "github.com/Thomasrooney/gexpect"
 )
 
 // TestSpec contains all the CommandSpec objects
@@ -24,6 +22,7 @@ type CommandSpec struct {
 	Cmd         string   `yaml:"cmd"`
 	Args        []string `yaml:"args"`
 	Options     []string `yaml:"options"`
+	Input 			[]string `yaml:"input"`
 	Expectation string   `yaml:"expectation"`
 	Skip        bool     `yaml:"skip"`
 	Retry       int      `yaml:"retry"`
@@ -155,93 +154,92 @@ func runSampleSpec(t *testing.T, test *TestSpec) {
 	}
 }
 
-//
-func runCmdSpec(t *testing.T, cmd CommandSpec, cache map[string]string) {
+// TODO: add description for method, remove unnecessary comments
+func runCmdSpec(t *testing.T, spec CommandSpec, cache map[string]string) {
 
-	var i int
-	var err error
+	i := 0
 
-	// command Spec timeout
-	duration, duraErr := time.ParseDuration(cmd.Timeout)
-	if duraErr != nil {
-		t.Fatal("Unable to create duration for timeout:", cmd.Cmd, "Error:", duraErr)
+	duration, err := time.ParseDuration(spec.Timeout)
+	if err != nil {
+		t.Fatal("Unable to create duration for timeout:", spec.Cmd, "Error:", err)
 	}
-	// command Spec context
-	cancel := createTimeout(t, duration, cmd.Cmd)
+	cancel := createTimeout(t, duration, spec.Cmd)
 	defer cancel()
 
-	// generate command slice from cmdSpec
-	cmdSlice := generateCmdString(cmd)
-	cmdString := strings.Join(cmdSlice, " ")
+	cmd := generateCmdString(spec)
 
-	// perform templating on command
-	cmdTmplOutput, tmplErr := templating(cmdString, cache)
-	if tmplErr != nil {
-		t.Fatal("Executing templating failed:", cmdString, "Error:", tmplErr)
-	}
-	cmdTmplString := strings.Fields(cmdTmplOutput)
-
-	// checks if the expectation has a corresponding regex
-	if cmd.Expectation != "" && regexMap[cmd.Expectation] == "" {
-		t.Fatal("Unable to fetch regex for command:", cmdTmplString, "reason: no regex for given expectation:", cmd.Expectation)
+	// TODO: move into unmarshalling of yaml files in parse.go
+	cmd, err = templating(cmd, cache)
+	if err != nil {
+		t.Fatal("Executing templating failed:", cmd, "Error:", err)
 	}
 
-	// perform templating on RegEx string
-	regexTmplOutput, tmplErr := templating(regexMap[cmd.Expectation], cache)
-	if tmplErr != nil {
-		t.Fatal("Executing templating failed:", cmd.Expectation, "Error:", tmplErr)
+	// TODO: move into unmarshalling of yaml files in parse.go
+	regex, err := templating(regexMap[spec.Expectation], cache)
+	if err != nil {
+		t.Fatal("Executing templating failed:", spec.Expectation, "Error:", err)
 	}
 
-	for i = 0; i <= cmd.Retry; i++ {
-		// err is set to nil a the beginning of the loop to ensure that each time a
-		// command is retried or executed atleast once without the error assigned
-		// from the previous executions
+	// TODO: move into unmarshalling of yaml files in parse.go
+	if spec.Expectation != "" && regexMap[spec.Expectation] == "" {
+		t.Fatal("Unable to fetch regex for command:", cmd, "reason: no regex for given expectation:", spec.Expectation)
+	}
+
+	for i = 0; i <= spec.Retry; i++ {
+		// err is set to nil, ensure no carryover
 		err = nil
 
-		// execute command
-		cmdOutput, _ := exec.Command(cmdTmplString[0], cmdTmplString[1:]...).CombinedOutput()
+		output := runCmd(cmd, spec)
+		fmt.Println(output)
 
-		// check if the command output matches the RegEx
-		expectedOutput := regexp.MustCompile(regexTmplOutput)
-		if !expectedOutput.MatchString(string(cmdOutput)) {
-			errString := "Mismatched expected output: " + string(cmdOutput)
-			err = errors.New(errString)
+		expectedOutput := regexp.MustCompile(regex)
+		if !expectedOutput.MatchString(string(output)) {
+			err = errors.New("Error: mismatched return:" + cmd + ", " + regex + ", " + output)
 		}
 
-		// add delay to wait after command execution
-		if cmd.Delay != "" {
-			del, delErr := time.ParseDuration(cmd.Delay)
-			if delErr != nil {
-				t.Fatal("Invalid delay specified: ", cmd.Delay, "Error:", delErr)
+		if spec.Delay != "" {
+			del, err := time.ParseDuration(spec.Delay)
+			if err != nil {
+				t.Fatal("Invalid delay specified: ", spec.Delay, "Error:", err)
 			}
 			time.Sleep(del)
 		}
 
-		// If there is no error, break the retry loop as there is no need to continue
-		// If there is an error after all the retries have been used, fail the test
 		if err == nil {
 			break
 		}
 	}
-	// If the command did retry, log the no. of times it did
 	if i > 1 {
-		t.Log("The command :", cmdTmplString, "has re-run", i, "times.")
+		t.Log("The command :", cmd, "has re-run", i, "times.")
 	}
 	if err != nil {
 		t.Fatal(err)
 	}
 }
 
-// create an array of strings representing the commands by concatenating
-// all the fields from the yml files in test_samples directory
-func generateCmdString(cmdSpec CommandSpec) (cmdString []string) {
+func runCmd(cmd string, spec CommandSpec) string {
+	child, err := gexpect.Spawn(cmd)
+	if err != nil {
+		panic(err)
+	}
+	for _, input := range spec.Input {
+		child.Send(input + "\r")
+		child.Expect(input)
+	}
+	output, _ := child.ReadUntil('$')
+	fmt.Println(string(output))
+	return string(output)
+}
+
+// concatenates struct fields into string
+func generateCmdString(cmdSpec CommandSpec) string {
 	cmdSplit := strings.Fields(cmdSpec.Cmd)
 	optionsSplit := []string{}
 	// Possible to have multiple options
 	for _, val := range cmdSpec.Options {
 		optionsSplit = append(optionsSplit, strings.Fields(val)...)
 	}
-	cmdString = append(cmdSplit, cmdSpec.Args...)
+	cmdString := append(cmdSplit, cmdSpec.Args...)
 	cmdString = append(cmdString, optionsSplit...)
-	return
+	return strings.Join(cmdString, " ")
 }
