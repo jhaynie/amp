@@ -1,9 +1,10 @@
 package cli
 
 import (
-	"context"
 	"testing"
 	"time"
+
+	"golang.org/x/net/context"
 )
 
 // create the timeout goroutine and return the cancelFunc

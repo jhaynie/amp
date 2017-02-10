@@ -7,7 +7,7 @@ commands:
       -
     options:
       -
-    expectation: logs-all
+    #expectation: logs-all
 
   - logs-metadata:
     cmd: amp logs

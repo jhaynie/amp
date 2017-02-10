@@ -2,7 +2,6 @@ package cli
 
 import (
 	"errors"
-	"fmt"
 	"regexp"
 	"strings"
 	"testing"
@@ -48,7 +47,7 @@ var (
 	regexMap map[string]string
 )
 
-func TestAllCmds(t *testing.T) {
+func TestCli(t *testing.T) {
 
 	// setup = parse, run platform
 	suites, err := parseSuite(suiteDir)
@@ -135,7 +134,6 @@ func runCmdSpec(t *testing.T, spec CommandSpec, cache map[string]string) {
 		err = nil
 
 		output := runCmd(cmd, spec)
-		fmt.Println(output)
 
 		expectedOutput := regexp.MustCompile(regex)
 		if !expectedOutput.MatchString(string(output)) {
@@ -172,7 +170,6 @@ func runCmd(cmd string, spec CommandSpec) string {
 		child.Expect(input)
 	}
 	output, _ := child.ReadUntil('$')
-	fmt.Println(string(output))
 	return string(output)
 }
 
