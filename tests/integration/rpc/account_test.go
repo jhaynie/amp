@@ -70,6 +70,19 @@ func TestOrganizationShouldSignUpAndVerify(t *testing.T) {
 	assert.NoError(t, verifyErr)
 }
 
+func TestOrganizationSignUpAlreadyExistsShouldFail(t *testing.T) {
+	// Reset the storage
+	accountStore.Reset(context.Background())
+
+	// SignUp
+	_, err1 := accountClient.SignUp(ctx, &signUpRequestOrganization)
+	assert.NoError(t, err1)
+
+	// SignUp
+	_, err2 := accountClient.SignUp(ctx, &signUpRequestOrganization)
+	assert.Error(t, err2)
+}
+
 func TestOrganizationVerifyNotATokenShouldFail(t *testing.T) {
 	// Reset the storage
 	accountStore.Reset(context.Background())
