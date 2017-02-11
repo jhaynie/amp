@@ -97,7 +97,7 @@ func TestOrganizationVerifyNotATokenShouldFail(t *testing.T) {
 }
 
 // TODO: Check token with invalid signature
-// TODO: Check token with invalid non existing account id
+// TODO: Check token with non existing account id
 // TODO: Check expired token
 
 func TestOrganizationLogin(t *testing.T) {
@@ -120,8 +120,33 @@ func TestOrganizationLogin(t *testing.T) {
 	assert.NoError(t, loginErr)
 }
 
-// TODO: Check login with non existing account
-// TODO: Check login with non verified account
+func TestOrganizationLoginNonExistingAccountShouldFail(t *testing.T) {
+	// Reset the storage
+	accountStore.Reset(context.Background())
+
+	// Login
+	_, loginErr := accountClient.Login(ctx, &account.LogInRequest{
+		UserName: signUpRequestOrganization.UserName,
+		Password: signUpRequestOrganization.Password,
+	})
+	assert.Error(t, loginErr)
+}
+
+func TestOrganizationLoginNonVerifiedAccountShouldFail(t *testing.T) {
+	// Reset the storage
+	accountStore.Reset(context.Background())
+
+	// SignUp
+	_, signUpErr := accountClient.SignUp(ctx, &signUpRequestOrganization)
+	assert.NoError(t, signUpErr)
+
+	// Login
+	_, loginErr := accountClient.Login(ctx, &account.LogInRequest{
+		UserName: signUpRequestOrganization.UserName,
+		Password: signUpRequestOrganization.Password,
+	})
+	assert.Error(t, loginErr)
+}
 
 func TestOrganizationLoginInvalidUserNameShouldFail(t *testing.T) {
 	// Reset the storage
