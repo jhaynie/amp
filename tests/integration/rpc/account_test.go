@@ -187,3 +187,57 @@ func TestOrganizationLoginInvalidPasswordShouldFail(t *testing.T) {
 	})
 	assert.Error(t, loginErr)
 }
+
+func TestOrganizationPasswordReset(t *testing.T) {
+	// Reset the storage
+	accountStore.Reset(context.Background())
+
+	// SignUp
+	signUpReply, signUpErr := accountClient.SignUp(ctx, &signUpRequestOrganization)
+	assert.NoError(t, signUpErr)
+
+	// Verify
+	_, verifyErr := accountClient.Verify(ctx, &account.VerificationRequest{Token: signUpReply.Token})
+	assert.NoError(t, verifyErr)
+
+	// Password Reset
+	_, resetPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{UserName: &signUpRequestOrganization.UserName})
+	assert.NoError(t, resetPasswordErr)
+}
+
+func TestOrganizationPasswordResetNonExistingAccountShouldFail(t *testing.T) {
+	// Reset the storage
+	accountStore.Reset(context.Background())
+
+	// SignUp
+	signUpReply, signUpErr := accountClient.SignUp(ctx, &signUpRequestOrganization)
+	assert.NoError(t, signUpErr)
+
+	// Verify
+	_, verifyErr := accountClient.Verify(ctx, &account.VerificationRequest{Token: signUpReply.Token})
+	assert.NoError(t, verifyErr)
+
+	// Password Reset
+	_, resetPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{UserName: "This is not an existing account"})
+	assert.Error(t, resetPasswordErr)
+}
+
+func TestOrganizationPasswordSet(t *testing.T) {
+	// Reset the storage
+	accountStore.Reset(context.Background())
+}
+
+func TestOrganizationPasswordSetInvalidTokenShouldFail(t *testing.T) {
+	// Reset the storage
+	accountStore.Reset(context.Background())
+}
+
+func TestOrganizationPasswordSetInvalidPasswordShouldFail(t *testing.T) {
+	// Reset the storage
+	accountStore.Reset(context.Background())
+}
+
+func TestOrganizationPasswordSetNonExistingAccountShouldFail(t *testing.T) {
+	// Reset the storage
+	accountStore.Reset(context.Background())
+}
