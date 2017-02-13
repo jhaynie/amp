@@ -330,6 +330,7 @@ func TestUserPasswordChange(t *testing.T) {
 	// Password Change
 	newPassword := "newPassword"
 	_, passwordChangeErr := accountClient.PasswordChange(ctx, &account.PasswordChangeRequest{
+		UserName:         signUpRequestUser.UserName,
 		ExistingPassword: signUpRequestUser.Password,
 		NewPassword:      newPassword,
 	})
@@ -341,6 +342,42 @@ func TestUserPasswordChange(t *testing.T) {
 		Password: newPassword,
 	})
 	assert.NoError(t, newLoginErr)
+}
+
+func TestUserPasswordChangeNonExistingAccount(t *testing.T) {
+	// Reset the storage
+	accountStore.Reset(context.Background())
+
+	// SignUp
+	signUpReply, signUpErr := accountClient.SignUp(ctx, &signUpRequestUser)
+	assert.NoError(t, signUpErr)
+
+	// Verify
+	_, verifyErr := accountClient.Verify(ctx, &account.VerificationRequest{Token: signUpReply.Token})
+	assert.NoError(t, verifyErr)
+
+	// Login
+	_, loginErr := accountClient.Login(ctx, &account.LogInRequest{
+		UserName: signUpRequestUser.UserName,
+		Password: signUpRequestUser.Password,
+	})
+	assert.NoError(t, loginErr)
+
+	// Password Change
+	newPassword := "newPassword"
+	_, passwordChangeErr := accountClient.PasswordChange(ctx, &account.PasswordChangeRequest{
+		UserName:         "this is not a valid account",
+		ExistingPassword: signUpRequestUser.Password,
+		NewPassword:      newPassword,
+	})
+	assert.Error(t, passwordChangeErr)
+
+	// Login
+	_, newLoginErr := accountClient.Login(ctx, &account.LogInRequest{
+		UserName: signUpRequestUser.UserName,
+		Password: newPassword,
+	})
+	assert.Error(t, newLoginErr)
 }
 
 func TestUserPasswordChangeInvalidExistingPassword(t *testing.T) {
@@ -365,6 +402,7 @@ func TestUserPasswordChangeInvalidExistingPassword(t *testing.T) {
 	// Password Change
 	newPassword := "newPassword"
 	_, passwordChangeErr := accountClient.PasswordChange(ctx, &account.PasswordChangeRequest{
+		UserName:         signUpRequestUser.UserName,
 		ExistingPassword: "this is not a valid password",
 		NewPassword:      newPassword,
 	})
@@ -400,6 +438,7 @@ func TestUserPasswordChangeInvalidNewPassword(t *testing.T) {
 	// Password Change
 	newPassword := ""
 	_, passwordChangeErr := accountClient.PasswordChange(ctx, &account.PasswordChangeRequest{
+		UserName:         signUpRequestUser.UserName,
 		ExistingPassword: signUpRequestUser.Password,
 		NewPassword:      newPassword,
 	})
