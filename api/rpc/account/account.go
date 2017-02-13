@@ -146,8 +146,6 @@ func (s *Server) Login(ctx context.Context, in *LogInRequest) (*LogInReply, erro
 	if account == nil {
 		return nil, grpc.Errorf(codes.NotFound, "account not found")
 	}
-
-	// Check if account is verified
 	if !account.IsVerified {
 		return nil, grpc.Errorf(codes.FailedPrecondition, "account not verified")
 	}
@@ -179,11 +177,22 @@ func (s *Server) Login(ctx context.Context, in *LogInRequest) (*LogInReply, erro
 
 // PasswordReset implements account.PasswordReset
 func (s *Server) PasswordReset(ctx context.Context, in *PasswordResetRequest) (out *pb.Empty, err error) {
-	// TODO: check if account is verified
-	err = in.Validate()
-	if err != nil {
+	if err := in.Validate(); err != nil {
 		return nil, err
 	}
+
+	// Get the account
+	account, err := s.accounts.GetAccountByUserName(ctx, in.UserName)
+	if err != nil {
+		return nil, grpc.Errorf(codes.Internal, err.Error())
+	}
+	if account == nil {
+		return nil, grpc.Errorf(codes.NotFound, "account not found")
+	}
+	if !account.IsVerified {
+		return nil, grpc.Errorf(codes.FailedPrecondition, "account not verified")
+	}
+
 	out = &pb.Empty{}
 	return
 }
@@ -227,10 +236,6 @@ func (s *Server) GetDetails(ctx context.Context, in *GetAccountDetailsRequest) (
 // Edit implements account.Edit
 func (s *Server) Edit(ctx context.Context, in *EditAccountRequest) (out *pb.Empty, err error) {
 	// TODO: check if account is verified
-	err = in.Validate()
-	if err != nil {
-		return
-	}
 	//if in.NewPassword != "" {
 	//	_, err := passlib.Verify(in.Password, hash)
 	//	if err != nil {

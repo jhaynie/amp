@@ -1258,10 +1258,6 @@
         "user_name": {
           "type": "string",
           "format": "string"
-        },
-        "email": {
-          "type": "string",
-          "format": "string"
         }
       },
       "title": "PasswordReset function"
