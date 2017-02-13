@@ -194,8 +194,8 @@ func TestUserPasswordReset(t *testing.T) {
 	assert.NoError(t, verifyErr)
 
 	// Password Reset
-	_, resetPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{UserName: signUpRequestUser.UserName})
-	assert.NoError(t, resetPasswordErr)
+	_, passwordResetErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{UserName: signUpRequestUser.UserName})
+	assert.NoError(t, passwordResetErr)
 }
 
 func TestUserPasswordResetNonExistingAccountShouldFail(t *testing.T) {
@@ -211,8 +211,8 @@ func TestUserPasswordResetNonExistingAccountShouldFail(t *testing.T) {
 	assert.NoError(t, verifyErr)
 
 	// Password Reset
-	_, resetPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{UserName: "This is not an existing account"})
-	assert.Error(t, resetPasswordErr)
+	_, passwordResetErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{UserName: "This is not an existing account"})
+	assert.Error(t, passwordResetErr)
 }
 
 func TestUserPasswordSet(t *testing.T) {
@@ -228,15 +228,15 @@ func TestUserPasswordSet(t *testing.T) {
 	assert.NoError(t, verifyErr)
 
 	// Password Reset
-	passwordResetReply, resetPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{UserName: signUpRequestUser.UserName})
-	assert.NoError(t, resetPasswordErr)
+	passwordResetReply, passwordResetErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{UserName: signUpRequestUser.UserName})
+	assert.NoError(t, passwordResetErr)
 
 	// Password Set
-	_, setPasswordErr := accountClient.PasswordSet(ctx, &account.PasswordSetRequest{
+	_, passwordSetErr := accountClient.PasswordSet(ctx, &account.PasswordSetRequest{
 		Token:    passwordResetReply.Token,
 		Password: "newPassword",
 	})
-	assert.NoError(t, setPasswordErr)
+	assert.NoError(t, passwordSetErr)
 
 	// Login
 	_, loginErr := accountClient.Login(ctx, &account.LogInRequest{
@@ -259,15 +259,15 @@ func TestUserPasswordSetInvalidTokenShouldFail(t *testing.T) {
 	assert.NoError(t, verifyErr)
 
 	// Password Reset
-	_, resetPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{UserName: signUpRequestUser.UserName})
-	assert.NoError(t, resetPasswordErr)
+	_, passwordResetErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{UserName: signUpRequestUser.UserName})
+	assert.NoError(t, passwordResetErr)
 
 	// Password Set
-	_, setPasswordErr := accountClient.PasswordSet(ctx, &account.PasswordSetRequest{
+	_, passwordSetErr := accountClient.PasswordSet(ctx, &account.PasswordSetRequest{
 		Token:    "this is an invalid token",
 		Password: "newPassword",
 	})
-	assert.Error(t, setPasswordErr)
+	assert.Error(t, passwordSetErr)
 
 	// Login
 	_, loginErr := accountClient.Login(ctx, &account.LogInRequest{
@@ -290,15 +290,15 @@ func TestUserPasswordSetInvalidPasswordShouldFail(t *testing.T) {
 	assert.NoError(t, verifyErr)
 
 	// Password Reset
-	passwordResetReply, resetPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{UserName: signUpRequestUser.UserName})
-	assert.NoError(t, resetPasswordErr)
+	passwordResetReply, passwordResetErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{UserName: signUpRequestUser.UserName})
+	assert.NoError(t, passwordResetErr)
 
 	// Password Set
-	_, setPasswordErr := accountClient.PasswordSet(ctx, &account.PasswordSetRequest{
+	_, passwordSetErr := accountClient.PasswordSet(ctx, &account.PasswordSetRequest{
 		Token:    passwordResetReply.Token,
 		Password: "",
 	})
-	assert.Error(t, setPasswordErr)
+	assert.Error(t, passwordSetErr)
 
 	// Login
 	_, loginErr := accountClient.Login(ctx, &account.LogInRequest{
@@ -306,4 +306,109 @@ func TestUserPasswordSetInvalidPasswordShouldFail(t *testing.T) {
 		Password: "",
 	})
 	assert.Error(t, loginErr)
+}
+
+func TestUserPasswordChange(t *testing.T) {
+	// Reset the storage
+	accountStore.Reset(context.Background())
+
+	// SignUp
+	signUpReply, signUpErr := accountClient.SignUp(ctx, &signUpRequestUser)
+	assert.NoError(t, signUpErr)
+
+	// Verify
+	_, verifyErr := accountClient.Verify(ctx, &account.VerificationRequest{Token: signUpReply.Token})
+	assert.NoError(t, verifyErr)
+
+	// Login
+	_, loginErr := accountClient.Login(ctx, &account.LogInRequest{
+		UserName: signUpRequestUser.UserName,
+		Password: signUpRequestUser.Password,
+	})
+	assert.NoError(t, loginErr)
+
+	// Password Change
+	newPassword := "newPassword"
+	_, passwordChangeErr := accountClient.PasswordChange(ctx, &account.PasswordChangeRequest{
+		ExistingPassword: signUpRequestUser.Password,
+		NewPassword:      newPassword,
+	})
+	assert.NoError(t, passwordChangeErr)
+
+	// Login
+	_, newLoginErr := accountClient.Login(ctx, &account.LogInRequest{
+		UserName: signUpRequestUser.UserName,
+		Password: newPassword,
+	})
+	assert.NoError(t, newLoginErr)
+}
+
+func TestUserPasswordChangeInvalidExistingPassword(t *testing.T) {
+	// Reset the storage
+	accountStore.Reset(context.Background())
+
+	// SignUp
+	signUpReply, signUpErr := accountClient.SignUp(ctx, &signUpRequestUser)
+	assert.NoError(t, signUpErr)
+
+	// Verify
+	_, verifyErr := accountClient.Verify(ctx, &account.VerificationRequest{Token: signUpReply.Token})
+	assert.NoError(t, verifyErr)
+
+	// Login
+	_, loginErr := accountClient.Login(ctx, &account.LogInRequest{
+		UserName: signUpRequestUser.UserName,
+		Password: signUpRequestUser.Password,
+	})
+	assert.NoError(t, loginErr)
+
+	// Password Change
+	newPassword := "newPassword"
+	_, passwordChangeErr := accountClient.PasswordChange(ctx, &account.PasswordChangeRequest{
+		ExistingPassword: "this is not a valid password",
+		NewPassword:      newPassword,
+	})
+	assert.Error(t, passwordChangeErr)
+
+	// Login
+	_, newLoginErr := accountClient.Login(ctx, &account.LogInRequest{
+		UserName: signUpRequestUser.UserName,
+		Password: newPassword,
+	})
+	assert.Error(t, newLoginErr)
+}
+
+func TestUserPasswordChangeInvalidNewPassword(t *testing.T) {
+	// Reset the storage
+	accountStore.Reset(context.Background())
+
+	// SignUp
+	signUpReply, signUpErr := accountClient.SignUp(ctx, &signUpRequestUser)
+	assert.NoError(t, signUpErr)
+
+	// Verify
+	_, verifyErr := accountClient.Verify(ctx, &account.VerificationRequest{Token: signUpReply.Token})
+	assert.NoError(t, verifyErr)
+
+	// Login
+	_, loginErr := accountClient.Login(ctx, &account.LogInRequest{
+		UserName: signUpRequestUser.UserName,
+		Password: signUpRequestUser.Password,
+	})
+	assert.NoError(t, loginErr)
+
+	// Password Change
+	newPassword := ""
+	_, passwordChangeErr := accountClient.PasswordChange(ctx, &account.PasswordChangeRequest{
+		ExistingPassword: signUpRequestUser.Password,
+		NewPassword:      newPassword,
+	})
+	assert.Error(t, passwordChangeErr)
+
+	// Login
+	_, newLoginErr := accountClient.Login(ctx, &account.LogInRequest{
+		UserName: signUpRequestUser.UserName,
+		Password: newPassword,
+	})
+	assert.Error(t, newLoginErr)
 }

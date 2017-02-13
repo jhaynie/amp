@@ -93,3 +93,11 @@ func (r *PasswordSetRequest) Validate() error {
 	}
 	return nil
 }
+
+// Validate validates PasswordSetRequest
+func (r *PasswordChangeRequest) Validate() error {
+	if err := checkPassword(r.NewPassword); err != nil {
+		return err
+	}
+	return nil
+}

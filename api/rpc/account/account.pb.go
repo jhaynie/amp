@@ -10,8 +10,6 @@ It is generated from these files:
 
 It has these top-level messages:
 	AccountEntry
-	Billing
-	Settings
 	SignUpRequest
 	SignUpReply
 	VerificationRequest
@@ -21,34 +19,6 @@ It has these top-level messages:
 	PasswordResetReply
 	PasswordSetRequest
 	PasswordChangeRequest
-	ListAccountRequest
-	ListAccountReply
-	SwitchRequest
-	GetAccountDetailsRequest
-	GetAccountDetailsReply
-	EditAccountRequest
-	DeleteAccountRequest
-	GetTeamsRequest
-	Team
-	GetTeamsReply
-	AddOrganizationMembershipsRequest
-	DeleteOrganizationMembershipsRequest
-	CreateTeamRequest
-	ListTeamRequest
-	ListTeamReply
-	EditTeamRequest
-	GetTeamDetailsRequest
-	GetTeamDetailsReply
-	DeleteTeamRequest
-	AddTeamMembershipsRequest
-	DeleteTeamMembershipsRequest
-	Ressource
-	GrantPermissionRequest
-	ListPermissionRequest
-	ListPermissionReply
-	EditPermissionRequest
-	RevokePermissionRequest
-	TransferPermissionOwnershipRequest
 */
 package account
 
@@ -124,102 +94,6 @@ func (m *AccountEntry) GetOwnerId() string {
 	return ""
 }
 
-type Billing struct {
-	Contact     string `protobuf:"bytes,1,opt,name=contact" json:"contact,omitempty"`
-	Address     string `protobuf:"bytes,2,opt,name=address" json:"address,omitempty"`
-	City        string `protobuf:"bytes,3,opt,name=city" json:"city,omitempty"`
-	State       string `protobuf:"bytes,4,opt,name=state" json:"state,omitempty"`
-	ZipCode     string `protobuf:"bytes,5,opt,name=zip_code,json=zipCode" json:"zip_code,omitempty"`
-	Email       string `protobuf:"bytes,6,opt,name=email" json:"email,omitempty"`
-	PhoneNumber string `protobuf:"bytes,7,opt,name=phone_number,json=phoneNumber" json:"phone_number,omitempty"`
-	CardType    string `protobuf:"bytes,8,opt,name=card_type,json=cardType" json:"card_type,omitempty"`
-	CardNumber  string `protobuf:"bytes,9,opt,name=card_number,json=cardNumber" json:"card_number,omitempty"`
-}
-
-func (m *Billing) Reset()                    { *m = Billing{} }
-func (m *Billing) String() string            { return proto.CompactTextString(m) }
-func (*Billing) ProtoMessage()               {}
-func (*Billing) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
-
-func (m *Billing) GetContact() string {
-	if m != nil {
-		return m.Contact
-	}
-	return ""
-}
-
-func (m *Billing) GetAddress() string {
-	if m != nil {
-		return m.Address
-	}
-	return ""
-}
-
-func (m *Billing) GetCity() string {
-	if m != nil {
-		return m.City
-	}
-	return ""
-}
-
-func (m *Billing) GetState() string {
-	if m != nil {
-		return m.State
-	}
-	return ""
-}
-
-func (m *Billing) GetZipCode() string {
-	if m != nil {
-		return m.ZipCode
-	}
-	return ""
-}
-
-func (m *Billing) GetEmail() string {
-	if m != nil {
-		return m.Email
-	}
-	return ""
-}
-
-func (m *Billing) GetPhoneNumber() string {
-	if m != nil {
-		return m.PhoneNumber
-	}
-	return ""
-}
-
-func (m *Billing) GetCardType() string {
-	if m != nil {
-		return m.CardType
-	}
-	return ""
-}
-
-func (m *Billing) GetCardNumber() string {
-	if m != nil {
-		return m.CardNumber
-	}
-	return ""
-}
-
-type Settings struct {
-	Param map[string]string `protobuf:"bytes,2,rep,name=param" json:"param,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-}
-
-func (m *Settings) Reset()                    { *m = Settings{} }
-func (m *Settings) String() string            { return proto.CompactTextString(m) }
-func (*Settings) ProtoMessage()               {}
-func (*Settings) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
-
-func (m *Settings) GetParam() map[string]string {
-	if m != nil {
-		return m.Param
-	}
-	return nil
-}
-
 type SignUpRequest struct {
 	UserName    string             `protobuf:"bytes,1,opt,name=user_name,json=userName" json:"user_name,omitempty"`
 	Password    string             `protobuf:"bytes,2,opt,name=password" json:"password,omitempty"`
@@ -230,7 +104,7 @@ type SignUpRequest struct {
 func (m *SignUpRequest) Reset()                    { *m = SignUpRequest{} }
 func (m *SignUpRequest) String() string            { return proto.CompactTextString(m) }
 func (*SignUpRequest) ProtoMessage()               {}
-func (*SignUpRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3} }
+func (*SignUpRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
 
 func (m *SignUpRequest) GetUserName() string {
 	if m != nil {
@@ -267,7 +141,7 @@ type SignUpReply struct {
 func (m *SignUpReply) Reset()                    { *m = SignUpReply{} }
 func (m *SignUpReply) String() string            { return proto.CompactTextString(m) }
 func (*SignUpReply) ProtoMessage()               {}
-func (*SignUpReply) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
+func (*SignUpReply) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
 
 func (m *SignUpReply) GetToken() string {
 	if m != nil {
@@ -283,7 +157,7 @@ type VerificationRequest struct {
 func (m *VerificationRequest) Reset()                    { *m = VerificationRequest{} }
 func (m *VerificationRequest) String() string            { return proto.CompactTextString(m) }
 func (*VerificationRequest) ProtoMessage()               {}
-func (*VerificationRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
+func (*VerificationRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3} }
 
 func (m *VerificationRequest) GetToken() string {
 	if m != nil {
@@ -301,7 +175,7 @@ type LogInRequest struct {
 func (m *LogInRequest) Reset()                    { *m = LogInRequest{} }
 func (m *LogInRequest) String() string            { return proto.CompactTextString(m) }
 func (*LogInRequest) ProtoMessage()               {}
-func (*LogInRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{6} }
+func (*LogInRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
 
 func (m *LogInRequest) GetUserName() string {
 	if m != nil {
@@ -324,7 +198,7 @@ type LogInReply struct {
 func (m *LogInReply) Reset()                    { *m = LogInReply{} }
 func (m *LogInReply) String() string            { return proto.CompactTextString(m) }
 func (*LogInReply) ProtoMessage()               {}
-func (*LogInReply) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{7} }
+func (*LogInReply) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
 
 func (m *LogInReply) GetToken() string {
 	if m != nil {
@@ -340,7 +214,7 @@ type PasswordResetRequest struct {
 func (m *PasswordResetRequest) Reset()                    { *m = PasswordResetRequest{} }
 func (m *PasswordResetRequest) String() string            { return proto.CompactTextString(m) }
 func (*PasswordResetRequest) ProtoMessage()               {}
-func (*PasswordResetRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{8} }
+func (*PasswordResetRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{6} }
 
 func (m *PasswordResetRequest) GetUserName() string {
 	if m != nil {
@@ -356,7 +230,7 @@ type PasswordResetReply struct {
 func (m *PasswordResetReply) Reset()                    { *m = PasswordResetReply{} }
 func (m *PasswordResetReply) String() string            { return proto.CompactTextString(m) }
 func (*PasswordResetReply) ProtoMessage()               {}
-func (*PasswordResetReply) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{9} }
+func (*PasswordResetReply) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{7} }
 
 func (m *PasswordResetReply) GetToken() string {
 	if m != nil {
@@ -373,7 +247,7 @@ type PasswordSetRequest struct {
 func (m *PasswordSetRequest) Reset()                    { *m = PasswordSetRequest{} }
 func (m *PasswordSetRequest) String() string            { return proto.CompactTextString(m) }
 func (*PasswordSetRequest) ProtoMessage()               {}
-func (*PasswordSetRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{10} }
+func (*PasswordSetRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{8} }
 
 func (m *PasswordSetRequest) GetToken() string {
 	if m != nil {
@@ -399,7 +273,7 @@ type PasswordChangeRequest struct {
 func (m *PasswordChangeRequest) Reset()                    { *m = PasswordChangeRequest{} }
 func (m *PasswordChangeRequest) String() string            { return proto.CompactTextString(m) }
 func (*PasswordChangeRequest) ProtoMessage()               {}
-func (*PasswordChangeRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{11} }
+func (*PasswordChangeRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{9} }
 
 func (m *PasswordChangeRequest) GetUserName() string {
 	if m != nil {
@@ -422,725 +296,8 @@ func (m *PasswordChangeRequest) GetNewPassword() string {
 	return ""
 }
 
-// List function
-type ListAccountRequest struct {
-}
-
-func (m *ListAccountRequest) Reset()                    { *m = ListAccountRequest{} }
-func (m *ListAccountRequest) String() string            { return proto.CompactTextString(m) }
-func (*ListAccountRequest) ProtoMessage()               {}
-func (*ListAccountRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{12} }
-
-type ListAccountReply struct {
-	Accounts []*AccountEntry `protobuf:"bytes,1,rep,name=accounts" json:"accounts,omitempty"`
-}
-
-func (m *ListAccountReply) Reset()                    { *m = ListAccountReply{} }
-func (m *ListAccountReply) String() string            { return proto.CompactTextString(m) }
-func (*ListAccountReply) ProtoMessage()               {}
-func (*ListAccountReply) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{13} }
-
-func (m *ListAccountReply) GetAccounts() []*AccountEntry {
-	if m != nil {
-		return m.Accounts
-	}
-	return nil
-}
-
-// Switch function
-type SwitchRequest struct {
-	UserName string `protobuf:"bytes,1,opt,name=user_name,json=userName" json:"user_name,omitempty"`
-}
-
-func (m *SwitchRequest) Reset()                    { *m = SwitchRequest{} }
-func (m *SwitchRequest) String() string            { return proto.CompactTextString(m) }
-func (*SwitchRequest) ProtoMessage()               {}
-func (*SwitchRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{14} }
-
-func (m *SwitchRequest) GetUserName() string {
-	if m != nil {
-		return m.UserName
-	}
-	return ""
-}
-
-// GetDetails function
-type GetAccountDetailsRequest struct {
-	UserName string `protobuf:"bytes,1,opt,name=user_name,json=userName" json:"user_name,omitempty"`
-}
-
-func (m *GetAccountDetailsRequest) Reset()                    { *m = GetAccountDetailsRequest{} }
-func (m *GetAccountDetailsRequest) String() string            { return proto.CompactTextString(m) }
-func (*GetAccountDetailsRequest) ProtoMessage()               {}
-func (*GetAccountDetailsRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{15} }
-
-func (m *GetAccountDetailsRequest) GetUserName() string {
-	if m != nil {
-		return m.UserName
-	}
-	return ""
-}
-
-type GetAccountDetailsReply struct {
-	Account  *AccountEntry `protobuf:"bytes,1,opt,name=account" json:"account,omitempty"`
-	Billing  *Billing      `protobuf:"bytes,2,opt,name=billing" json:"billing,omitempty"`
-	Settings *Settings     `protobuf:"bytes,3,opt,name=settings" json:"settings,omitempty"`
-}
-
-func (m *GetAccountDetailsReply) Reset()                    { *m = GetAccountDetailsReply{} }
-func (m *GetAccountDetailsReply) String() string            { return proto.CompactTextString(m) }
-func (*GetAccountDetailsReply) ProtoMessage()               {}
-func (*GetAccountDetailsReply) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{16} }
-
-func (m *GetAccountDetailsReply) GetAccount() *AccountEntry {
-	if m != nil {
-		return m.Account
-	}
-	return nil
-}
-
-func (m *GetAccountDetailsReply) GetBilling() *Billing {
-	if m != nil {
-		return m.Billing
-	}
-	return nil
-}
-
-func (m *GetAccountDetailsReply) GetSettings() *Settings {
-	if m != nil {
-		return m.Settings
-	}
-	return nil
-}
-
-// Edit function
-type EditAccountRequest struct {
-	UserName string    `protobuf:"bytes,1,opt,name=user_name,json=userName" json:"user_name,omitempty"`
-	Email    string    `protobuf:"bytes,2,opt,name=email" json:"email,omitempty"`
-	Billing  *Billing  `protobuf:"bytes,3,opt,name=billing" json:"billing,omitempty"`
-	Settings *Settings `protobuf:"bytes,4,opt,name=settings" json:"settings,omitempty"`
-}
-
-func (m *EditAccountRequest) Reset()                    { *m = EditAccountRequest{} }
-func (m *EditAccountRequest) String() string            { return proto.CompactTextString(m) }
-func (*EditAccountRequest) ProtoMessage()               {}
-func (*EditAccountRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{17} }
-
-func (m *EditAccountRequest) GetUserName() string {
-	if m != nil {
-		return m.UserName
-	}
-	return ""
-}
-
-func (m *EditAccountRequest) GetEmail() string {
-	if m != nil {
-		return m.Email
-	}
-	return ""
-}
-
-func (m *EditAccountRequest) GetBilling() *Billing {
-	if m != nil {
-		return m.Billing
-	}
-	return nil
-}
-
-func (m *EditAccountRequest) GetSettings() *Settings {
-	if m != nil {
-		return m.Settings
-	}
-	return nil
-}
-
-// Delete function
-type DeleteAccountRequest struct {
-	UserName string `protobuf:"bytes,1,opt,name=user_name,json=userName" json:"user_name,omitempty"`
-}
-
-func (m *DeleteAccountRequest) Reset()                    { *m = DeleteAccountRequest{} }
-func (m *DeleteAccountRequest) String() string            { return proto.CompactTextString(m) }
-func (*DeleteAccountRequest) ProtoMessage()               {}
-func (*DeleteAccountRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{18} }
-
-func (m *DeleteAccountRequest) GetUserName() string {
-	if m != nil {
-		return m.UserName
-	}
-	return ""
-}
-
-// GetTeams function
-type GetTeamsRequest struct {
-	Name string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
-}
-
-func (m *GetTeamsRequest) Reset()                    { *m = GetTeamsRequest{} }
-func (m *GetTeamsRequest) String() string            { return proto.CompactTextString(m) }
-func (*GetTeamsRequest) ProtoMessage()               {}
-func (*GetTeamsRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{19} }
-
-func (m *GetTeamsRequest) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-type Team struct {
-	Name         string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
-	Organization string `protobuf:"bytes,2,opt,name=organization" json:"organization,omitempty"`
-}
-
-func (m *Team) Reset()                    { *m = Team{} }
-func (m *Team) String() string            { return proto.CompactTextString(m) }
-func (*Team) ProtoMessage()               {}
-func (*Team) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{20} }
-
-func (m *Team) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-func (m *Team) GetOrganization() string {
-	if m != nil {
-		return m.Organization
-	}
-	return ""
-}
-
-type GetTeamsReply struct {
-	Teams []*Team `protobuf:"bytes,1,rep,name=teams" json:"teams,omitempty"`
-}
-
-func (m *GetTeamsReply) Reset()                    { *m = GetTeamsReply{} }
-func (m *GetTeamsReply) String() string            { return proto.CompactTextString(m) }
-func (*GetTeamsReply) ProtoMessage()               {}
-func (*GetTeamsReply) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{21} }
-
-func (m *GetTeamsReply) GetTeams() []*Team {
-	if m != nil {
-		return m.Teams
-	}
-	return nil
-}
-
-// AddOrganizationMemberships
-type AddOrganizationMembershipsRequest struct {
-	Name    string   `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
-	Members []string `protobuf:"bytes,2,rep,name=Members" json:"Members,omitempty"`
-}
-
-func (m *AddOrganizationMembershipsRequest) Reset()         { *m = AddOrganizationMembershipsRequest{} }
-func (m *AddOrganizationMembershipsRequest) String() string { return proto.CompactTextString(m) }
-func (*AddOrganizationMembershipsRequest) ProtoMessage()    {}
-func (*AddOrganizationMembershipsRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor0, []int{22}
-}
-
-func (m *AddOrganizationMembershipsRequest) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-func (m *AddOrganizationMembershipsRequest) GetMembers() []string {
-	if m != nil {
-		return m.Members
-	}
-	return nil
-}
-
-// DeleteOrganizationMemberships
-type DeleteOrganizationMembershipsRequest struct {
-	Name    string   `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
-	Members []string `protobuf:"bytes,2,rep,name=Members" json:"Members,omitempty"`
-}
-
-func (m *DeleteOrganizationMembershipsRequest) Reset()         { *m = DeleteOrganizationMembershipsRequest{} }
-func (m *DeleteOrganizationMembershipsRequest) String() string { return proto.CompactTextString(m) }
-func (*DeleteOrganizationMembershipsRequest) ProtoMessage()    {}
-func (*DeleteOrganizationMembershipsRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor0, []int{23}
-}
-
-func (m *DeleteOrganizationMembershipsRequest) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-func (m *DeleteOrganizationMembershipsRequest) GetMembers() []string {
-	if m != nil {
-		return m.Members
-	}
-	return nil
-}
-
-// Create function
-type CreateTeamRequest struct {
-	Organization string `protobuf:"bytes,1,opt,name=organization" json:"organization,omitempty"`
-	Name         string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
-	Description  string `protobuf:"bytes,3,opt,name=description" json:"description,omitempty"`
-}
-
-func (m *CreateTeamRequest) Reset()                    { *m = CreateTeamRequest{} }
-func (m *CreateTeamRequest) String() string            { return proto.CompactTextString(m) }
-func (*CreateTeamRequest) ProtoMessage()               {}
-func (*CreateTeamRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{24} }
-
-func (m *CreateTeamRequest) GetOrganization() string {
-	if m != nil {
-		return m.Organization
-	}
-	return ""
-}
-
-func (m *CreateTeamRequest) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-func (m *CreateTeamRequest) GetDescription() string {
-	if m != nil {
-		return m.Description
-	}
-	return ""
-}
-
-// List function
-type ListTeamRequest struct {
-	Organization string `protobuf:"bytes,1,opt,name=organization" json:"organization,omitempty"`
-}
-
-func (m *ListTeamRequest) Reset()                    { *m = ListTeamRequest{} }
-func (m *ListTeamRequest) String() string            { return proto.CompactTextString(m) }
-func (*ListTeamRequest) ProtoMessage()               {}
-func (*ListTeamRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{25} }
-
-func (m *ListTeamRequest) GetOrganization() string {
-	if m != nil {
-		return m.Organization
-	}
-	return ""
-}
-
-type ListTeamReply struct {
-	TeamNames []string `protobuf:"bytes,2,rep,name=team_names,json=teamNames" json:"team_names,omitempty"`
-}
-
-func (m *ListTeamReply) Reset()                    { *m = ListTeamReply{} }
-func (m *ListTeamReply) String() string            { return proto.CompactTextString(m) }
-func (*ListTeamReply) ProtoMessage()               {}
-func (*ListTeamReply) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{26} }
-
-func (m *ListTeamReply) GetTeamNames() []string {
-	if m != nil {
-		return m.TeamNames
-	}
-	return nil
-}
-
-// Edit function
-type EditTeamRequest struct {
-	Organization    string `protobuf:"bytes,1,opt,name=organization" json:"organization,omitempty"`
-	Name            string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
-	NewOrganization string `protobuf:"bytes,3,opt,name=new_organization,json=newOrganization" json:"new_organization,omitempty"`
-	NewName         string `protobuf:"bytes,4,opt,name=new_name,json=newName" json:"new_name,omitempty"`
-	NewDescription  string `protobuf:"bytes,5,opt,name=new_description,json=newDescription" json:"new_description,omitempty"`
-}
-
-func (m *EditTeamRequest) Reset()                    { *m = EditTeamRequest{} }
-func (m *EditTeamRequest) String() string            { return proto.CompactTextString(m) }
-func (*EditTeamRequest) ProtoMessage()               {}
-func (*EditTeamRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{27} }
-
-func (m *EditTeamRequest) GetOrganization() string {
-	if m != nil {
-		return m.Organization
-	}
-	return ""
-}
-
-func (m *EditTeamRequest) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-func (m *EditTeamRequest) GetNewOrganization() string {
-	if m != nil {
-		return m.NewOrganization
-	}
-	return ""
-}
-
-func (m *EditTeamRequest) GetNewName() string {
-	if m != nil {
-		return m.NewName
-	}
-	return ""
-}
-
-func (m *EditTeamRequest) GetNewDescription() string {
-	if m != nil {
-		return m.NewDescription
-	}
-	return ""
-}
-
-// GetDetails function
-type GetTeamDetailsRequest struct {
-	Organization string `protobuf:"bytes,1,opt,name=organization" json:"organization,omitempty"`
-	Name         string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
-}
-
-func (m *GetTeamDetailsRequest) Reset()                    { *m = GetTeamDetailsRequest{} }
-func (m *GetTeamDetailsRequest) String() string            { return proto.CompactTextString(m) }
-func (*GetTeamDetailsRequest) ProtoMessage()               {}
-func (*GetTeamDetailsRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{28} }
-
-func (m *GetTeamDetailsRequest) GetOrganization() string {
-	if m != nil {
-		return m.Organization
-	}
-	return ""
-}
-
-func (m *GetTeamDetailsRequest) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-type GetTeamDetailsReply struct {
-	Organization string   `protobuf:"bytes,1,opt,name=organization" json:"organization,omitempty"`
-	Name         string   `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
-	Description  string   `protobuf:"bytes,3,opt,name=description" json:"description,omitempty"`
-	Members      []string `protobuf:"bytes,4,rep,name=members" json:"members,omitempty"`
-}
-
-func (m *GetTeamDetailsReply) Reset()                    { *m = GetTeamDetailsReply{} }
-func (m *GetTeamDetailsReply) String() string            { return proto.CompactTextString(m) }
-func (*GetTeamDetailsReply) ProtoMessage()               {}
-func (*GetTeamDetailsReply) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{29} }
-
-func (m *GetTeamDetailsReply) GetOrganization() string {
-	if m != nil {
-		return m.Organization
-	}
-	return ""
-}
-
-func (m *GetTeamDetailsReply) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-func (m *GetTeamDetailsReply) GetDescription() string {
-	if m != nil {
-		return m.Description
-	}
-	return ""
-}
-
-func (m *GetTeamDetailsReply) GetMembers() []string {
-	if m != nil {
-		return m.Members
-	}
-	return nil
-}
-
-// Delete function
-type DeleteTeamRequest struct {
-	Organization string `protobuf:"bytes,1,opt,name=organization" json:"organization,omitempty"`
-	Name         string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
-}
-
-func (m *DeleteTeamRequest) Reset()                    { *m = DeleteTeamRequest{} }
-func (m *DeleteTeamRequest) String() string            { return proto.CompactTextString(m) }
-func (*DeleteTeamRequest) ProtoMessage()               {}
-func (*DeleteTeamRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{30} }
-
-func (m *DeleteTeamRequest) GetOrganization() string {
-	if m != nil {
-		return m.Organization
-	}
-	return ""
-}
-
-func (m *DeleteTeamRequest) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-// AddMembership function
-type AddTeamMembershipsRequest struct {
-	Organization string   `protobuf:"bytes,1,opt,name=organization" json:"organization,omitempty"`
-	Name         string   `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
-	Members      []string `protobuf:"bytes,3,rep,name=Members" json:"Members,omitempty"`
-}
-
-func (m *AddTeamMembershipsRequest) Reset()                    { *m = AddTeamMembershipsRequest{} }
-func (m *AddTeamMembershipsRequest) String() string            { return proto.CompactTextString(m) }
-func (*AddTeamMembershipsRequest) ProtoMessage()               {}
-func (*AddTeamMembershipsRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{31} }
-
-func (m *AddTeamMembershipsRequest) GetOrganization() string {
-	if m != nil {
-		return m.Organization
-	}
-	return ""
-}
-
-func (m *AddTeamMembershipsRequest) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-func (m *AddTeamMembershipsRequest) GetMembers() []string {
-	if m != nil {
-		return m.Members
-	}
-	return nil
-}
-
-// DeleteMembership function
-type DeleteTeamMembershipsRequest struct {
-	Organization string   `protobuf:"bytes,1,opt,name=organization" json:"organization,omitempty"`
-	Name         string   `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
-	Members      []string `protobuf:"bytes,3,rep,name=Members" json:"Members,omitempty"`
-}
-
-func (m *DeleteTeamMembershipsRequest) Reset()                    { *m = DeleteTeamMembershipsRequest{} }
-func (m *DeleteTeamMembershipsRequest) String() string            { return proto.CompactTextString(m) }
-func (*DeleteTeamMembershipsRequest) ProtoMessage()               {}
-func (*DeleteTeamMembershipsRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{32} }
-
-func (m *DeleteTeamMembershipsRequest) GetOrganization() string {
-	if m != nil {
-		return m.Organization
-	}
-	return ""
-}
-
-func (m *DeleteTeamMembershipsRequest) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-func (m *DeleteTeamMembershipsRequest) GetMembers() []string {
-	if m != nil {
-		return m.Members
-	}
-	return nil
-}
-
-// Ressource struct
-type Ressource struct {
-	Organization string `protobuf:"bytes,1,opt,name=organization" json:"organization,omitempty"`
-	Team         string `protobuf:"bytes,2,opt,name=team" json:"team,omitempty"`
-	Level        string `protobuf:"bytes,3,opt,name=level" json:"level,omitempty"`
-	ResourceId   string `protobuf:"bytes,4,opt,name=resource_id,json=resourceId" json:"resource_id,omitempty"`
-}
-
-func (m *Ressource) Reset()                    { *m = Ressource{} }
-func (m *Ressource) String() string            { return proto.CompactTextString(m) }
-func (*Ressource) ProtoMessage()               {}
-func (*Ressource) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{33} }
-
-func (m *Ressource) GetOrganization() string {
-	if m != nil {
-		return m.Organization
-	}
-	return ""
-}
-
-func (m *Ressource) GetTeam() string {
-	if m != nil {
-		return m.Team
-	}
-	return ""
-}
-
-func (m *Ressource) GetLevel() string {
-	if m != nil {
-		return m.Level
-	}
-	return ""
-}
-
-func (m *Ressource) GetResourceId() string {
-	if m != nil {
-		return m.ResourceId
-	}
-	return ""
-}
-
-// Grant function
-type GrantPermissionRequest struct {
-	Ressource *Ressource `protobuf:"bytes,1,opt,name=ressource" json:"ressource,omitempty"`
-}
-
-func (m *GrantPermissionRequest) Reset()                    { *m = GrantPermissionRequest{} }
-func (m *GrantPermissionRequest) String() string            { return proto.CompactTextString(m) }
-func (*GrantPermissionRequest) ProtoMessage()               {}
-func (*GrantPermissionRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{34} }
-
-func (m *GrantPermissionRequest) GetRessource() *Ressource {
-	if m != nil {
-		return m.Ressource
-	}
-	return nil
-}
-
-// List function
-type ListPermissionRequest struct {
-	Organization string `protobuf:"bytes,1,opt,name=organization" json:"organization,omitempty"`
-	Team         string `protobuf:"bytes,2,opt,name=team" json:"team,omitempty"`
-	Level        string `protobuf:"bytes,3,opt,name=level" json:"level,omitempty"`
-	ResourceId   string `protobuf:"bytes,4,opt,name=resource_id,json=resourceId" json:"resource_id,omitempty"`
-}
-
-func (m *ListPermissionRequest) Reset()                    { *m = ListPermissionRequest{} }
-func (m *ListPermissionRequest) String() string            { return proto.CompactTextString(m) }
-func (*ListPermissionRequest) ProtoMessage()               {}
-func (*ListPermissionRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{35} }
-
-func (m *ListPermissionRequest) GetOrganization() string {
-	if m != nil {
-		return m.Organization
-	}
-	return ""
-}
-
-func (m *ListPermissionRequest) GetTeam() string {
-	if m != nil {
-		return m.Team
-	}
-	return ""
-}
-
-func (m *ListPermissionRequest) GetLevel() string {
-	if m != nil {
-		return m.Level
-	}
-	return ""
-}
-
-func (m *ListPermissionRequest) GetResourceId() string {
-	if m != nil {
-		return m.ResourceId
-	}
-	return ""
-}
-
-type ListPermissionReply struct {
-	Ressources []*Ressource `protobuf:"bytes,1,rep,name=ressources" json:"ressources,omitempty"`
-}
-
-func (m *ListPermissionReply) Reset()                    { *m = ListPermissionReply{} }
-func (m *ListPermissionReply) String() string            { return proto.CompactTextString(m) }
-func (*ListPermissionReply) ProtoMessage()               {}
-func (*ListPermissionReply) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{36} }
-
-func (m *ListPermissionReply) GetRessources() []*Ressource {
-	if m != nil {
-		return m.Ressources
-	}
-	return nil
-}
-
-// Edit function
-type EditPermissionRequest struct {
-	Ressource *Ressource `protobuf:"bytes,1,opt,name=ressource" json:"ressource,omitempty"`
-}
-
-func (m *EditPermissionRequest) Reset()                    { *m = EditPermissionRequest{} }
-func (m *EditPermissionRequest) String() string            { return proto.CompactTextString(m) }
-func (*EditPermissionRequest) ProtoMessage()               {}
-func (*EditPermissionRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{37} }
-
-func (m *EditPermissionRequest) GetRessource() *Ressource {
-	if m != nil {
-		return m.Ressource
-	}
-	return nil
-}
-
-// Revoke function
-type RevokePermissionRequest struct {
-	Ressource *Ressource `protobuf:"bytes,1,opt,name=ressource" json:"ressource,omitempty"`
-}
-
-func (m *RevokePermissionRequest) Reset()                    { *m = RevokePermissionRequest{} }
-func (m *RevokePermissionRequest) String() string            { return proto.CompactTextString(m) }
-func (*RevokePermissionRequest) ProtoMessage()               {}
-func (*RevokePermissionRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{38} }
-
-func (m *RevokePermissionRequest) GetRessource() *Ressource {
-	if m != nil {
-		return m.Ressource
-	}
-	return nil
-}
-
-// TransferOwnership function
-type TransferPermissionOwnershipRequest struct {
-	Organization string `protobuf:"bytes,1,opt,name=organization" json:"organization,omitempty"`
-	Team         string `protobuf:"bytes,2,opt,name=team" json:"team,omitempty"`
-	ResourceId   string `protobuf:"bytes,3,opt,name=resource_id,json=resourceId" json:"resource_id,omitempty"`
-}
-
-func (m *TransferPermissionOwnershipRequest) Reset()         { *m = TransferPermissionOwnershipRequest{} }
-func (m *TransferPermissionOwnershipRequest) String() string { return proto.CompactTextString(m) }
-func (*TransferPermissionOwnershipRequest) ProtoMessage()    {}
-func (*TransferPermissionOwnershipRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor0, []int{39}
-}
-
-func (m *TransferPermissionOwnershipRequest) GetOrganization() string {
-	if m != nil {
-		return m.Organization
-	}
-	return ""
-}
-
-func (m *TransferPermissionOwnershipRequest) GetTeam() string {
-	if m != nil {
-		return m.Team
-	}
-	return ""
-}
-
-func (m *TransferPermissionOwnershipRequest) GetResourceId() string {
-	if m != nil {
-		return m.ResourceId
-	}
-	return ""
-}
-
 func init() {
 	proto.RegisterType((*AccountEntry)(nil), "account.AccountEntry")
-	proto.RegisterType((*Billing)(nil), "account.Billing")
-	proto.RegisterType((*Settings)(nil), "account.Settings")
 	proto.RegisterType((*SignUpRequest)(nil), "account.SignUpRequest")
 	proto.RegisterType((*SignUpReply)(nil), "account.SignUpReply")
 	proto.RegisterType((*VerificationRequest)(nil), "account.VerificationRequest")
@@ -1150,34 +307,6 @@ func init() {
 	proto.RegisterType((*PasswordResetReply)(nil), "account.PasswordResetReply")
 	proto.RegisterType((*PasswordSetRequest)(nil), "account.PasswordSetRequest")
 	proto.RegisterType((*PasswordChangeRequest)(nil), "account.PasswordChangeRequest")
-	proto.RegisterType((*ListAccountRequest)(nil), "account.ListAccountRequest")
-	proto.RegisterType((*ListAccountReply)(nil), "account.ListAccountReply")
-	proto.RegisterType((*SwitchRequest)(nil), "account.SwitchRequest")
-	proto.RegisterType((*GetAccountDetailsRequest)(nil), "account.GetAccountDetailsRequest")
-	proto.RegisterType((*GetAccountDetailsReply)(nil), "account.GetAccountDetailsReply")
-	proto.RegisterType((*EditAccountRequest)(nil), "account.EditAccountRequest")
-	proto.RegisterType((*DeleteAccountRequest)(nil), "account.DeleteAccountRequest")
-	proto.RegisterType((*GetTeamsRequest)(nil), "account.GetTeamsRequest")
-	proto.RegisterType((*Team)(nil), "account.Team")
-	proto.RegisterType((*GetTeamsReply)(nil), "account.GetTeamsReply")
-	proto.RegisterType((*AddOrganizationMembershipsRequest)(nil), "account.AddOrganizationMembershipsRequest")
-	proto.RegisterType((*DeleteOrganizationMembershipsRequest)(nil), "account.DeleteOrganizationMembershipsRequest")
-	proto.RegisterType((*CreateTeamRequest)(nil), "account.CreateTeamRequest")
-	proto.RegisterType((*ListTeamRequest)(nil), "account.ListTeamRequest")
-	proto.RegisterType((*ListTeamReply)(nil), "account.ListTeamReply")
-	proto.RegisterType((*EditTeamRequest)(nil), "account.EditTeamRequest")
-	proto.RegisterType((*GetTeamDetailsRequest)(nil), "account.GetTeamDetailsRequest")
-	proto.RegisterType((*GetTeamDetailsReply)(nil), "account.GetTeamDetailsReply")
-	proto.RegisterType((*DeleteTeamRequest)(nil), "account.DeleteTeamRequest")
-	proto.RegisterType((*AddTeamMembershipsRequest)(nil), "account.AddTeamMembershipsRequest")
-	proto.RegisterType((*DeleteTeamMembershipsRequest)(nil), "account.DeleteTeamMembershipsRequest")
-	proto.RegisterType((*Ressource)(nil), "account.Ressource")
-	proto.RegisterType((*GrantPermissionRequest)(nil), "account.GrantPermissionRequest")
-	proto.RegisterType((*ListPermissionRequest)(nil), "account.ListPermissionRequest")
-	proto.RegisterType((*ListPermissionReply)(nil), "account.ListPermissionReply")
-	proto.RegisterType((*EditPermissionRequest)(nil), "account.EditPermissionRequest")
-	proto.RegisterType((*RevokePermissionRequest)(nil), "account.RevokePermissionRequest")
-	proto.RegisterType((*TransferPermissionOwnershipRequest)(nil), "account.TransferPermissionOwnershipRequest")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1197,28 +326,6 @@ type AccountClient interface {
 	PasswordReset(ctx context.Context, in *PasswordResetRequest, opts ...grpc.CallOption) (*PasswordResetReply, error)
 	PasswordSet(ctx context.Context, in *PasswordSetRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error)
 	PasswordChange(ctx context.Context, in *PasswordChangeRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error)
-	List(ctx context.Context, in *ListAccountRequest, opts ...grpc.CallOption) (*ListAccountReply, error)
-	Switch(ctx context.Context, in *SwitchRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error)
-	GetDetails(ctx context.Context, in *GetAccountDetailsRequest, opts ...grpc.CallOption) (*GetAccountDetailsReply, error)
-	Edit(ctx context.Context, in *EditAccountRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error)
-	Delete(ctx context.Context, in *DeleteAccountRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error)
-	GetTeams(ctx context.Context, in *GetTeamsRequest, opts ...grpc.CallOption) (*GetTeamsReply, error)
-	AddOrganizationMemberships(ctx context.Context, in *AddOrganizationMembershipsRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error)
-	DeleteOrganizationMemberships(ctx context.Context, in *DeleteOrganizationMembershipsRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error)
-	// Teams
-	CreateTeam(ctx context.Context, in *CreateTeamRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error)
-	ListTeam(ctx context.Context, in *ListTeamRequest, opts ...grpc.CallOption) (*ListTeamReply, error)
-	EditTeam(ctx context.Context, in *EditTeamRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error)
-	GetTeamDetails(ctx context.Context, in *GetTeamDetailsRequest, opts ...grpc.CallOption) (*GetTeamDetailsReply, error)
-	DeleteTeam(ctx context.Context, in *DeleteTeamRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error)
-	AddTeamMemberships(ctx context.Context, in *AddTeamMembershipsRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error)
-	DeleteTeamMemberships(ctx context.Context, in *DeleteTeamMembershipsRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error)
-	// Permissions
-	GrantPermission(ctx context.Context, in *GrantPermissionRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error)
-	ListPermission(ctx context.Context, in *ListPermissionRequest, opts ...grpc.CallOption) (*ListPermissionReply, error)
-	EditPermission(ctx context.Context, in *EditPermissionRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error)
-	RevokePermission(ctx context.Context, in *RevokePermissionRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error)
-	TransferPermissionOwnership(ctx context.Context, in *TransferPermissionOwnershipRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error)
 }
 
 type accountClient struct {
@@ -1283,186 +390,6 @@ func (c *accountClient) PasswordChange(ctx context.Context, in *PasswordChangeRe
 	return out, nil
 }
 
-func (c *accountClient) List(ctx context.Context, in *ListAccountRequest, opts ...grpc.CallOption) (*ListAccountReply, error) {
-	out := new(ListAccountReply)
-	err := grpc.Invoke(ctx, "/account.Account/List", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) Switch(ctx context.Context, in *SwitchRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error) {
-	out := new(google_protobuf1.Empty)
-	err := grpc.Invoke(ctx, "/account.Account/Switch", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) GetDetails(ctx context.Context, in *GetAccountDetailsRequest, opts ...grpc.CallOption) (*GetAccountDetailsReply, error) {
-	out := new(GetAccountDetailsReply)
-	err := grpc.Invoke(ctx, "/account.Account/GetDetails", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) Edit(ctx context.Context, in *EditAccountRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error) {
-	out := new(google_protobuf1.Empty)
-	err := grpc.Invoke(ctx, "/account.Account/Edit", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) Delete(ctx context.Context, in *DeleteAccountRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error) {
-	out := new(google_protobuf1.Empty)
-	err := grpc.Invoke(ctx, "/account.Account/Delete", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) GetTeams(ctx context.Context, in *GetTeamsRequest, opts ...grpc.CallOption) (*GetTeamsReply, error) {
-	out := new(GetTeamsReply)
-	err := grpc.Invoke(ctx, "/account.Account/GetTeams", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) AddOrganizationMemberships(ctx context.Context, in *AddOrganizationMembershipsRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error) {
-	out := new(google_protobuf1.Empty)
-	err := grpc.Invoke(ctx, "/account.Account/AddOrganizationMemberships", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) DeleteOrganizationMemberships(ctx context.Context, in *DeleteOrganizationMembershipsRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error) {
-	out := new(google_protobuf1.Empty)
-	err := grpc.Invoke(ctx, "/account.Account/DeleteOrganizationMemberships", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) CreateTeam(ctx context.Context, in *CreateTeamRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error) {
-	out := new(google_protobuf1.Empty)
-	err := grpc.Invoke(ctx, "/account.Account/CreateTeam", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) ListTeam(ctx context.Context, in *ListTeamRequest, opts ...grpc.CallOption) (*ListTeamReply, error) {
-	out := new(ListTeamReply)
-	err := grpc.Invoke(ctx, "/account.Account/ListTeam", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) EditTeam(ctx context.Context, in *EditTeamRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error) {
-	out := new(google_protobuf1.Empty)
-	err := grpc.Invoke(ctx, "/account.Account/EditTeam", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) GetTeamDetails(ctx context.Context, in *GetTeamDetailsRequest, opts ...grpc.CallOption) (*GetTeamDetailsReply, error) {
-	out := new(GetTeamDetailsReply)
-	err := grpc.Invoke(ctx, "/account.Account/GetTeamDetails", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) DeleteTeam(ctx context.Context, in *DeleteTeamRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error) {
-	out := new(google_protobuf1.Empty)
-	err := grpc.Invoke(ctx, "/account.Account/DeleteTeam", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) AddTeamMemberships(ctx context.Context, in *AddTeamMembershipsRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error) {
-	out := new(google_protobuf1.Empty)
-	err := grpc.Invoke(ctx, "/account.Account/AddTeamMemberships", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) DeleteTeamMemberships(ctx context.Context, in *DeleteTeamMembershipsRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error) {
-	out := new(google_protobuf1.Empty)
-	err := grpc.Invoke(ctx, "/account.Account/DeleteTeamMemberships", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) GrantPermission(ctx context.Context, in *GrantPermissionRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error) {
-	out := new(google_protobuf1.Empty)
-	err := grpc.Invoke(ctx, "/account.Account/GrantPermission", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) ListPermission(ctx context.Context, in *ListPermissionRequest, opts ...grpc.CallOption) (*ListPermissionReply, error) {
-	out := new(ListPermissionReply)
-	err := grpc.Invoke(ctx, "/account.Account/ListPermission", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) EditPermission(ctx context.Context, in *EditPermissionRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error) {
-	out := new(google_protobuf1.Empty)
-	err := grpc.Invoke(ctx, "/account.Account/EditPermission", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) RevokePermission(ctx context.Context, in *RevokePermissionRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error) {
-	out := new(google_protobuf1.Empty)
-	err := grpc.Invoke(ctx, "/account.Account/RevokePermission", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountClient) TransferPermissionOwnership(ctx context.Context, in *TransferPermissionOwnershipRequest, opts ...grpc.CallOption) (*google_protobuf1.Empty, error) {
-	out := new(google_protobuf1.Empty)
-	err := grpc.Invoke(ctx, "/account.Account/TransferPermissionOwnership", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // Server API for Account service
 
 type AccountServer interface {
@@ -1472,28 +399,6 @@ type AccountServer interface {
 	PasswordReset(context.Context, *PasswordResetRequest) (*PasswordResetReply, error)
 	PasswordSet(context.Context, *PasswordSetRequest) (*google_protobuf1.Empty, error)
 	PasswordChange(context.Context, *PasswordChangeRequest) (*google_protobuf1.Empty, error)
-	List(context.Context, *ListAccountRequest) (*ListAccountReply, error)
-	Switch(context.Context, *SwitchRequest) (*google_protobuf1.Empty, error)
-	GetDetails(context.Context, *GetAccountDetailsRequest) (*GetAccountDetailsReply, error)
-	Edit(context.Context, *EditAccountRequest) (*google_protobuf1.Empty, error)
-	Delete(context.Context, *DeleteAccountRequest) (*google_protobuf1.Empty, error)
-	GetTeams(context.Context, *GetTeamsRequest) (*GetTeamsReply, error)
-	AddOrganizationMemberships(context.Context, *AddOrganizationMembershipsRequest) (*google_protobuf1.Empty, error)
-	DeleteOrganizationMemberships(context.Context, *DeleteOrganizationMembershipsRequest) (*google_protobuf1.Empty, error)
-	// Teams
-	CreateTeam(context.Context, *CreateTeamRequest) (*google_protobuf1.Empty, error)
-	ListTeam(context.Context, *ListTeamRequest) (*ListTeamReply, error)
-	EditTeam(context.Context, *EditTeamRequest) (*google_protobuf1.Empty, error)
-	GetTeamDetails(context.Context, *GetTeamDetailsRequest) (*GetTeamDetailsReply, error)
-	DeleteTeam(context.Context, *DeleteTeamRequest) (*google_protobuf1.Empty, error)
-	AddTeamMemberships(context.Context, *AddTeamMembershipsRequest) (*google_protobuf1.Empty, error)
-	DeleteTeamMemberships(context.Context, *DeleteTeamMembershipsRequest) (*google_protobuf1.Empty, error)
-	// Permissions
-	GrantPermission(context.Context, *GrantPermissionRequest) (*google_protobuf1.Empty, error)
-	ListPermission(context.Context, *ListPermissionRequest) (*ListPermissionReply, error)
-	EditPermission(context.Context, *EditPermissionRequest) (*google_protobuf1.Empty, error)
-	RevokePermission(context.Context, *RevokePermissionRequest) (*google_protobuf1.Empty, error)
-	TransferPermissionOwnership(context.Context, *TransferPermissionOwnershipRequest) (*google_protobuf1.Empty, error)
 }
 
 func RegisterAccountServer(s *grpc.Server, srv AccountServer) {
@@ -1608,366 +513,6 @@ func _Account_PasswordChange_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Account_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListAccountRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).List(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/List",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).List(ctx, req.(*ListAccountRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_Switch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SwitchRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).Switch(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/Switch",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).Switch(ctx, req.(*SwitchRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_GetDetails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetAccountDetailsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).GetDetails(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/GetDetails",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).GetDetails(ctx, req.(*GetAccountDetailsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_Edit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EditAccountRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).Edit(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/Edit",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).Edit(ctx, req.(*EditAccountRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteAccountRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).Delete(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/Delete",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).Delete(ctx, req.(*DeleteAccountRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_GetTeams_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTeamsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).GetTeams(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/GetTeams",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).GetTeams(ctx, req.(*GetTeamsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_AddOrganizationMemberships_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddOrganizationMembershipsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).AddOrganizationMemberships(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/AddOrganizationMemberships",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).AddOrganizationMemberships(ctx, req.(*AddOrganizationMembershipsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_DeleteOrganizationMemberships_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteOrganizationMembershipsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).DeleteOrganizationMemberships(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/DeleteOrganizationMemberships",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).DeleteOrganizationMemberships(ctx, req.(*DeleteOrganizationMembershipsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_CreateTeam_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateTeamRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).CreateTeam(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/CreateTeam",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).CreateTeam(ctx, req.(*CreateTeamRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_ListTeam_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListTeamRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).ListTeam(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/ListTeam",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).ListTeam(ctx, req.(*ListTeamRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_EditTeam_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EditTeamRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).EditTeam(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/EditTeam",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).EditTeam(ctx, req.(*EditTeamRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_GetTeamDetails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTeamDetailsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).GetTeamDetails(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/GetTeamDetails",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).GetTeamDetails(ctx, req.(*GetTeamDetailsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_DeleteTeam_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteTeamRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).DeleteTeam(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/DeleteTeam",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).DeleteTeam(ctx, req.(*DeleteTeamRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_AddTeamMemberships_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddTeamMembershipsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).AddTeamMemberships(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/AddTeamMemberships",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).AddTeamMemberships(ctx, req.(*AddTeamMembershipsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_DeleteTeamMemberships_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteTeamMembershipsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).DeleteTeamMemberships(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/DeleteTeamMemberships",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).DeleteTeamMemberships(ctx, req.(*DeleteTeamMembershipsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_GrantPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GrantPermissionRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).GrantPermission(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/GrantPermission",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).GrantPermission(ctx, req.(*GrantPermissionRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_ListPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListPermissionRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).ListPermission(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/ListPermission",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).ListPermission(ctx, req.(*ListPermissionRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_EditPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EditPermissionRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).EditPermission(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/EditPermission",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).EditPermission(ctx, req.(*EditPermissionRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_RevokePermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RevokePermissionRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).RevokePermission(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/RevokePermission",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).RevokePermission(ctx, req.(*RevokePermissionRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Account_TransferPermissionOwnership_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TransferPermissionOwnershipRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountServer).TransferPermissionOwnership(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.Account/TransferPermissionOwnership",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).TransferPermissionOwnership(ctx, req.(*TransferPermissionOwnershipRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 var _Account_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "account.Account",
 	HandlerType: (*AccountServer)(nil),
@@ -1996,86 +541,6 @@ var _Account_serviceDesc = grpc.ServiceDesc{
 			MethodName: "PasswordChange",
 			Handler:    _Account_PasswordChange_Handler,
 		},
-		{
-			MethodName: "List",
-			Handler:    _Account_List_Handler,
-		},
-		{
-			MethodName: "Switch",
-			Handler:    _Account_Switch_Handler,
-		},
-		{
-			MethodName: "GetDetails",
-			Handler:    _Account_GetDetails_Handler,
-		},
-		{
-			MethodName: "Edit",
-			Handler:    _Account_Edit_Handler,
-		},
-		{
-			MethodName: "Delete",
-			Handler:    _Account_Delete_Handler,
-		},
-		{
-			MethodName: "GetTeams",
-			Handler:    _Account_GetTeams_Handler,
-		},
-		{
-			MethodName: "AddOrganizationMemberships",
-			Handler:    _Account_AddOrganizationMemberships_Handler,
-		},
-		{
-			MethodName: "DeleteOrganizationMemberships",
-			Handler:    _Account_DeleteOrganizationMemberships_Handler,
-		},
-		{
-			MethodName: "CreateTeam",
-			Handler:    _Account_CreateTeam_Handler,
-		},
-		{
-			MethodName: "ListTeam",
-			Handler:    _Account_ListTeam_Handler,
-		},
-		{
-			MethodName: "EditTeam",
-			Handler:    _Account_EditTeam_Handler,
-		},
-		{
-			MethodName: "GetTeamDetails",
-			Handler:    _Account_GetTeamDetails_Handler,
-		},
-		{
-			MethodName: "DeleteTeam",
-			Handler:    _Account_DeleteTeam_Handler,
-		},
-		{
-			MethodName: "AddTeamMemberships",
-			Handler:    _Account_AddTeamMemberships_Handler,
-		},
-		{
-			MethodName: "DeleteTeamMemberships",
-			Handler:    _Account_DeleteTeamMemberships_Handler,
-		},
-		{
-			MethodName: "GrantPermission",
-			Handler:    _Account_GrantPermission_Handler,
-		},
-		{
-			MethodName: "ListPermission",
-			Handler:    _Account_ListPermission_Handler,
-		},
-		{
-			MethodName: "EditPermission",
-			Handler:    _Account_EditPermission_Handler,
-		},
-		{
-			MethodName: "RevokePermission",
-			Handler:    _Account_RevokePermission_Handler,
-		},
-		{
-			MethodName: "TransferPermissionOwnership",
-			Handler:    _Account_TransferPermissionOwnership_Handler,
-		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "github.com/appcelerator/amp/api/rpc/account/account.proto",
@@ -2086,124 +551,45 @@ func init() {
 }
 
 var fileDescriptor0 = []byte{
-	// 1899 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0xbc, 0x58, 0x4f, 0x6f, 0xdb, 0xc8,
-	0x15, 0x07, 0x6d, 0xd9, 0x92, 0x9e, 0x2c, 0xff, 0x19, 0xff, 0x93, 0x69, 0x7b, 0x6d, 0x4f, 0xea,
-	0xae, 0x57, 0xd9, 0x95, 0xd6, 0x72, 0x77, 0xbb, 0xbb, 0xe8, 0x16, 0xc8, 0x26, 0xae, 0xeb, 0xdd,
-	0x34, 0x71, 0x68, 0xa7, 0xb7, 0x54, 0xa5, 0xc9, 0xb1, 0x4c, 0x44, 0x22, 0x19, 0x92, 0xb2, 0x22,
-	0x07, 0xee, 0x21, 0x87, 0x02, 0xb9, 0x14, 0x28, 0x0a, 0xb4, 0x40, 0xd1, 0x53, 0x51, 0xf4, 0xd4,
-	0x53, 0x7b, 0x29, 0xd0, 0x8f, 0xd1, 0xaf, 0xd0, 0x2f, 0xd1, 0xdb, 0x62, 0x86, 0x43, 0x72, 0x44,
-	0x91, 0x96, 0xe4, 0x38, 0x39, 0x59, 0x33, 0xf3, 0xe6, 0xbd, 0xdf, 0xfb, 0xcd, 0x9b, 0xe1, 0xfb,
-	0x19, 0xbe, 0x6c, 0x18, 0xde, 0x79, 0xfb, 0xb4, 0xa2, 0x59, 0xad, 0xaa, 0x6a, 0xdb, 0x1a, 0x69,
-	0x12, 0x47, 0xf5, 0x2c, 0xa7, 0xaa, 0xb6, 0xec, 0xaa, 0x6a, 0x1b, 0x55, 0xc7, 0xd6, 0xaa, 0xaa,
-	0xa6, 0x59, 0x6d, 0xd3, 0x0b, 0xfe, 0x56, 0x6c, 0xc7, 0xf2, 0x2c, 0x94, 0xe5, 0x43, 0x79, 0xad,
-	0x61, 0x59, 0x8d, 0x26, 0x61, 0xe6, 0xaa, 0x69, 0x5a, 0x9e, 0xea, 0x19, 0x96, 0xe9, 0xfa, 0x66,
-	0xf2, 0x2a, 0x5f, 0x65, 0xa3, 0xd3, 0xf6, 0x59, 0x95, 0xb4, 0x6c, 0xaf, 0xcb, 0x17, 0xbf, 0xbe,
-	0x2e, 0xbc, 0xae, 0x7a, 0x6a, 0x18, 0xdb, 0xd5, 0xce, 0x49, 0x4b, 0xed, 0x85, 0x80, 0xff, 0x23,
-	0xc1, 0xd4, 0x3d, 0x7f, 0x66, 0xdf, 0xf4, 0x9c, 0x2e, 0x5a, 0x85, 0x7c, 0xdb, 0x25, 0x4e, 0xdd,
-	0x54, 0x5b, 0xa4, 0x24, 0x6d, 0x4a, 0x3b, 0x79, 0x25, 0x47, 0x27, 0x1e, 0xa9, 0x2d, 0x82, 0x16,
-	0x60, 0x82, 0xb4, 0x54, 0xa3, 0x59, 0x1a, 0x63, 0x0b, 0xfe, 0x00, 0x6d, 0xc3, 0x34, 0xfb, 0x51,
-	0xbf, 0x20, 0x8e, 0x71, 0x66, 0x10, 0xbd, 0x34, 0xbe, 0x29, 0xed, 0xe4, 0x94, 0x22, 0x9b, 0xfd,
-	0x25, 0x9f, 0x44, 0x9f, 0xc3, 0x14, 0x8f, 0x5d, 0xf7, 0xba, 0x36, 0x29, 0x65, 0x36, 0xa5, 0x9d,
-	0xe9, 0xda, 0x7c, 0xc5, 0xc7, 0x55, 0xe1, 0x28, 0x4e, 0xba, 0x36, 0x51, 0x0a, 0x6a, 0x34, 0x40,
-	0x2b, 0x90, 0xb3, 0x3a, 0x26, 0x71, 0xea, 0x86, 0x5e, 0x9a, 0x60, 0x71, 0xb3, 0x6c, 0x7c, 0xa8,
-	0xe3, 0xff, 0x4b, 0x90, 0xfd, 0xc6, 0x68, 0x36, 0x0d, 0xb3, 0x81, 0x4a, 0x90, 0xd5, 0x2c, 0xd3,
-	0x53, 0x35, 0x8f, 0xc3, 0x0e, 0x86, 0x74, 0x45, 0xd5, 0x75, 0x87, 0xb8, 0x2e, 0xc7, 0x1d, 0x0c,
-	0x11, 0x82, 0x8c, 0x66, 0x78, 0x5d, 0x86, 0x37, 0xaf, 0xb0, 0xdf, 0x34, 0x47, 0xd7, 0x53, 0x3d,
-	0x1f, 0x5f, 0x5e, 0xf1, 0x07, 0x14, 0xc4, 0xa5, 0x61, 0xd7, 0x35, 0x4b, 0x27, 0x01, 0x88, 0x4b,
-	0xc3, 0xbe, 0x6f, 0xe9, 0x02, 0x29, 0x93, 0x22, 0x29, 0x5b, 0x30, 0x65, 0x9f, 0x5b, 0x26, 0xa9,
-	0x9b, 0xed, 0xd6, 0x29, 0x71, 0x4a, 0x59, 0xb6, 0x58, 0x60, 0x73, 0x8f, 0xd8, 0x14, 0xa5, 0x5a,
-	0x53, 0x1d, 0xdd, 0x67, 0x23, 0xe7, 0x53, 0x4d, 0x27, 0x58, 0xd6, 0x1b, 0x50, 0x60, 0x8b, 0x7c,
-	0x7b, 0x9e, 0x2d, 0x03, 0x9d, 0xf2, 0x77, 0xe3, 0x97, 0x90, 0x3b, 0x26, 0x9e, 0x67, 0x98, 0x0d,
-	0x17, 0xd5, 0x60, 0xc2, 0x56, 0x1d, 0xb5, 0x55, 0x1a, 0xdb, 0x1c, 0xdf, 0x29, 0xd4, 0xd6, 0x2a,
-	0xc1, 0x21, 0x07, 0x16, 0x95, 0x23, 0xba, 0xcc, 0x4e, 0x58, 0xf1, 0x4d, 0xe5, 0x2f, 0x00, 0xa2,
-	0x49, 0x34, 0x0b, 0xe3, 0xcf, 0x49, 0x97, 0x33, 0x47, 0x7f, 0xd2, 0xb4, 0x2e, 0xd4, 0x66, 0x9b,
-	0x04, 0x67, 0xcd, 0x06, 0x5f, 0x8d, 0x7d, 0x21, 0xe1, 0x3f, 0x4a, 0x50, 0x3c, 0x36, 0x1a, 0xe6,
-	0x53, 0x5b, 0x21, 0x2f, 0xda, 0xc4, 0xf5, 0xae, 0x2f, 0x1a, 0x19, 0x72, 0xb6, 0xea, 0xba, 0x1d,
-	0xcb, 0xd1, 0xb9, 0xaf, 0x70, 0x1c, 0x71, 0x37, 0x2e, 0x72, 0x77, 0xc3, 0x4a, 0xc1, 0x77, 0xa0,
-	0x10, 0xe0, 0xb2, 0x9b, 0x2c, 0x03, 0xcf, 0x7a, 0x4e, 0x4c, 0x8e, 0xc8, 0x1f, 0xe0, 0xbb, 0x30,
-	0xef, 0x97, 0xa4, 0xc6, 0x2e, 0x59, 0x90, 0x42, 0xb2, 0xf1, 0x01, 0x4c, 0x3d, 0xb4, 0x1a, 0x87,
-	0xe6, 0xdb, 0x26, 0x8a, 0x31, 0x00, 0x77, 0x94, 0x8e, 0x6c, 0x0f, 0x16, 0x8e, 0xb8, 0xbd, 0x42,
-	0x5c, 0xe2, 0x0d, 0x13, 0x14, 0x97, 0x01, 0xc5, 0x36, 0xa5, 0x07, 0xf8, 0x59, 0x64, 0x7b, 0x1c,
-	0xb9, 0x4f, 0xb4, 0xbd, 0x36, 0x99, 0xd7, 0x12, 0x2c, 0x06, 0x8e, 0xee, 0x9f, 0xab, 0x66, 0x83,
-	0x0c, 0xc5, 0x4f, 0x19, 0x66, 0xc9, 0x4b, 0xc3, 0xa5, 0x05, 0x79, 0xd4, 0xeb, 0xba, 0x6f, 0x1e,
-	0x6d, 0x42, 0xc1, 0x24, 0x9d, 0xd0, 0xcc, 0x2f, 0x0f, 0x71, 0x0a, 0x2f, 0x00, 0x7a, 0x68, 0xb8,
-	0x1e, 0x2f, 0x06, 0x0e, 0x00, 0xef, 0xc3, 0x6c, 0xcf, 0x2c, 0x25, 0x63, 0x17, 0x72, 0xbc, 0x4a,
-	0xdc, 0x92, 0xc4, 0x2e, 0xc8, 0x62, 0x78, 0x41, 0xc4, 0xb7, 0x4f, 0x09, 0xcd, 0xf0, 0xc7, 0x50,
-	0x3c, 0xee, 0x18, 0x9e, 0x76, 0x3e, 0xd4, 0x19, 0xfc, 0x18, 0x4a, 0x07, 0x24, 0x88, 0xf9, 0x80,
-	0x78, 0xaa, 0xd1, 0x74, 0x87, 0xda, 0xf8, 0x37, 0x09, 0x96, 0x12, 0x76, 0x52, 0xd0, 0x55, 0x08,
-	0xbe, 0x0e, 0x6c, 0x57, 0x2a, 0xe6, 0xc0, 0x0a, 0x95, 0x21, 0x7b, 0xea, 0x3f, 0x85, 0x8c, 0xd4,
-	0x42, 0x6d, 0x36, 0xdc, 0xc0, 0x9f, 0x48, 0x25, 0x30, 0x40, 0x9f, 0x40, 0xce, 0xe5, 0x2f, 0x03,
-	0xa3, 0xb6, 0x50, 0x9b, 0xeb, 0x7b, 0x32, 0x94, 0xd0, 0x04, 0xff, 0x55, 0x02, 0xb4, 0xaf, 0x1b,
-	0x31, 0xae, 0x6f, 0xf2, 0xa9, 0x10, 0x40, 0x8e, 0x8f, 0x02, 0x32, 0x33, 0x18, 0xe4, 0x1e, 0x2c,
-	0x3c, 0x20, 0x4d, 0xe2, 0x91, 0x11, 0x50, 0xe2, 0x6d, 0x98, 0x39, 0x20, 0xde, 0x09, 0x51, 0x5b,
-	0xe1, 0x81, 0x21, 0xc8, 0x30, 0x53, 0x1f, 0x37, 0xfb, 0x8d, 0x7f, 0x0a, 0x19, 0x6a, 0x13, 0xae,
-	0x49, 0xd1, 0x1a, 0xc2, 0x30, 0x65, 0x39, 0x0d, 0xd5, 0x34, 0x2e, 0xd9, 0x7b, 0xc2, 0xf7, 0xf5,
-	0xcc, 0xe1, 0x1f, 0x41, 0x31, 0x0a, 0x43, 0x4f, 0xf7, 0x0e, 0x4c, 0x78, 0x74, 0xc4, 0xeb, 0xb1,
-	0x18, 0x26, 0x46, 0x6d, 0x14, 0x7f, 0x0d, 0x3f, 0x81, 0xad, 0x7b, 0xba, 0xfe, 0x58, 0x70, 0xf4,
-	0x0b, 0x42, 0x9f, 0x7e, 0xf7, 0xdc, 0xb0, 0xfb, 0xe0, 0x8a, 0x90, 0x4a, 0x90, 0xe5, 0x96, 0xec,
-	0x83, 0x90, 0x57, 0x82, 0x21, 0x3e, 0x81, 0x1f, 0xf8, 0x24, 0xdd, 0xaa, 0xd7, 0x16, 0xcc, 0xdd,
-	0x77, 0x88, 0xea, 0x11, 0x86, 0x9e, 0xbb, 0x88, 0xf3, 0x22, 0xf5, 0xf3, 0x92, 0xc4, 0x35, 0xbd,
-	0xf9, 0x3a, 0x71, 0x35, 0xc7, 0xb0, 0xd9, 0x36, 0x7e, 0xf3, 0x85, 0x29, 0xfc, 0x19, 0xcc, 0xd0,
-	0x3b, 0x3e, 0x62, 0x30, 0x5c, 0x81, 0x62, 0xb4, 0x8d, 0x1e, 0xc2, 0x3a, 0x00, 0x25, 0x9a, 0x55,
-	0x46, 0x90, 0x53, 0x9e, 0xce, 0xd0, 0xd2, 0x70, 0xf1, 0xbf, 0x25, 0x98, 0xa1, 0x55, 0x7f, 0x1b,
-	0x49, 0x7d, 0x04, 0xb3, 0x26, 0xe9, 0xd4, 0x7b, 0xf6, 0xfa, 0x99, 0xcd, 0x98, 0xa4, 0x23, 0x1e,
-	0x06, 0xed, 0x34, 0xa8, 0x29, 0x73, 0xe1, 0xb7, 0x20, 0x59, 0x93, 0x74, 0xd8, 0x9d, 0xfa, 0x10,
-	0xa8, 0x75, 0x5d, 0xa4, 0xc7, 0xef, 0x45, 0xa6, 0x4d, 0xd2, 0x79, 0x20, 0x30, 0xf4, 0x18, 0x16,
-	0x79, 0xbd, 0xc5, 0x5e, 0xa3, 0x1b, 0xe2, 0xc7, 0x6f, 0x24, 0x98, 0x8f, 0x7b, 0xa4, 0x14, 0xbe,
-	0xb3, 0x43, 0xa6, 0xd5, 0xd6, 0xe2, 0xd5, 0x96, 0xf1, 0xab, 0x8d, 0x0f, 0xf1, 0x77, 0x30, 0xe7,
-	0xd7, 0xf0, 0x2d, 0x1c, 0x0c, 0x6e, 0xc1, 0xca, 0x3d, 0x5d, 0xa7, 0x9e, 0x12, 0x6e, 0xc1, 0x4d,
-	0xb3, 0x13, 0x6e, 0xca, 0x78, 0xef, 0x4d, 0xb1, 0x61, 0x2d, 0xc2, 0xfe, 0x5e, 0x22, 0x5e, 0x42,
-	0x5e, 0x21, 0xae, 0x6b, 0xb5, 0x1d, 0x8d, 0x0c, 0xeb, 0x9e, 0xde, 0x81, 0xc0, 0x3d, 0xfd, 0x4d,
-	0x1f, 0xf3, 0x26, 0xb9, 0x20, 0x61, 0x9b, 0xc6, 0x06, 0xb4, 0x45, 0x75, 0x88, 0xef, 0x99, 0xf6,
-	0xe6, 0x7e, 0xb1, 0x42, 0x30, 0x75, 0xa8, 0xe3, 0x6f, 0x61, 0xe9, 0xc0, 0x51, 0x4d, 0xef, 0x88,
-	0x38, 0x2d, 0xc3, 0x75, 0x85, 0x6e, 0xeb, 0x53, 0xc8, 0x3b, 0x01, 0x2a, 0xfe, 0x7d, 0x43, 0xe1,
-	0x1b, 0x18, 0xe2, 0x55, 0x22, 0x23, 0xfc, 0x5b, 0x09, 0x16, 0xe9, 0xf5, 0xed, 0xf7, 0xf5, 0x9e,
-	0x93, 0x3a, 0x84, 0xf9, 0x38, 0x0e, 0x7a, 0x13, 0x6a, 0x00, 0x21, 0xd8, 0xe0, 0x59, 0x4f, 0x4a,
-	0x49, 0xb0, 0xc2, 0x87, 0xb0, 0x48, 0x1f, 0x98, 0xdb, 0xa0, 0xe7, 0x3b, 0x58, 0x56, 0xc8, 0x85,
-	0xf5, 0x9c, 0xdc, 0x86, 0xb3, 0x2b, 0xc0, 0x27, 0x8e, 0x6a, 0xba, 0x67, 0xc4, 0x89, 0xdc, 0x3d,
-	0xa6, 0x9a, 0x8b, 0x16, 0xeb, 0xdb, 0xf2, 0x1e, 0x63, 0x78, 0x3c, 0xce, 0x70, 0xed, 0xef, 0x2b,
-	0x90, 0xe5, 0x1f, 0x71, 0xf4, 0x14, 0x26, 0xfd, 0x96, 0x1e, 0x2d, 0x45, 0x1f, 0x7f, 0x51, 0x7b,
-	0xc8, 0x0b, 0x7d, 0xf3, 0x76, 0xb3, 0x8b, 0xd7, 0x5f, 0xff, 0xf7, 0x7f, 0x7f, 0x18, 0x5b, 0xc6,
-	0xa8, 0x7a, 0xb1, 0x1b, 0x29, 0x60, 0xa3, 0x61, 0xb6, 0xed, 0xaf, 0xa4, 0x32, 0x7a, 0x06, 0x93,
-	0x4c, 0x04, 0x74, 0x51, 0xa4, 0x95, 0x12, 0x54, 0x81, 0xbc, 0x54, 0xf1, 0xb5, 0x77, 0x25, 0xd0,
-	0xde, 0x95, 0x7d, 0xaa, 0xbd, 0x93, 0xdd, 0x33, 0xf9, 0xdb, 0xa5, 0xee, 0x9f, 0xc0, 0xc4, 0x43,
-	0xab, 0x61, 0x98, 0x28, 0x6a, 0xda, 0x44, 0x19, 0x21, 0xcf, 0xc7, 0xa7, 0x29, 0xe4, 0x35, 0xe6,
-	0x73, 0x09, 0xcf, 0x89, 0x3e, 0x9b, 0xd4, 0x0d, 0x75, 0x79, 0x05, 0xc5, 0x9e, 0x3e, 0x1f, 0xad,
-	0x87, 0x3e, 0x92, 0x44, 0x83, 0xbc, 0x9a, 0xb6, 0x4c, 0x43, 0x7d, 0xca, 0x42, 0x95, 0xf1, 0xb6,
-	0x18, 0xea, 0x55, 0xd8, 0x26, 0x5d, 0x55, 0x6d, 0x71, 0x0f, 0x0d, 0x7f, 0x06, 0x05, 0x41, 0x3a,
-	0xa0, 0x7e, 0xef, 0x91, 0xa0, 0x48, 0x25, 0x0d, 0xb3, 0xa8, 0x6b, 0x78, 0x59, 0x8c, 0x6a, 0x47,
-	0xfb, 0x69, 0x9c, 0x57, 0x30, 0xdd, 0xab, 0x2c, 0xd0, 0x07, 0x7d, 0xa1, 0x7a, 0x24, 0x47, 0x6a,
-	0xb4, 0x5d, 0x16, 0xed, 0x2e, 0xfe, 0xe1, 0xa0, 0x1c, 0x7d, 0x77, 0x34, 0xf8, 0x31, 0x64, 0xe8,
-	0xd5, 0x16, 0xb2, 0xeb, 0x57, 0x18, 0xf2, 0x4a, 0xf2, 0x22, 0xa5, 0x75, 0x9e, 0x85, 0x2c, 0xa2,
-	0x82, 0x10, 0x12, 0x69, 0x30, 0xe9, 0x4b, 0x09, 0xb1, 0x82, 0x45, 0x6d, 0x91, 0x9a, 0xc1, 0x47,
-	0xcc, 0xdd, 0x1d, 0xf9, 0x83, 0xb4, 0x0c, 0x5c, 0xe6, 0x86, 0x22, 0x7f, 0x01, 0x70, 0x40, 0x02,
-	0x01, 0x81, 0xb6, 0xc2, 0x40, 0x69, 0xb2, 0x44, 0xde, 0xb8, 0xce, 0x84, 0xe6, 0xb2, 0xc1, 0x82,
-	0xaf, 0xa0, 0xe5, 0x94, 0xe0, 0xa8, 0x0e, 0x19, 0xfa, 0x78, 0x09, 0x64, 0xf5, 0x4b, 0x84, 0x41,
-	0xa5, 0x20, 0xa7, 0x79, 0xa7, 0x39, 0xfd, 0x1a, 0x26, 0xfd, 0x6f, 0xa5, 0x50, 0xea, 0x49, 0x1d,
-	0x7e, 0x6a, 0x10, 0x9e, 0x42, 0x39, 0x35, 0x85, 0x5f, 0x41, 0x2e, 0x68, 0xcb, 0x51, 0x49, 0x24,
-	0x44, 0x14, 0x04, 0xf2, 0x52, 0xc2, 0x0a, 0x65, 0x68, 0x93, 0xb9, 0x97, 0x51, 0xa9, 0xc7, 0xbd,
-	0x7f, 0x32, 0xac, 0x81, 0x47, 0x7f, 0x92, 0x40, 0x4e, 0xef, 0xe0, 0x51, 0x39, 0x52, 0x74, 0x83,
-	0xda, 0xfc, 0xd4, 0x1c, 0x3f, 0x63, 0x20, 0xaa, 0xb5, 0x72, 0x02, 0x08, 0xf1, 0x25, 0xae, 0xb6,
-	0x42, 0x9f, 0x94, 0xdb, 0x3f, 0x4b, 0xb0, 0x7e, 0xad, 0x10, 0x40, 0x9f, 0xc4, 0x38, 0xbf, 0x21,
-	0xbe, 0x1a, 0xc3, 0xf7, 0x71, 0x79, 0x04, 0x7c, 0xc8, 0x05, 0x88, 0xe4, 0x04, 0x92, 0x43, 0x20,
-	0x7d, 0x1a, 0x63, 0xc4, 0xbb, 0x2f, 0xc6, 0xf3, 0x8f, 0x88, 0x23, 0xa1, 0x8c, 0x10, 0xc8, 0x05,
-	0xea, 0x40, 0xa8, 0x85, 0x98, 0xce, 0x10, 0x6a, 0xa1, 0x47, 0x4a, 0xe0, 0x0f, 0x59, 0xc0, 0x2d,
-	0xb4, 0x31, 0x20, 0x20, 0xb2, 0x20, 0x17, 0x68, 0x0a, 0x21, 0x4c, 0x4c, 0x66, 0x0c, 0xca, 0x4b,
-	0x1e, 0x21, 0xaf, 0xdf, 0xc0, 0x74, 0x6f, 0xe3, 0x2e, 0x3c, 0xa8, 0x89, 0x1a, 0x41, 0x5e, 0x4b,
-	0x5d, 0xa7, 0x99, 0x56, 0x18, 0x84, 0x1d, 0x34, 0x24, 0x04, 0x64, 0x03, 0x44, 0x1d, 0xaf, 0x70,
-	0x98, 0x7d, 0x2d, 0x7c, 0x6a, 0xd2, 0x3c, 0x62, 0x79, 0xd8, 0x88, 0xbf, 0x93, 0x00, 0xf5, 0xf7,
-	0xf4, 0x08, 0x8b, 0xb7, 0x2d, 0xb9, 0xfd, 0x4e, 0x85, 0xf0, 0x13, 0x06, 0xe1, 0xf3, 0xda, 0xee,
-	0x70, 0x10, 0x62, 0x97, 0xed, 0xf7, 0x12, 0x2c, 0x26, 0x76, 0xfd, 0x68, 0x3b, 0x81, 0x8e, 0x11,
-	0x60, 0x7d, 0xc9, 0x60, 0xed, 0x95, 0x47, 0x87, 0x85, 0xfe, 0x22, 0xc1, 0x4c, 0xac, 0x37, 0x47,
-	0xc2, 0x37, 0x21, 0xb1, 0x6b, 0x4f, 0xc5, 0x71, 0xc4, 0x70, 0x7c, 0x8b, 0xf7, 0x7b, 0x70, 0x84,
-	0xfd, 0x64, 0x25, 0x09, 0x51, 0xb4, 0x4a, 0xc7, 0x57, 0x55, 0x3b, 0x8c, 0x46, 0x29, 0x7b, 0x23,
-	0xc1, 0x74, 0x6f, 0x97, 0x2d, 0x94, 0x6d, 0xa2, 0x0c, 0x10, 0xca, 0x36, 0xa1, 0x3d, 0x0f, 0xa8,
-	0x42, 0x83, 0xa9, 0x8a, 0xc3, 0x41, 0xff, 0x94, 0x60, 0xba, 0xb7, 0x4d, 0x17, 0xb0, 0x24, 0xf6,
-	0xef, 0xa9, 0x44, 0x9d, 0x33, 0x14, 0xa7, 0xf2, 0xb3, 0x5b, 0x21, 0x4a, 0x5c, 0x13, 0x3a, 0x6a,
-	0x76, 0xed, 0xff, 0x25, 0xc1, 0x6c, 0x5c, 0x10, 0xa0, 0x4d, 0xa1, 0xed, 0x4f, 0xd4, 0x0a, 0xa9,
-	0xc0, 0x09, 0x03, 0x5e, 0x2f, 0xbf, 0x5b, 0xe0, 0xe8, 0x1f, 0x12, 0xac, 0x5e, 0xa3, 0x3c, 0xd0,
-	0xdd, 0xe8, 0xff, 0x64, 0x03, 0xf5, 0x49, 0x6a, 0x2e, 0x3f, 0x67, 0xb9, 0x7c, 0x83, 0xbf, 0x1e,
-	0xb2, 0x14, 0x3c, 0x1e, 0x8a, 0xa1, 0x16, 0x49, 0x3e, 0x9d, 0x64, 0x9e, 0xf7, 0xbe, 0x0f, 0x00,
-	0x00, 0xff, 0xff, 0x9b, 0xe6, 0xe5, 0xc8, 0x03, 0x1c, 0x00, 0x00,
+	// 632 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0xa4, 0x54, 0xdd, 0x4e, 0xd4, 0x40,
+	0x14, 0x4e, 0xf9, 0x5d, 0xce, 0x02, 0xd1, 0xe1, 0x6f, 0x2d, 0x8b, 0xd9, 0x8c, 0xc1, 0x90, 0x25,
+	0x69, 0x05, 0x12, 0x13, 0x49, 0xbc, 0x30, 0x06, 0x0d, 0x09, 0x31, 0xb8, 0x88, 0x77, 0x66, 0x33,
+	0x74, 0x87, 0x32, 0x71, 0x3b, 0x33, 0xb6, 0x53, 0xb0, 0x21, 0xdc, 0xf0, 0x0a, 0x26, 0xbe, 0x8c,
+	0x8f, 0xe1, 0x2b, 0xf8, 0x0c, 0x5e, 0x9b, 0x4e, 0xff, 0xd9, 0x1f, 0x89, 0x5e, 0xb5, 0xe7, 0xcc,
+	0x39, 0xdf, 0xf7, 0x9d, 0x99, 0x6f, 0x06, 0x5e, 0xb8, 0x4c, 0x5d, 0x84, 0x67, 0x96, 0x23, 0x3c,
+	0x9b, 0x48, 0xe9, 0xd0, 0x3e, 0xf5, 0x89, 0x12, 0xbe, 0x4d, 0x3c, 0x69, 0x13, 0xc9, 0x6c, 0x5f,
+	0x3a, 0x36, 0x71, 0x1c, 0x11, 0x72, 0x95, 0x7d, 0x2d, 0xe9, 0x0b, 0x25, 0xd0, 0x6c, 0x1a, 0x9a,
+	0x4d, 0x57, 0x08, 0xb7, 0x4f, 0x75, 0x39, 0xe1, 0x5c, 0x28, 0xa2, 0x98, 0xe0, 0x41, 0x52, 0x66,
+	0xae, 0xa7, 0xab, 0x3a, 0x3a, 0x0b, 0xcf, 0x6d, 0xea, 0x49, 0x15, 0xa5, 0x8b, 0x2f, 0xc7, 0xd1,
+	0xf7, 0x88, 0x22, 0x39, 0x77, 0xe0, 0x5c, 0x50, 0x8f, 0x54, 0x25, 0xe0, 0x1f, 0x06, 0xcc, 0xbf,
+	0x4a, 0x32, 0x07, 0x5c, 0xf9, 0x11, 0x5a, 0x87, 0xb9, 0x30, 0xa0, 0x7e, 0x97, 0x13, 0x8f, 0x36,
+	0x8c, 0x96, 0xb1, 0x35, 0xd7, 0xa9, 0xc5, 0x89, 0x77, 0xc4, 0xa3, 0x68, 0x19, 0xa6, 0xa9, 0x47,
+	0x58, 0xbf, 0x31, 0xa1, 0x17, 0x92, 0x00, 0x6d, 0xc2, 0xa2, 0xfe, 0xe9, 0x5e, 0x52, 0x9f, 0x9d,
+	0x33, 0xda, 0x6b, 0x4c, 0xb6, 0x8c, 0xad, 0x5a, 0x67, 0x41, 0x67, 0x3f, 0xa6, 0x49, 0xf4, 0x1c,
+	0xe6, 0x53, 0xee, 0xae, 0x8a, 0x24, 0x6d, 0x4c, 0xb5, 0x8c, 0xad, 0xc5, 0xdd, 0x25, 0x2b, 0xd1,
+	0x65, 0xa5, 0x2a, 0x3e, 0x44, 0x92, 0x76, 0xea, 0xa4, 0x08, 0xd0, 0x23, 0xa8, 0x89, 0x2b, 0x4e,
+	0xfd, 0x2e, 0xeb, 0x35, 0xa6, 0x35, 0xef, 0xac, 0x8e, 0x0f, 0x7b, 0xf8, 0xbb, 0x01, 0x0b, 0x27,
+	0xcc, 0xe5, 0xa7, 0xb2, 0x43, 0xbf, 0x84, 0x34, 0x50, 0xe3, 0xe5, 0x9b, 0x50, 0x93, 0x24, 0x08,
+	0xae, 0x84, 0xdf, 0x4b, 0x27, 0xc8, 0xe3, 0x62, 0xb4, 0xc9, 0xf2, 0x68, 0xff, 0xa8, 0x19, 0x3f,
+	0x81, 0x7a, 0xa6, 0x4b, 0xf6, 0xa3, 0x18, 0x5c, 0x89, 0xcf, 0x94, 0xa7, 0x8a, 0x92, 0x00, 0x6f,
+	0xc3, 0x52, 0xb2, 0x39, 0x8e, 0x3e, 0xee, 0x6c, 0x84, 0xe1, 0xc5, 0x6f, 0x61, 0xfe, 0x48, 0xb8,
+	0x87, 0xfc, 0x7f, 0x07, 0xc5, 0x18, 0x20, 0x05, 0x1a, 0xad, 0x6c, 0x0f, 0x96, 0x8f, 0xd3, 0xfa,
+	0x0e, 0x0d, 0xa8, 0xba, 0x0f, 0x29, 0x6e, 0x03, 0xba, 0xd3, 0x34, 0x9a, 0xe0, 0x4d, 0x51, 0x7b,
+	0x52, 0xc0, 0x0f, 0xad, 0x1d, 0x3b, 0xcc, 0xad, 0x01, 0x2b, 0x19, 0xd0, 0xeb, 0x0b, 0xc2, 0x5d,
+	0x7a, 0xaf, 0xfd, 0x69, 0xc3, 0x03, 0xfa, 0x95, 0x05, 0x8a, 0x71, 0xf7, 0xb8, 0x0a, 0x3d, 0x90,
+	0x47, 0x2d, 0xa8, 0x73, 0x7a, 0x95, 0x97, 0x25, 0xf6, 0x28, 0xa7, 0x76, 0x7f, 0x4f, 0xc1, 0x6c,
+	0xea, 0x04, 0x74, 0x0a, 0x33, 0xc9, 0xc1, 0xa3, 0x55, 0x2b, 0xbb, 0x69, 0x15, 0x87, 0x9a, 0xcb,
+	0x03, 0x79, 0xd9, 0x8f, 0xf0, 0xc6, 0xed, 0xcf, 0x5f, 0xdf, 0x26, 0xd6, 0x30, 0xb2, 0x2f, 0x77,
+	0x8a, 0x1b, 0xcb, 0x5c, 0x1e, 0xca, 0x7d, 0xa3, 0x8d, 0x3e, 0xc1, 0x8c, 0xb6, 0x4a, 0x84, 0x9a,
+	0x79, 0xfb, 0x10, 0xef, 0x98, 0xab, 0x56, 0xf2, 0x56, 0x58, 0xd9, 0x5b, 0x61, 0x1d, 0xc4, 0x6f,
+	0xc5, 0x70, 0x78, 0x7d, 0x5d, 0xa3, 0x18, 0xfe, 0x3d, 0x4c, 0x1f, 0x09, 0x97, 0x71, 0xb4, 0x92,
+	0xa3, 0x97, 0xcd, 0x66, 0x2e, 0xdd, 0x4d, 0xc7, 0x92, 0x9b, 0x1a, 0x73, 0x15, 0x3f, 0x2c, 0x63,
+	0xf6, 0x63, 0x98, 0x18, 0xf2, 0x06, 0x16, 0x2a, 0x6e, 0x40, 0x1b, 0x39, 0xc6, 0x30, 0x6b, 0x99,
+	0xeb, 0xa3, 0x96, 0x63, 0xaa, 0x67, 0x9a, 0xaa, 0x8d, 0x37, 0xcb, 0x54, 0xd7, 0xf9, 0xf9, 0xde,
+	0xd8, 0xb2, 0xdc, 0x13, 0xd3, 0x9f, 0x43, 0xbd, 0x64, 0x30, 0x34, 0x88, 0x5e, 0xd8, 0x6e, 0xe4,
+	0xa6, 0x61, 0xcd, 0xda, 0xc4, 0x6b, 0x65, 0x56, 0x59, 0xf4, 0xc7, 0x3c, 0xd7, 0xb0, 0x58, 0xf5,
+	0x1f, 0x7a, 0x3c, 0x40, 0x55, 0x31, 0xe6, 0x48, 0xb6, 0x1d, 0xcd, 0xb6, 0x8d, 0x9f, 0xfe, 0x6d,
+	0xc6, 0x04, 0x6e, 0xdf, 0x68, 0x9f, 0xcd, 0x68, 0x88, 0xbd, 0x3f, 0x01, 0x00, 0x00, 0xff, 0xff,
+	0x9f, 0x4f, 0xca, 0x18, 0x83, 0x06, 0x00, 0x00,
 }

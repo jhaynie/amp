@@ -43,117 +43,117 @@ service Account {
       body: "*"
     };
   };
-  rpc List (ListAccountRequest) returns (ListAccountReply) {
-    option (google.api.http) = {
-      get: "/v1/account"
-    };
-  };
-  rpc Switch (SwitchRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      put: "/v1/account/{user_name}/switch",
-      body: "*"
-    };
-  };
-  rpc GetDetails (GetAccountDetailsRequest) returns (GetAccountDetailsReply) {
-    option (google.api.http) = {
-      get: "/v1/account/{user_name}"
-    };
-  };
-  rpc Edit (EditAccountRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      put: "/v1/account/{user_name}",
-      body: "*"
-    };
-  };
-  rpc Delete (DeleteAccountRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete: "/v1/account/{user_name}"
-    };
-  };
-  rpc GetTeams (GetTeamsRequest) returns (GetTeamsReply) {
-    option (google.api.http) = {
-      get: "/v1/account/{name}/teams"
-    };
-  }
-  rpc AddOrganizationMemberships (AddOrganizationMembershipsRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      patch: "/v1/account/{name}/organization/membership",
-      body: "*"
-    };
-  };
-  rpc DeleteOrganizationMemberships (DeleteOrganizationMembershipsRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete: "/v1/account/{name}/organization/membership"
-    };
-  };
-  //Teams
-  rpc CreateTeam (CreateTeamRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      post: "/v1/account/{organization}/team/{name}",
-      body: "*"
-    };
-  };
-  rpc ListTeam (ListTeamRequest) returns (ListTeamReply) {
-    option (google.api.http) = {
-      get: "/v1/account/{organization}/team"
-    };
-  };
-  rpc EditTeam (EditTeamRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      put: "/v1/account/{organization}/team/{name}",
-      body: "*"
-    };
-  };
-  rpc GetTeamDetails (GetTeamDetailsRequest) returns (GetTeamDetailsReply) {
-    option (google.api.http) = {
-      get: "/v1/account/{organization}/team/{name}"
-    };
-  };
-  rpc DeleteTeam (DeleteTeamRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete: "/v1/account/{organization}/team/{name}"
-    };
-  };
-  rpc AddTeamMemberships (AddTeamMembershipsRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      patch: "/v1/account/{organization}/team/{name}/membership",
-      body: "*"
-    };
-  };
-  rpc DeleteTeamMemberships (DeleteTeamMembershipsRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete: "/v1/account/{organization}/team/{name}/membership"
-    };
-  };
-  //Permissions
-  rpc GrantPermission (GrantPermissionRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      post: "/v1/account/{ressource.organization}/team/{ressource.team}/permission",
-      body: "*"
-    };
-  };
-  rpc ListPermission (ListPermissionRequest) returns (ListPermissionReply) {
-    option (google.api.http) = {
-      get: "/v1/account/{organization}/team/{team}/permission"
-    };
-  };
-  rpc EditPermission (EditPermissionRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      put: "/v1/account/{ressource.organization}/team/{ressource.team}/permission/{ressource.resource_id}",
-      body: "*"
-    };
-  };
-  rpc RevokePermission (RevokePermissionRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete: "/v1/account/{ressource.organization}/team/{ressource.team}/permission/{ressource.resource_id}"
-    };
-  };
-  rpc TransferPermissionOwnership (TransferPermissionOwnershipRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      post: "/v1/account/{organization}/team/{team}/transfer/{resource_id}"
-      body: "*"
-    };
-  };
+//  rpc List (ListAccountRequest) returns (ListAccountReply) {
+//    option (google.api.http) = {
+//      get: "/v1/account"
+//    };
+//  };
+//  rpc Switch (SwitchRequest) returns (google.protobuf.Empty) {
+//    option (google.api.http) = {
+//      put: "/v1/account/{user_name}/switch",
+//      body: "*"
+//    };
+//  };
+//  rpc GetDetails (GetAccountDetailsRequest) returns (GetAccountDetailsReply) {
+//    option (google.api.http) = {
+//      get: "/v1/account/{user_name}"
+//    };
+//  };
+//  rpc Edit (EditAccountRequest) returns (google.protobuf.Empty) {
+//    option (google.api.http) = {
+//      put: "/v1/account/{user_name}",
+//      body: "*"
+//    };
+//  };
+//  rpc Delete (DeleteAccountRequest) returns (google.protobuf.Empty) {
+//    option (google.api.http) = {
+//      delete: "/v1/account/{user_name}"
+//    };
+//  };
+//  rpc GetTeams (GetTeamsRequest) returns (GetTeamsReply) {
+//    option (google.api.http) = {
+//      get: "/v1/account/{name}/teams"
+//    };
+//  }
+//  rpc AddOrganizationMemberships (AddOrganizationMembershipsRequest) returns (google.protobuf.Empty) {
+//    option (google.api.http) = {
+//      patch: "/v1/account/{name}/organization/membership",
+//      body: "*"
+//    };
+//  };
+//  rpc DeleteOrganizationMemberships (DeleteOrganizationMembershipsRequest) returns (google.protobuf.Empty) {
+//    option (google.api.http) = {
+//      delete: "/v1/account/{name}/organization/membership"
+//    };
+//  };
+//  //Teams
+//  rpc CreateTeam (CreateTeamRequest) returns (google.protobuf.Empty) {
+//    option (google.api.http) = {
+//      post: "/v1/account/{organization}/team/{name}",
+//      body: "*"
+//    };
+//  };
+//  rpc ListTeam (ListTeamRequest) returns (ListTeamReply) {
+//    option (google.api.http) = {
+//      get: "/v1/account/{organization}/team"
+//    };
+//  };
+//  rpc EditTeam (EditTeamRequest) returns (google.protobuf.Empty) {
+//    option (google.api.http) = {
+//      put: "/v1/account/{organization}/team/{name}",
+//      body: "*"
+//    };
+//  };
+//  rpc GetTeamDetails (GetTeamDetailsRequest) returns (GetTeamDetailsReply) {
+//    option (google.api.http) = {
+//      get: "/v1/account/{organization}/team/{name}"
+//    };
+//  };
+//  rpc DeleteTeam (DeleteTeamRequest) returns (google.protobuf.Empty) {
+//    option (google.api.http) = {
+//      delete: "/v1/account/{organization}/team/{name}"
+//    };
+//  };
+//  rpc AddTeamMemberships (AddTeamMembershipsRequest) returns (google.protobuf.Empty) {
+//    option (google.api.http) = {
+//      patch: "/v1/account/{organization}/team/{name}/membership",
+//      body: "*"
+//    };
+//  };
+//  rpc DeleteTeamMemberships (DeleteTeamMembershipsRequest) returns (google.protobuf.Empty) {
+//    option (google.api.http) = {
+//      delete: "/v1/account/{organization}/team/{name}/membership"
+//    };
+//  };
+//  //Permissions
+//  rpc GrantPermission (GrantPermissionRequest) returns (google.protobuf.Empty) {
+//    option (google.api.http) = {
+//      post: "/v1/account/{ressource.organization}/team/{ressource.team}/permission",
+//      body: "*"
+//    };
+//  };
+//  rpc ListPermission (ListPermissionRequest) returns (ListPermissionReply) {
+//    option (google.api.http) = {
+//      get: "/v1/account/{organization}/team/{team}/permission"
+//    };
+//  };
+//  rpc EditPermission (EditPermissionRequest) returns (google.protobuf.Empty) {
+//    option (google.api.http) = {
+//      put: "/v1/account/{ressource.organization}/team/{ressource.team}/permission/{ressource.resource_id}",
+//      body: "*"
+//    };
+//  };
+//  rpc RevokePermission (RevokePermissionRequest) returns (google.protobuf.Empty) {
+//    option (google.api.http) = {
+//      delete: "/v1/account/{ressource.organization}/team/{ressource.team}/permission/{ressource.resource_id}"
+//    };
+//  };
+//  rpc TransferPermissionOwnership (TransferPermissionOwnershipRequest) returns (google.protobuf.Empty) {
+//    option (google.api.http) = {
+//      post: "/v1/account/{organization}/team/{team}/transfer/{resource_id}"
+//      body: "*"
+//    };
+//  };
 }
 
 message AccountEntry {
@@ -165,22 +165,6 @@ message AccountEntry {
   string owner_id = 5;
 }
 
-message Billing {
-  string contact = 1;
-  string address =2;
-  string city = 3;
-  string state = 4;
-  string zip_code = 5;
-  string email = 6;
-  string phone_number = 7;
-  string card_type = 8;
-  string card_number = 9;
-}
-
-message Settings {
-  map<string, string> param = 2;
-}
-
 message SignUpRequest {
   string user_name = 1;
   string password = 2;
@@ -189,7 +173,7 @@ message SignUpRequest {
 }
 
 message SignUpReply {
-  string token = 1; // TODO: it's probably not necessary
+  string token = 1;
 }
 
 message VerificationRequest {
@@ -226,174 +210,191 @@ message PasswordChangeRequest {
   string newPassword = 3;
 }
 
-//List function
-message ListAccountRequest {
-}
-
-message ListAccountReply {
-  repeated AccountEntry accounts = 1;
-}
-
-//Switch function
-message SwitchRequest {
-  string user_name = 1;
-}
-
-//GetDetails function
-message GetAccountDetailsRequest {
-  string user_name = 1;
-}
-
-message GetAccountDetailsReply {
-  AccountEntry account = 1;
-  Billing billing = 2;
-  Settings settings = 3;
-}
-
-//Edit function
-message EditAccountRequest {
-  string user_name = 1;
-  string email = 2;
-  Billing billing = 3;
-  Settings settings = 4;
-}
-
-//Delete function
-message DeleteAccountRequest {
-  string user_name = 1;
-}
-
-//GetTeams function
-message GetTeamsRequest {
-  string name = 2;
-}
-
-message Team {
-  string name = 1;
-  string organization = 2;
-}
-
-message GetTeamsReply {
-  repeated Team teams = 1;
-}
-
-//AddOrganizationMemberships
-message AddOrganizationMembershipsRequest {
-  string name = 1;
-  repeated string Members = 2;
-}
-
-//DeleteOrganizationMemberships
-message DeleteOrganizationMembershipsRequest {
-  string name = 1;
-  repeated string Members = 2;
-}
-
-//-------------------------------------------------------------------------------------------------
-// Team structs
-//-------------------------------------------------------------------------------------------------
-
-//Create function
-message CreateTeamRequest {
-  string organization = 1;
-  string name = 2;
-  string description = 3;
-}
-
-//List function
-message ListTeamRequest {
-  string organization = 1;
-}
-
-message ListTeamReply {
-  repeated string team_names = 2;
-}
-
-//Edit function
-message EditTeamRequest {
-  string organization = 1;
-  string name = 2;
-  string new_organization = 3;
-  string new_name = 4;
-  string new_description = 5;
-}
-
-//GetDetails function
-message GetTeamDetailsRequest {
-  string organization = 1;
-  string name = 2;
-}
-
-message GetTeamDetailsReply {
-  string organization = 1;
-  string name = 2;
-  string description = 3;
-  repeated string members = 4;
-}
-
-//Delete function
-message DeleteTeamRequest {
-  string organization = 1;
-  string name = 2;
-}
-
-//AddMembership function
-message AddTeamMembershipsRequest {
-  string organization = 1;
-  string name = 2;
-  repeated string Members = 3;
-}
-
-//DeleteMembership function
-message DeleteTeamMembershipsRequest {
-  string organization = 1;
-  string name = 2;
-  repeated string Members = 3;
-}
-
-//-------------------------------------------------------------------------------------------------
-// Permission Structs
-//-------------------------------------------------------------------------------------------------
-
-//Ressource struct
-message Ressource {
-  string organization = 1;
-  string team = 2;
-  string level = 3;
-  string resource_id = 4;
-}
-
-//Grant function
-message GrantPermissionRequest {
-  Ressource ressource = 1;
-}
-
-//List function
-message ListPermissionRequest {
-  string organization = 1;
-  string team = 2;
-  string level = 3;
-  string resource_id = 4;
-}
-
-message ListPermissionReply {
-  repeated Ressource ressources = 1;
-
-}
-
-//Edit function
-message EditPermissionRequest {
-  Ressource ressource = 1;
-}
-
-//Revoke function
-message RevokePermissionRequest {
-  Ressource ressource = 1;
-}
-
-//TransferOwnership function
-message TransferPermissionOwnershipRequest {
-  string organization = 1;
-  string team = 2;
-  string resource_id = 3;
-}
+////List function
+//message ListAccountRequest {
+//}
+//
+//message ListAccountReply {
+//  repeated AccountEntry accounts = 1;
+//}
+//
+////Switch function
+//message SwitchRequest {
+//  string user_name = 1;
+//}
+//
+////GetDetails function
+//message GetAccountDetailsRequest {
+//  string user_name = 1;
+//}
+//
+//message GetAccountDetailsReply {
+//  AccountEntry account = 1;
+//  Billing billing = 2;
+//  Settings settings = 3;
+//}
+//
+////Edit function
+//message EditAccountRequest {
+//  string user_name = 1;
+//  string email = 2;
+//  Billing billing = 3;
+//  Settings settings = 4;
+//}
+//
+////Delete function
+//message DeleteAccountRequest {
+//  string user_name = 1;
+//}
+//
+////GetTeams function
+//message GetTeamsRequest {
+//  string name = 2;
+//}
+//
+//message Team {
+//  string name = 1;
+//  string organization = 2;
+//}
+//
+//message GetTeamsReply {
+//  repeated Team teams = 1;
+//}
+//
+////AddOrganizationMemberships
+//message AddOrganizationMembershipsRequest {
+//  string name = 1;
+//  repeated string Members = 2;
+//}
+//
+////DeleteOrganizationMemberships
+//message DeleteOrganizationMembershipsRequest {
+//  string name = 1;
+//  repeated string Members = 2;
+//}
+//
+////-------------------------------------------------------------------------------------------------
+//// Team structs
+////-------------------------------------------------------------------------------------------------
+//
+////Create function
+//message CreateTeamRequest {
+//  string organization = 1;
+//  string name = 2;
+//  string description = 3;
+//}
+//
+////List function
+//message ListTeamRequest {
+//  string organization = 1;
+//}
+//
+//message ListTeamReply {
+//  repeated string team_names = 2;
+//}
+//
+////Edit function
+//message EditTeamRequest {
+//  string organization = 1;
+//  string name = 2;
+//  string new_organization = 3;
+//  string new_name = 4;
+//  string new_description = 5;
+//}
+//
+////GetDetails function
+//message GetTeamDetailsRequest {
+//  string organization = 1;
+//  string name = 2;
+//}
+//
+//message GetTeamDetailsReply {
+//  string organization = 1;
+//  string name = 2;
+//  string description = 3;
+//  repeated string members = 4;
+//}
+//
+////Delete function
+//message DeleteTeamRequest {
+//  string organization = 1;
+//  string name = 2;
+//}
+//
+////AddMembership function
+//message AddTeamMembershipsRequest {
+//  string organization = 1;
+//  string name = 2;
+//  repeated string Members = 3;
+//}
+//
+////DeleteMembership function
+//message DeleteTeamMembershipsRequest {
+//  string organization = 1;
+//  string name = 2;
+//  repeated string Members = 3;
+//}
+//
+////-------------------------------------------------------------------------------------------------
+//// Permission Structs
+////-------------------------------------------------------------------------------------------------
+//
+////Ressource struct
+//message Ressource {
+//  string organization = 1;
+//  string team = 2;
+//  string level = 3;
+//  string resource_id = 4;
+//}
+//
+////Grant function
+//message GrantPermissionRequest {
+//  Ressource ressource = 1;
+//}
+//
+////List function
+//message ListPermissionRequest {
+//  string organization = 1;
+//  string team = 2;
+//  string level = 3;
+//  string resource_id = 4;
+//}
+//
+//message ListPermissionReply {
+//  repeated Ressource ressources = 1;
+//
+//}
+//
+////Edit function
+//message EditPermissionRequest {
+//  Ressource ressource = 1;
+//}
+//
+////Revoke function
+//message RevokePermissionRequest {
+//  Ressource ressource = 1;
+//}
+//
+////TransferOwnership function
+//message TransferPermissionOwnershipRequest {
+//  string organization = 1;
+//  string team = 2;
+//  string resource_id = 3;
+//}
+//
+//
+//message Billing {
+//  string contact = 1;
+//  string address =2;
+//  string city = 3;
+//  string state = 4;
+//  string zip_code = 5;
+//  string email = 6;
+//  string phone_number = 7;
+//  string card_type = 8;
+//  string card_number = 9;
+//}
+//
+//message Settings {
+//  map<string, string> param = 2;
+//}
