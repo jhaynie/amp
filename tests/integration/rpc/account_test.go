@@ -232,7 +232,7 @@ func TestUserPasswordSet(t *testing.T) {
 	assert.NoError(t, resetPasswordErr)
 
 	// Password Set
-	_, setPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordSetRequest{
+	_, setPasswordErr := accountClient.PasswordSet(ctx, &account.PasswordSetRequest{
 		Token:    passwordResetReply.Token,
 		Password: "newPassword",
 	})
@@ -263,7 +263,7 @@ func TestUserPasswordSetInvalidTokenShouldFail(t *testing.T) {
 	assert.NoError(t, resetPasswordErr)
 
 	// Password Set
-	_, setPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordSetRequest{
+	_, setPasswordErr := accountClient.PasswordSet(ctx, &account.PasswordSetRequest{
 		Token:    "this is an invalid token",
 		Password: "newPassword",
 	})
@@ -294,7 +294,7 @@ func TestUserPasswordSetInvalidPasswordShouldFail(t *testing.T) {
 	assert.NoError(t, resetPasswordErr)
 
 	// Password Set
-	_, setPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordSetRequest{
+	_, setPasswordErr := accountClient.PasswordSet(ctx, &account.PasswordSetRequest{
 		Token:    passwordResetReply.Token,
 		Password: "",
 	})

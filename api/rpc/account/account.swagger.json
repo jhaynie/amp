@@ -851,6 +851,11 @@
         },
         "account_type": {
           "$ref": "#/definitions/schemaAccountType"
+        },
+        "owner_id": {
+          "type": "string",
+          "format": "string",
+          "title": "Specific to organization accounts"
         }
       }
     },
