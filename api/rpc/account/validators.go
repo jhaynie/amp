@@ -25,19 +25,17 @@ func checkPassword(password string) error {
 		return grpc.Errorf(codes.InvalidArgument, "password is mandatory")
 	}
 	// TODO: check password strength
-	//err = CheckPasswordStrength(r.Password)
-	//if err != nil {
-	//	return
-	//}
+	//	s := safe.New(8, 0, 0, safe.Simple)
+	//	err := s.SetWords("./vendor/github.com/holys/safe/words.dat")
+	//	if err != nil {
+	//		return grpc.Errorf(codes.NotFound, "cannot find common password data")
+	//	}
+	//	str := s.Check(password)
+	//	if str < 2 {
+	//		return grpc.Errorf(codes.InvalidArgument, "password too weak")
+	//	}
 	return nil
 }
-
-//func checkOrganizationName(name string) error {
-//	if isEmpty(name) {
-//		return grpc.Errorf(codes.InvalidArgument, "organization name is mandatory")
-//	}
-//	return nil
-//}
 
 func checkEmail(email string) (string, error) {
 	address, err := mail.ParseAddress(email)
@@ -49,19 +47,6 @@ func checkEmail(email string) (string, error) {
 	}
 	return address.Address, nil
 }
-
-//func CheckPasswordStrength(password string) error {
-//	s := safe.New(8, 0, 0, safe.Simple)
-//	err := s.SetWords("./vendor/github.com/holys/safe/words.dat")
-//	if err != nil {
-//		return grpc.Errorf(codes.NotFound, "cannot find common password data")
-//	}
-//	str := s.Check(password)
-//	if str < 2 {
-//		return grpc.Errorf(codes.InvalidArgument, "password too weak")
-//	}
-//	return nil
-//}
 
 // Validate validates SignUpRequest
 func (r *SignUpRequest) Validate() (err error) {
@@ -83,20 +68,28 @@ func (r *VerificationRequest) Validate() error {
 }
 
 // Validate validates LogInRequest
-func (r *LogInRequest) Validate() (err error) {
-	if err = checkUserName(r.UserName); err != nil {
+func (r *LogInRequest) Validate() error {
+	if err := checkUserName(r.UserName); err != nil {
 		return err
 	}
-	if err = checkPassword(r.Password); err != nil {
+	if err := checkPassword(r.Password); err != nil {
 		return err
 	}
 	return nil
 }
 
 // Validate validates PasswordResetRequest
-func (r *PasswordResetRequest) Validate() (err error) {
-	if err = checkUserName(r.UserName); err != nil {
+func (r *PasswordResetRequest) Validate() error {
+	if err := checkUserName(r.UserName); err != nil {
 		return err
 	}
-	return
+	return nil
+}
+
+// Validate validates PasswordSetRequest
+func (r *PasswordSetRequest) Validate() error {
+	if err := checkPassword(r.Password); err != nil {
+		return err
+	}
+	return nil
 }

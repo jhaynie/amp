@@ -19,12 +19,7 @@ import (
 // TODO: find a way to store this key secretly
 var secretKey = []byte("&kv@l3go-f=@^*@ush0(o5*5utxe6932j9di+ume=$mkj%d&&9*%k53(bmpksf&!c2&zpw$z=8ndi6ib)&nxms0ia7rf*sj9g8r4")
 
-type signUpClaims struct {
-	AccountID string `json:"AccountID"`
-	jwt.StandardClaims
-}
-
-type logInClaims struct {
+type accountClaims struct {
 	AccountID string `json:"AccountID"`
 	jwt.StandardClaims
 }
@@ -76,7 +71,7 @@ func (s *Server) SignUp(ctx context.Context, in *SignUpRequest) (*SignUpReply, e
 	log.Println("Successfully created account", in.UserName)
 
 	// Forge the verification token
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, signUpClaims{
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, accountClaims{
 		id, // The token contains the account id to verify
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour).Unix(),
@@ -102,7 +97,7 @@ func (s *Server) Verify(ctx context.Context, in *VerificationRequest) (*pb.Empty
 	}
 
 	// Validate the token
-	token, err := jwt.ParseWithClaims(in.Token, &signUpClaims{}, func(t *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(in.Token, &accountClaims{}, func(t *jwt.Token) (interface{}, error) {
 		return secretKey, nil
 	})
 	if err != nil {
@@ -113,7 +108,7 @@ func (s *Server) Verify(ctx context.Context, in *VerificationRequest) (*pb.Empty
 	}
 
 	// Get the claims
-	claims, ok := token.Claims.(*signUpClaims)
+	claims, ok := token.Claims.(*accountClaims)
 	if !ok {
 		return &pb.Empty{}, grpc.Errorf(codes.Internal, "invalid claims")
 	}
@@ -157,7 +152,7 @@ func (s *Server) Login(ctx context.Context, in *LogInRequest) (*LogInReply, erro
 	}
 
 	// Forge the authentication token
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, logInClaims{
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, accountClaims{
 		account.Id, // The token contains the account id
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(24 * time.Hour).Unix(),
@@ -176,7 +171,7 @@ func (s *Server) Login(ctx context.Context, in *LogInRequest) (*LogInReply, erro
 }
 
 // PasswordReset implements account.PasswordReset
-func (s *Server) PasswordReset(ctx context.Context, in *PasswordResetRequest) (out *pb.Empty, err error) {
+func (s *Server) PasswordReset(ctx context.Context, in *PasswordResetRequest) (*PasswordResetReply, error) {
 	if err := in.Validate(); err != nil {
 		return nil, err
 	}
@@ -189,12 +184,73 @@ func (s *Server) PasswordReset(ctx context.Context, in *PasswordResetRequest) (o
 	if account == nil {
 		return nil, grpc.Errorf(codes.NotFound, "account not found")
 	}
+	// TODO: Do we need the account to be verified?
 	if !account.IsVerified {
 		return nil, grpc.Errorf(codes.FailedPrecondition, "account not verified")
 	}
 
-	out = &pb.Empty{}
-	return
+	// Forge the password reset token
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, accountClaims{
+		account.Id, // The token contains the account id to reset
+		jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Hour).Unix(),
+			Issuer:    os.Args[0],
+		},
+	})
+
+	// Sign the token
+	ss, err := token.SignedString(secretKey)
+	if err != nil {
+		return nil, grpc.Errorf(codes.Internal, err.Error())
+	}
+	log.Println("Successfully reset password for account", account.UserName)
+
+	// TODO: send password reset email with token
+
+	return &PasswordResetReply{Token: ss}, nil
+}
+
+// PasswordSet implements account.PasswordSet
+func (s *Server) PasswordSet(ctx context.Context, in *PasswordSetRequest) (*pb.Empty, error) {
+	if err := in.Validate(); err != nil {
+		return nil, err
+	}
+
+	// Validate the token
+	token, err := jwt.ParseWithClaims(in.Token, &accountClaims{}, func(t *jwt.Token) (interface{}, error) {
+		return secretKey, nil
+	})
+	if err != nil {
+		return nil, grpc.Errorf(codes.Internal, err.Error())
+	}
+	if !token.Valid {
+		return &pb.Empty{}, grpc.Errorf(codes.InvalidArgument, "invalid token")
+	}
+
+	// Get the claims
+	claims, ok := token.Claims.(*accountClaims)
+	if !ok {
+		return &pb.Empty{}, grpc.Errorf(codes.Internal, "invalid claims")
+	}
+
+	// Get the account
+	account, err := s.accounts.GetAccount(ctx, claims.AccountID)
+	if err != nil {
+		return &pb.Empty{}, grpc.Errorf(codes.Internal, err.Error())
+	}
+
+	// Sets the new password
+	passwordHash, err := passlib.Hash(in.Password)
+	if err != nil {
+		return nil, grpc.Errorf(codes.Internal, err.Error())
+	}
+	account.PasswordHash = passwordHash
+	if err := s.accounts.UpdateAccount(ctx, account); err != nil {
+		return &pb.Empty{}, grpc.Errorf(codes.Internal, err.Error())
+	}
+	log.Println("Successfully set new password for account", account.UserName)
+
+	return &pb.Empty{}, nil
 }
 
 // PasswordChange implements account.PasswordChange
