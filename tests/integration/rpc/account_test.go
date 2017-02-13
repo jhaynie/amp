@@ -201,7 +201,7 @@ func TestOrganizationPasswordReset(t *testing.T) {
 	assert.NoError(t, verifyErr)
 
 	// Password Reset
-	_, resetPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{UserName: &signUpRequestOrganization.UserName})
+	_, resetPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{UserName: signUpRequestOrganization.UserName})
 	assert.NoError(t, resetPasswordErr)
 }
 
@@ -225,19 +225,92 @@ func TestOrganizationPasswordResetNonExistingAccountShouldFail(t *testing.T) {
 func TestOrganizationPasswordSet(t *testing.T) {
 	// Reset the storage
 	accountStore.Reset(context.Background())
+
+	// SignUp
+	signUpReply, signUpErr := accountClient.SignUp(ctx, &signUpRequestOrganization)
+	assert.NoError(t, signUpErr)
+
+	// Verify
+	_, verifyErr := accountClient.Verify(ctx, &account.VerificationRequest{Token: signUpReply.Token})
+	assert.NoError(t, verifyErr)
+
+	// Password Reset
+	passwordResetReply, resetPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{UserName: signUpRequestOrganization.UserName})
+	assert.NoError(t, resetPasswordErr)
+
+	// Password Set
+	_, setPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordSetRequest{
+		Token:    passwordResetReply.Token,
+		Password: "newPassword",
+	})
+	assert.NoError(t, setPasswordErr)
+
+	// Login
+	_, loginErr := accountClient.Login(ctx, &account.LogInRequest{
+		UserName: signUpRequestOrganization.UserName,
+		Password: "newPassword",
+	})
+	assert.NoError(t, loginErr)
 }
 
 func TestOrganizationPasswordSetInvalidTokenShouldFail(t *testing.T) {
 	// Reset the storage
 	accountStore.Reset(context.Background())
+
+	// SignUp
+	signUpReply, signUpErr := accountClient.SignUp(ctx, &signUpRequestOrganization)
+	assert.NoError(t, signUpErr)
+
+	// Verify
+	_, verifyErr := accountClient.Verify(ctx, &account.VerificationRequest{Token: signUpReply.Token})
+	assert.NoError(t, verifyErr)
+
+	// Password Reset
+	_, resetPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{UserName: signUpRequestOrganization.UserName})
+	assert.NoError(t, resetPasswordErr)
+
+	// Password Set
+	_, setPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordSetRequest{
+		Token:    "this is an invalid token",
+		Password: "newPassword",
+	})
+	assert.Error(t, setPasswordErr)
+
+	// Login
+	_, loginErr := accountClient.Login(ctx, &account.LogInRequest{
+		UserName: signUpRequestOrganization.UserName,
+		Password: "newPassword",
+	})
+	assert.Error(t, loginErr)
 }
 
 func TestOrganizationPasswordSetInvalidPasswordShouldFail(t *testing.T) {
 	// Reset the storage
 	accountStore.Reset(context.Background())
-}
 
-func TestOrganizationPasswordSetNonExistingAccountShouldFail(t *testing.T) {
-	// Reset the storage
-	accountStore.Reset(context.Background())
+	// SignUp
+	signUpReply, signUpErr := accountClient.SignUp(ctx, &signUpRequestOrganization)
+	assert.NoError(t, signUpErr)
+
+	// Verify
+	_, verifyErr := accountClient.Verify(ctx, &account.VerificationRequest{Token: signUpReply.Token})
+	assert.NoError(t, verifyErr)
+
+	// Password Reset
+	passwordResetReply, resetPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordResetRequest{UserName: signUpRequestOrganization.UserName})
+	assert.NoError(t, resetPasswordErr)
+
+	// Password Set
+	_, setPasswordErr := accountClient.PasswordReset(ctx, &account.PasswordSetRequest{
+		Token:    passwordResetReply.Token,
+		Password: "",
+	})
+	assert.Error(t, setPasswordErr)
+
+	// Login
+	_, loginErr := accountClient.Login(ctx, &account.LogInRequest{
+		UserName: signUpRequestOrganization.UserName,
+		Password: "",
+	})
+	assert.Error(t, loginErr)
 }
